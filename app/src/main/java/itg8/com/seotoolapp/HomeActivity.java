@@ -2,30 +2,59 @@ package itg8.com.seotoolapp;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import itg8.com.seotoolapp.traffic.TrafficFragment;
+
 public class HomeActivity extends AppCompatActivity {
+
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+    @BindView(R.id.tabs)
+    TabLayout tabs;
+    @BindView(R.id.container)
+    ViewPager container;
+    @BindView(R.id.fab)
+    FloatingActionButton fab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        ButterKnife.bind(this);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        init();
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+
+    }
+
+    private void init() {
+        setTabLayout();
+    }
+
+    private void setTabLayout() {
+
+        setupViewPager(container);
+
+        tabs = (TabLayout) findViewById(R.id.tabs);
+        tabs.setupWithViewPager(container);
+    }
+
+    private void setupViewPager(ViewPager container) {
+        HomeViewPagerAdapter adapter = new HomeViewPagerAdapter(getSupportFragmentManager());
+        adapter.addFragment(new TrafficFragment(), "Dashboard");
+        adapter.addFragment(new KeyWordFragment(), "Keyword Status");
+        adapter.addFragment(new ExternalLinksFragment(), "Submission");
+        adapter.addFragment(new SocialMediaFragment(), "Social");
+        container.setAdapter(adapter);
     }
 
     @Override

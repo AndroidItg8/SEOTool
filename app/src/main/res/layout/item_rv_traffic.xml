@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    app:cardPreventCornerOverlap="true"
+    app:cardBackgroundColor="@color/colorBlueTransparent"
+    app:cardUseCompatPadding="true">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_8">
+
+        <TextView
+            android:id="@+id/lbl_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_4"
+            android:layout_toLeftOf="@+id/lbl_date"
+            android:layout_toStartOf="@+id/lbl_date"
+            android:fontFamily="@font/roboto"
+            android:text="Position Tracking"
+            android:textAllCaps="true"
+            android:textColor="@color/colorBlack"
+            android:textSize="@dimen/txt_size_12" />
+
+
+        <TextView
+            android:id="@+id/lbl_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginEnd="@dimen/margin_4"
+            android:layout_marginRight="@dimen/margin_4"
+            android:layout_marginTop="@dimen/margin_4"
+            android:fontFamily="@font/roboto_light"
+            android:text="JAN 17"
+            android:textColor="@color/colorBlack"
+            android:textSize="@dimen/txt_size_12" />
+
+        <!--<LinearLayout-->
+            <!--android:id="@+id/ll_value"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:gravity="center"-->
+            <!--android:orientation="horizontal">-->
+
+            <TextView
+                android:id="@+id/lbl_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_4"
+                android:layout_marginTop="@dimen/margin_4"
+                android:fontFamily="sans-serif"
+                android:text="867"
+                android:textAllCaps="true"
+                android:layout_alignStart="@+id/lbl_title"
+                android:textColor="@color/colorBlue"
+                android:layout_below="@+id/lbl_title"
+                android:textSize="30sp"
+                android:textStyle="bold"
+                android:layout_alignLeft="@+id/lbl_title" />
+
+
+            <TextView
+                android:id="@+id/lbl_value_sign"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/lbl_value"
+                android:layout_toEndOf="@+id/lbl_value"
+                android:layout_toRightOf="@+id/lbl_value"
+                android:fontFamily="@font/roboto_light"
+                android:textSize="@dimen/txt_size_10"
+                android:text="K"
+                android:textAllCaps="true"
+                android:textColor="@color/colorBlue" />
+
+        <TextView
+            android:id="@+id/lbl_diff_up"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/lbl_value"
+            android:layout_marginEnd="@dimen/margin_8"
+            android:layout_marginRight="@dimen/margin_8"
+            android:layout_marginTop="@dimen/margin_8"
+            android:fontFamily="@font/roboto_light"
+            android:text="10"
+            android:textStyle="bold"
+            android:textAllCaps="true"
+            android:textColor="@color/colorGreen"
+            android:textSize="@dimen/txt_size_12" />
+
+        <ImageView
+            android:id="@+id/lbl_diff_up_sign"
+            android:layout_width="15sp"
+            android:layout_height="15dp"
+            android:layout_below="@+id/lbl_value"
+            android:layout_marginTop="@dimen/margin_8"
+            android:layout_toLeftOf="@+id/lbl_diff_up"
+            android:layout_toStartOf="@+id/lbl_diff_up"
+            android:src="@drawable/ic_arrow_upward_black_24dp" />
+
+        <!--<TextView-->
+            <!--android:id="@+id/lbl_diff_down"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_toStartOf="@+id/lbl_diff_up_sign"-->
+
+            <!--android:layout_below="@+id/lbl_value"-->
+            <!--android:layout_marginEnd="@dimen/margin_8"-->
+            <!--android:layout_marginRight="@dimen/margin_8"-->
+            <!--android:layout_marginTop="@dimen/margin_8"-->
+            <!--android:fontFamily="@font/roboto_light"-->
+            <!--android:text="30"-->
+            <!--android:textAllCaps="true"-->
+            <!--android:textColor="@color/colorRed"-->
+            <!--android:textSize="@dimen/txt_size_12"-->
+            <!--android:layout_toLeftOf="@+id/lbl_diff_up_sign" />-->
+
+
+        <!--<ImageView-->
+            <!--android:id="@+id/img_show"-->
+            <!--android:layout_width="15sp"-->
+            <!--android:layout_height="15dp"-->
+            <!--android:layout_below="@+id/lbl_value"-->
+            <!--android:layout_toLeftOf="@+id/lbl_diff_down"-->
+            <!--android:layout_toStartOf="@+id/lbl_diff_down"-->
+            <!--android:visibility="visible"-->
+            <!--android:layout_marginTop="@dimen/margin_8"-->
+            <!--android:src="@drawable/ic_arrow_downward_black_24dp" />-->
+
+
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>
