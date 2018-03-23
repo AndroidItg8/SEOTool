@@ -1,6 +1,7 @@
 package itg8.com.seotoolapp.traffic;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,10 +11,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import itg8.com.seotoolapp.HomeActivity;
 import itg8.com.seotoolapp.R;
+import itg8.com.seotoolapp.traffic.controller.HomeController;
 
 
 /**
@@ -21,7 +26,7 @@ import itg8.com.seotoolapp.R;
  * Use the {@link TrafficFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class TrafficFragment extends Fragment implements TrafficAdapter.OnItemClickedListener {
+public class TrafficFragment extends Fragment implements TrafficAdapter.OnItemClickedListener, HomeController.TrafficFragmentListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -71,9 +76,16 @@ public class TrafficFragment extends Fragment implements TrafficAdapter.OnItemCl
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_dash_board, container, false);
+
         unbinder = ButterKnife.bind(this, view);
         init();
         return view;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        ((HomeActivity)context).setTrafficFragmentListener(this);
     }
 
     private void init() {
@@ -90,6 +102,16 @@ public class TrafficFragment extends Fragment implements TrafficAdapter.OnItemCl
     @Override
     public void onItemClicked() {
         startActivity(new Intent(getActivity(), TrafficDetailsActivity.class));
+
+    }
+
+    @Override
+    public void onListOfCategoryAvailable(List list) {
+
+    }
+
+    @Override
+    public void onListDownloadFail() {
 
     }
 }

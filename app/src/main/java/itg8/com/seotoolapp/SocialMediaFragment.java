@@ -1,11 +1,16 @@
 package itg8.com.seotoolapp;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import java.util.List;
+
+import itg8.com.seotoolapp.traffic.controller.HomeController;
 
 
 /**
@@ -13,7 +18,7 @@ import android.view.ViewGroup;
  * Use the {@link SocialMediaFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class SocialMediaFragment extends Fragment {
+public class SocialMediaFragment extends Fragment implements HomeController.SocialMediaFragmentListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -62,4 +67,19 @@ public class SocialMediaFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_social_media, container, false);
     }
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        ((HomeActivity)getActivity()).setSocialMediaFragmentListener(this);
+    }
+
+    @Override
+    public void onSocMediaAvail(List t) {
+
+    }
+
+    @Override
+    public void onDownloadFail() {
+
+    }
 }

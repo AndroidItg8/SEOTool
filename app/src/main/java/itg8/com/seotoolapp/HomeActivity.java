@@ -1,5 +1,6 @@
 package itg8.com.seotoolapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
@@ -13,6 +14,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import itg8.com.seotoolapp.traffic.TrafficFragment;
 
+import itg8.com.seotoolapp.splash.SplashActivity;
+import itg8.com.seotoolapp.traffic.controller.HomeController;
+
 public class HomeActivity extends AppCompatActivity {
 
     @BindView(R.id.toolbar)
@@ -23,6 +27,10 @@ public class HomeActivity extends AppCompatActivity {
     ViewPager container;
     @BindView(R.id.fab)
     FloatingActionButton fab;
+    private HomeController.TrafficFragmentListener trafficFragmentListener;
+    private HomeController.KeyWordFragmentListener keywordFragmentListener;
+    private HomeController.ExternalLinksFragmentListener externalLinksFragmentListener;
+    private HomeController.SocialMediaFragmentListener socialMediaFragmentListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +39,7 @@ public class HomeActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        startActivity(new Intent(this,SplashActivity.class));
         init();
 
 
@@ -77,5 +86,21 @@ public class HomeActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void setTrafficFragmentListener(HomeController.TrafficFragmentListener listener) {
+        trafficFragmentListener=listener;
+    }
+
+    public void setKeywordFragmentListener(HomeController.KeyWordFragmentListener keywordFragmentListener) {
+        this.keywordFragmentListener = keywordFragmentListener;
+    }
+
+    public void setExternalLinksFragmentListener(HomeController.ExternalLinksFragmentListener externalLinksFragmentListener) {
+        this.externalLinksFragmentListener = externalLinksFragmentListener;
+    }
+
+    public void setSocialMediaFragmentListener(HomeController.SocialMediaFragmentListener socialMediaFragmentListener) {
+        this.socialMediaFragmentListener = socialMediaFragmentListener;
     }
 }

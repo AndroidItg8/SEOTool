@@ -1,6 +1,12 @@
 <resources>
     <string name="app_name">SeoToolApp</string>
     <string name="action_settings">Settings</string>
+    <string name="title_activity_login">LoginActivity</string>
+
+    <string name="title_activity_splash">SplashActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="rationale_permission_message">First you have to grant permission before proceed.</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="section_format">Hello World from section: %1$d</string>
 
@@ -10,4 +16,11 @@
     <string name="select_week">Select Month</string>
     <string name="select_month">Select Month</string>
     <string name="select_year">Select Year</string>
+    <string name="url_login">sdfs</string>
+    <string name="empty_mobile">Mobile number is empty</string>
+    <string name="empty_password">Passcode is empty</string>
+    <string name="invalid_mobile">Invalid mobile number</string>
+    <string name="invalid_pass">Invalid passcode</string>
+
+    <string name="title_activity_pin_verification">PinVerificationActivity</string>
 </resources>

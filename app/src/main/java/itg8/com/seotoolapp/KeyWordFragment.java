@@ -1,6 +1,7 @@
 package itg8.com.seotoolapp;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -62,4 +63,9 @@ public class KeyWordFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_key_word, container, false);
     }
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        ((HomeActivity)context).setKeywordFragmentListener(this);
+    }
 }
