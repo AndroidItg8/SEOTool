@@ -143,9 +143,9 @@ public class DatePickerFragment extends DialogFragment implements RadioGroup.OnC
         setYearDataIntoSpinner();
         setMonthDataIntoSpinner();
         setWeekDataIntoSpinner();
-
-
     }
+
+
 
     private void setWeekDataIntoSpinner() {
         ArrayAdapter<String> dataAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_spinner_item, getMonthData());
@@ -153,16 +153,20 @@ public class DatePickerFragment extends DialogFragment implements RadioGroup.OnC
         sprMonth.setAdapter(dataAdapter);
     }
 
+
+
     private void setMonthDataIntoSpinner() {
         ArrayAdapter<String> dataAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_spinner_item, getMonthData());
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         sprMonth.setAdapter(dataAdapter);
     }
 
-    private String[] getMonthData() {
 
+
+    private String[] getMonthData() {
         return months = new String[]{"JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCt", "NOV", "DEC"};
     }
+
 
     private void setYearDataIntoSpinner() {
         ArrayAdapter<Integer> dataAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_spinner_item, getCurrentYear());
@@ -174,9 +178,9 @@ public class DatePickerFragment extends DialogFragment implements RadioGroup.OnC
         rgbtnDate.setOnCheckedChangeListener(this);
         btnCancel.setOnClickListener(this);
         btnOk.setOnClickListener(this);
-
-
     }
+
+
 
     @Override
     public void onDestroyView() {
@@ -189,15 +193,17 @@ public class DatePickerFragment extends DialogFragment implements RadioGroup.OnC
         switch (id) {
             case R.id.rbtn_week:
                 sprWeek.setVisibility(View.GONE);
-
                 break;
+
             case R.id.rbtn_month:
                 sprWeek.setVisibility(View.VISIBLE);
-
                 break;
+
 
             default:
                 break;
+
+
         }
     }
 
