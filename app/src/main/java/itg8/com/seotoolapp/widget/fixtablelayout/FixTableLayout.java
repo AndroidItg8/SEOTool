@@ -1,4 +1,4 @@
-package com.app.feng.fixtablelayout;
+package itg8.com.seotoolapp.widget.fixtablelayout;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -17,13 +17,16 @@ import android.widget.FrameLayout;
 import android.widget.HorizontalScrollView;
 import android.widget.TextView;
 
-import com.app.feng.fixtablelayout.adapter.TableAdapter;
-import com.app.feng.fixtablelayout.inter.IDataAdapter;
-import com.app.feng.fixtablelayout.inter.ILoadMoreListener;
-import com.app.feng.fixtablelayout.widget.SingleLineItemDecoration;
-import com.app.feng.fixtablelayout.widget.TableLayoutManager;
+
 
 import java.lang.ref.WeakReference;
+
+import itg8.com.seotoolapp.R;
+import itg8.com.seotoolapp.widget.fixtablelayout.adapter.TableAdapter;
+import itg8.com.seotoolapp.widget.fixtablelayout.inter.IDataAdapter;
+import itg8.com.seotoolapp.widget.fixtablelayout.inter.ILoadMoreListener;
+import itg8.com.seotoolapp.widget.fixtablelayout.widget.SingleLineItemDecoration;
+import itg8.com.seotoolapp.widget.fixtablelayout.widget.TableLayoutManager;
 
 /**
  * Created by feng on 2017/4/2.

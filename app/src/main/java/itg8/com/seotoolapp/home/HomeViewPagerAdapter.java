@@ -1,4 +1,4 @@
-package itg8.com.seotoolapp;
+package itg8.com.seotoolapp.home;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

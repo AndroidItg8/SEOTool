@@ -1,6 +1,5 @@
-package com.app.feng.fixtablelayout.inter;
+package itg8.com.seotoolapp.widget.fixtablelayout.inter;
 
-import android.os.Handler;
 import android.os.Message;
 
 /**

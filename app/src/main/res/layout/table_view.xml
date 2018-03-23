@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:scrollbars="none">
 
-        <com.app.feng.fixtablelayout.widget.SingleLineLinearLayout
+        <itg8.com.seotoolapp.widget.fixtablelayout.widget.SingleLineLinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
@@ -33,14 +33,12 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/leftViews"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:overScrollMode="never"
         android:scrollbars="none"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="@+id/left_top_view"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/titleView"
-        />
+        app:layout_constraintTop_toBottomOf="@id/titleView" />
 
     <View
         android:id="@+id/leftView_shadows"
@@ -48,10 +46,9 @@
         android:layout_height="0dp"
         android:background="@drawable/shadow"
         android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/leftViews"
         app:layout_constraintLeft_toRightOf="@id/leftViews"
-        app:layout_constraintTop_toTopOf="parent"
-        />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <View
         android:layout_width="0dp"
@@ -59,8 +56,7 @@
         android:background="@drawable/shadow_rotate90"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/titleView"
-        />
+        app:layout_constraintTop_toBottomOf="@id/titleView" />
 
     <TextView
         android:id="@+id/left_top_view"

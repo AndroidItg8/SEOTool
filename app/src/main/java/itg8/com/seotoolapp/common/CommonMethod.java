@@ -77,11 +77,19 @@ public class CommonMethod {
             calendar.add(Calendar.DATE, 1);
         }
         while ((calendar.get(Calendar.DAY_OF_MONTH) < calendar.getActualMaximum(Calendar.DAY_OF_MONTH)));
+        if (list == null) {
+            list = new WeekList();
+            list.setWeek(++weeks);
+        }
         dates.add(calendar.get(Calendar.DAY_OF_MONTH));
         list.setDates(dates);
         days.add(list);
 //        Log.d(TAG, "createWeeksFromMonth: "+new Gson().toJson(list));
         return days;
+    }
+
+    public static void createMonthsFromYear(Calendar calendar) {
+
     }
 
     public static class WeekList {

@@ -1,4 +1,4 @@
-package com.app.feng.fixtablelayout.adapter;
+package itg8.com.seotoolapp.widget.fixtablelayout.adapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -6,12 +6,15 @@ import android.view.ViewGroup;
 import android.widget.HorizontalScrollView;
 import android.widget.TextView;
 
-import com.app.feng.fixtablelayout.inter.IDataAdapter;
-import com.app.feng.fixtablelayout.widget.SingleLineLinearLayout;
-import com.app.feng.fixtablelayout.widget.TextViewUtils;
+
+
 
 import java.util.ArrayList;
 import java.util.List;
+
+import itg8.com.seotoolapp.widget.fixtablelayout.inter.IDataAdapter;
+import itg8.com.seotoolapp.widget.fixtablelayout.widget.SingleLineLinearLayout;
+import itg8.com.seotoolapp.widget.fixtablelayout.widget.TextViewUtils;
 
 
 /**
@@ -43,7 +46,7 @@ public class TableAdapter extends RecyclerView.Adapter<TableAdapter.TableViewHol
 
     private void initViews() {
         left_top_view.setBackgroundColor(parametersHolder.title_color);
-        TextViewUtils.setTextView(left_top_view, dataAdapter.getTitleAt(0), parametersHolder.item_gravity,
+        TextViewUtils.setTextView(left_top_view, String.valueOf(dataAdapter.getTitleAt(0)), parametersHolder.item_gravity,
                 parametersHolder.item_width, parametersHolder.item_padding);
 
         leftViews.setAdapter(new LeftViewAdapter());

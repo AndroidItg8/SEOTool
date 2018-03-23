@@ -1,4 +1,4 @@
-package itg8.com.seotoolapp;
+package itg8.com.seotoolapp.home;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,6 +12,11 @@ import android.view.MenuItem;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import itg8.com.seotoolapp.R;
+import itg8.com.seotoolapp.external_links.ExternalLinksFragment;
+import itg8.com.seotoolapp.keyword.KeyWordFragment;
+import itg8.com.seotoolapp.social_media.SocialMediaFragment;
+import itg8.com.seotoolapp.traffic.TrafficDetailsActivity;
 import itg8.com.seotoolapp.traffic.TrafficFragment;
 
 import itg8.com.seotoolapp.splash.SplashActivity;
@@ -102,5 +107,10 @@ public class HomeActivity extends AppCompatActivity {
 
     public void setSocialMediaFragmentListener(HomeController.SocialMediaFragmentListener socialMediaFragmentListener) {
         this.socialMediaFragmentListener = socialMediaFragmentListener;
+    }
+
+
+    public void startTrafficDetail() {
+        startActivity(new Intent(HomeActivity.this, TrafficDetailsActivity.class));
     }
 }

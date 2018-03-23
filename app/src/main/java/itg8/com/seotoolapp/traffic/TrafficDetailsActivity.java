@@ -1,30 +1,26 @@
 package itg8.com.seotoolapp.traffic;
 
-import android.app.DatePickerDialog;
-import android.app.Dialog;
+import android.graphics.YuvImage;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.DatePicker;
 import android.widget.FrameLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import java.util.Calendar;
+import java.time.Year;
+import java.util.Arrays;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import itg8.com.seotoolapp.R;
+import itg8.com.seotoolapp.common.CommonMethod;
 
-public class TrafficDetailsActivity extends AppCompatActivity implements View.OnClickListener {
+public class TrafficDetailsActivity extends AppCompatActivity implements View.OnClickListener, DatePickerFragment.OnItemClickedListener {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -32,8 +28,11 @@ public class TrafficDetailsActivity extends AppCompatActivity implements View.On
     TextView lblDate;
     @BindView(R.id.frameLayout)
     FrameLayout frameLayout;
-    @BindView(R.id.fab)
-    FloatingActionButton fab;
+    OnItemDateListener listener;
+    private String[]    months = new String[]{"SELECT MONTH", "JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCt", "NOV", "DEC"};
+
+
+
 
 
     @Override
@@ -43,7 +42,7 @@ public class TrafficDetailsActivity extends AppCompatActivity implements View.On
         ButterKnife.bind(this);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         init();
 
 
@@ -64,10 +63,8 @@ public class TrafficDetailsActivity extends AppCompatActivity implements View.On
     @Override
     protected void onStart() {
         super.onStart();
-        int width = ViewGroup.LayoutParams.MATCH_PARENT;
-            int height = ViewGroup.LayoutParams.WRAP_CONTENT;
-          getWindow().setLayout(width, height);
-         }
+
+    }
 
     private void callFragment() {
         FragmentManager fm = getSupportFragmentManager();
@@ -78,86 +75,61 @@ public class TrafficDetailsActivity extends AppCompatActivity implements View.On
 
     @Override
     public void onClick(View view) {
-        switch (view.getId())
-        {
+        switch (view.getId()) {
             case R.id.lbl_date:
-openDialogueSelectDateFragment();
-               // selectDate();
+                openDialogueSelectDateFragment();
+                // selectDate();
                 break;
         }
     }
 
     private void openDialogueSelectDateFragment() {
-      FragmentManager fm = getSupportFragmentManager();
-      FragmentTransaction ft =fm.beginTransaction();
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
 
-       DatePickerFragment pf = new DatePickerFragment();
-        pf.show(ft,DatePickerFragment.class.getSimpleName());
+        DatePickerFragment pf = new DatePickerFragment();
+        pf.show(ft, DatePickerFragment.class.getSimpleName());
     }
 
-    private void selectDate()
-    {
-        Calendar c = Calendar.getInstance();
-        int mYear = c.get(Calendar.YEAR);
-        int mMonth = c.get(Calendar.MONTH);
-        int mDay = c.get(Calendar.DAY_OF_MONTH);
 
-        DatePickerDialog datePickerDialog = new DatePickerDialog(this,
-                new DatePickerDialog.OnDateSetListener() {
-
-                    @Override
-                    public void onDateSet(DatePicker view, int year,
-                                          int monthOfYear, int dayOfMonth) {
-
-                        lblDate.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
-
-                    }
-                }, mYear, mMonth, mDay);
-        datePickerDialog.show();
-    }
-
-    private void showMonthPopUp() {
-
-        PopupMenu popup = new PopupMenu(this, lblDate);
-        //Inflating the Popup using xml file
-        popup.getMenuInflater()
-                .inflate(R.menu.popup_month_menu, popup.getMenu());
-
-        //registering popup with OnMenuItemClickListener
-        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-            public boolean onMenuItemClick(MenuItem item) {
-                Toast.makeText(
-                        TrafficDetailsActivity.this,
-                        "You Clicked : " + item.getTitle(),
-                        Toast.LENGTH_SHORT
-                ).show();
-//                listener.onSelectedMonth( item.getTitle().toString());
-                lblDate.setText(" "+item.getTitle().toString());
-                return true;
-            }
-        });
-
-        popup.show(); //showing popup menu
+    @Override
+    public void onItemSelect(CommonMethod.WeekList selectWeek, int months, Integer years) {
+        lblDate.setText(String.valueOf(selectWeek) +"Week");
+        listener.onItemSelected(selectWeek, months, years);
 
     }
 
-    private void showPopUp() {
-        PopupMenu popup = new PopupMenu(this, lblDate);
-        //Inflating the Popup using xml file
-        popup.getMenuInflater()
-                .inflate(R.menu.popup_year_menu, popup.getMenu());
+    @Override
+    public void onItemSelect(int selectedMonth, Integer selectedYear) {
+        getMonthFromIndex(selectedMonth);
+        lblDate.setText(String.valueOf(selectedMonth) +"M "+ String.valueOf(selectedYear)+" "+" Y");
+        listener.onItemSelected(selectedMonth, selectedYear);
 
-        //registering popup with OnMenuItemClickListener
-        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-            public boolean onMenuItemClick(MenuItem item) {
-
-                lblDate.setText(" "+item.getTitle().toString());
-//                listener.onSelectedYear(item.getTitle().toString());
-                return true;
-            }
-        });
-
-        popup.show(); //showing popup menu
     }
+
+    private void getMonthFromIndex(int selectedMonth) {
+        Arrays.asList(months).indexOf(selectedMonth);
+
+    }
+
+    @Override
+    public void onItemSelect(Integer selectedYear) {
+        lblDate.setText(String.valueOf(selectedYear)+" "+" Year");
+        listener.onItemSelect(selectedYear);
+
+    }
+
+    public void setyearListner(OnItemDateListener yearListner) {
+        this.listener = yearListner;
+    }
+
+    public interface OnItemDateListener {
+        void onItemSelected(int month, Integer selectedYear);
+
+        void onItemSelected(CommonMethod.WeekList list, int month, Integer selectedYear);
+
+        void onItemSelect(Integer selectedYear);
+    }
+
 
 }

@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="itg8.com.seotoolapp.SocialMediaFragment">
+    tools:context="itg8.com.seotoolapp.social_media.SocialMediaFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView

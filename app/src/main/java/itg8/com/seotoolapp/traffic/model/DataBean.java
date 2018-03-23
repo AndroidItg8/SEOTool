@@ -1,4 +1,4 @@
-package com.app.feng.tablerecyclerview.bean;
+package itg8.com.seotoolapp.traffic.model;
 
 /**
  * Created by feng on 2017/4/10.

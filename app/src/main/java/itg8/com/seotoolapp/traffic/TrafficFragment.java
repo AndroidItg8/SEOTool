@@ -16,7 +16,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import itg8.com.seotoolapp.HomeActivity;
+import itg8.com.seotoolapp.home.HomeActivity;
 import itg8.com.seotoolapp.R;
 import itg8.com.seotoolapp.traffic.controller.HomeController;
 
@@ -86,6 +86,8 @@ public class TrafficFragment extends Fragment implements TrafficAdapter.OnItemCl
     public void onAttach(Context context) {
         super.onAttach(context);
         ((HomeActivity)context).setTrafficFragmentListener(this);
+
+
     }
 
     private void init() {
@@ -101,9 +103,12 @@ public class TrafficFragment extends Fragment implements TrafficAdapter.OnItemCl
 
     @Override
     public void onItemClicked() {
-        startActivity(new Intent(getActivity(), TrafficDetailsActivity.class));
+
+        ((HomeActivity)getActivity()).startTrafficDetail();     ;
 
     }
+
+
 
     @Override
     public void onListOfCategoryAvailable(List list) {

@@ -1,4 +1,4 @@
-package itg8.com.seotoolapp;
+package itg8.com.seotoolapp.keyword;
 
 
 import android.content.Context;
@@ -8,13 +8,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.List;
+
+import itg8.com.seotoolapp.home.HomeActivity;
+import itg8.com.seotoolapp.R;
+import itg8.com.seotoolapp.traffic.controller.HomeController;
+
 
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link KeyWordFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class KeyWordFragment extends Fragment {
+public class KeyWordFragment extends Fragment implements HomeController.KeyWordFragmentListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -67,5 +73,15 @@ public class KeyWordFragment extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         ((HomeActivity)context).setKeywordFragmentListener(this);
+    }
+
+    @Override
+    public void onKeywordDetailAvailable(List t) {
+
+    }
+
+    @Override
+    public void onDownloadFail() {
+
     }
 }

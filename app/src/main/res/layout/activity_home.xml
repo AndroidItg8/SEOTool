@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="itg8.com.seotoolapp.HomeActivity">
+    android:fitsSystemWindows="true"
+    tools:context="itg8.com.seotoolapp.home.HomeActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"

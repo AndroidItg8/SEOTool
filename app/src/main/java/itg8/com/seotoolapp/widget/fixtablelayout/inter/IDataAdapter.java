@@ -1,4 +1,4 @@
-package com.app.feng.fixtablelayout.inter;
+package itg8.com.seotoolapp.widget.fixtablelayout.inter;
 
 import android.widget.TextView;
 
@@ -24,8 +24,8 @@ public interface IDataAdapter {
      */
     int getItemCount();
 
-    void convertData(int position,List<TextView> bindViews);
+    void convertData(int position, List<TextView> bindViews);
 
-    void convertLeftData(int position,TextView bindView);
+    void convertLeftData(int position, TextView bindView);
 
 }

@@ -1,5 +1,6 @@
 package itg8.com.seotoolapp.login;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TextInputLayout;
@@ -34,6 +35,7 @@ import itg8.com.seotoolapp.common.CommonMethod;
 import itg8.com.seotoolapp.common.Prefs;
 import itg8.com.seotoolapp.common.SecretGenerator;
 import itg8.com.seotoolapp.common.UtilSnackbar;
+import itg8.com.seotoolapp.home.HomeActivity;
 import itg8.com.seotoolapp.login.mvp.LoginMVP;
 import itg8.com.seotoolapp.login.mvp.LoginPresenterImp;
 import me.philio.pinentry.PinEntryView;
@@ -131,7 +133,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
     @Override
     public void onClick(View view) {
-        presenter.onLoginClicked(view);
+//        presenter.onLoginClicked(view);
+        startActivity(new Intent(LoginActivity.this, HomeActivity.class));
     }
 
     @Override

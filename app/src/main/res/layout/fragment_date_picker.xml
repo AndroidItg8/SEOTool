@@ -16,12 +16,12 @@
             android:id="@+id/rgbtn_date"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:gravity="center"
             android:layout_marginBottom="@dimen/margin_8"
+            android:gravity="center"
             android:orientation="horizontal">
 
             <RadioButton
-                android:id="@+id/rbtn_month"
+                android:id="@+id/rbtn_year"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -30,8 +30,19 @@
                 android:checked="true"
                 android:gravity="center"
                 android:padding="5dp"
-                android:text="Month"
+                android:text="Yearly"
+                android:textColor="@drawable/rbtn_textcolor_selector" />
 
+            <RadioButton
+                android:id="@+id/rbtn_month"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/rbtn_selector"
+                android:button="@null"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="Monthly"
                 android:textColor="@drawable/rbtn_textcolor_selector" />
 
             <RadioButton
@@ -43,7 +54,7 @@
                 android:button="@null"
                 android:gravity="center"
                 android:padding="5dp"
-                android:text="Week"
+                android:text="Weekly"
                 android:textColor="@drawable/rbtn_textcolor_selector" />
 
 
@@ -64,10 +75,9 @@
             android:layout_height="50dp"
             android:layout_below="@+id/spr_year"
             android:layout_margin="@dimen/margin_8"
+            android:visibility="gone"
             android:background="@drawable/custom_spinner_back"
-
-             android:prompt="@string/select_month"
-         />
+            android:prompt="@string/select_month" />
 
         <Spinner
             android:id="@+id/spr_week"
@@ -75,8 +85,8 @@
             android:layout_height="50dp"
             android:layout_below="@+id/spr_month"
             android:layout_margin="@dimen/margin_8"
-            android:prompt="@string/select_week"
             android:background="@drawable/custom_spinner_back"
+            android:prompt="@string/select_week"
             android:visibility="gone" />
 
 
@@ -92,23 +102,23 @@
                 android:id="@+id/btnCancel"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_4"
                 android:layout_weight="1"
                 android:background="@color/colorPrimary"
                 android:text="cancel"
-                android:layout_margin="@dimen/margin_4"
                 android:textColor="@color/colorWhite" />
 
             <Button
                 android:id="@+id/btnOk"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_4"
                 android:layout_weight="1"
                 android:background="@color/colorPrimary"
                 android:text="OK"
-                android:layout_margin="@dimen/margin_4"
 
                 android:textColor="@color/colorWhite" />
         </LinearLayout>
 
     </RelativeLayout>
-    </RelativeLayout>
+</RelativeLayout>

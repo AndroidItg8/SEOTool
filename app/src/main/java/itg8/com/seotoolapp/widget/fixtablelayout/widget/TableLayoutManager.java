@@ -1,4 +1,4 @@
-package com.app.feng.fixtablelayout.widget;
+package itg8.com.seotoolapp.widget.fixtablelayout.widget;
 
 import android.graphics.Rect;
 import android.support.v7.widget.RecyclerView;

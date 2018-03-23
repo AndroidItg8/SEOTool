@@ -1,28 +1,73 @@
 package itg8.com.seotoolapp.traffic;
 
 
+import android.content.Context;
+import android.graphics.Color;
+import android.graphics.RectF;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
+import com.github.mikephil.charting.highlight.Highlight;
+import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
+import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
+import com.github.mikephil.charting.utils.ColorTemplate;
+import com.github.mikephil.charting.utils.MPPointF;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import itg8.com.seotoolapp.R;
+import itg8.com.seotoolapp.common.CommonMethod;
+import itg8.com.seotoolapp.traffic.model.DataBean;
+import itg8.com.seotoolapp.widget.fixtablelayout.FixTableLayout;
+
+import static itg8.com.seotoolapp.common.CommonMethod.WeekList;
+import static itg8.com.seotoolapp.common.CommonMethod.createWeeksFromMonth;
 
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link TrafficDetailsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class TrafficDetailsFragment extends Fragment {
+public class TrafficDetailsFragment extends Fragment implements TrafficDetailsActivity.OnItemDateListener, OnChartValueSelectedListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
+    private static final String TAG = "TrafficDetailsFragment";
+    public String[] title = {"Traffi", "title2", "title3", "title4", "title5", "title6", "title7",
+            "title8", "title9"};
+    public List<DataBean> data = new ArrayList<>();
+    @BindView(R.id.fixTableLayout)
+    FixTableLayout fixTableLayout;
+    Unbinder unbinder;
+    Calendar calendar = Calendar.getInstance();
+    @BindView(R.id.barchart)
+    BarChart mChart;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private Context mContext;
+    private int month;
+    private Integer year;
+    private WeekList listWeek;
 
 
     public TrafficDetailsFragment() {
@@ -60,7 +105,265 @@ public class TrafficDetailsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_traffic_details, container, false);
+        View view = inflater.inflate(R.layout.fragment_traffic_details, container, false);
+        unbinder = ButterKnife.bind(this, view);
+        init();
+        return view;
     }
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mContext = context;
+        ((TrafficDetailsActivity) mContext).setyearListner(this);
+    }
+
+    private void init() {
+        setTableHeaderData();
+        setBarchart();
+
+
+    }
+
+    private void setBarchart() {
+
+ mChart.setOnChartValueSelectedListener(this);
+
+        mChart.getDescription().setEnabled(false);
+
+        // if more than 60 entries are displayed in the chart, no values will be
+//        // drawn
+        mChart.setMaxVisibleValueCount(40);
+
+
+
+        // scaling can now only be done on x- and y-axis separately
+        mChart.setPinchZoom(false);
+        mChart.animateY(3000);
+
+
+        mChart.setDrawGridBackground(false);
+//        mChart.setDrawBarShadow(false);
+//        mChart.setDrawValueAboveBar(false);
+//        mChart.setHighlightFullBarEnabled(false);
+//        mChart.getAxisRight().removeAllLimitLines();
+
+
+        mChart.setDrawBorders(false);
+        mChart.setHighlightPerTapEnabled(false);
+        mChart.setDoubleTapToZoomEnabled(false);
+        mChart.setScaleEnabled(false);
+        mChart.getLegend().setEnabled(true);
+        mChart.getAxisLeft().setDrawGridLines(false);
+        mChart.getXAxis().setDrawGridLines(false);
+        YAxis leftAxis = mChart.getAxisLeft();
+        leftAxis.setDrawGridLines(false);
+        leftAxis.setTextColor(Color.BLACK);
+        leftAxis.setAxisMinimum(0f); // this replaces setStartAtZero(true)
+        mChart.getAxisRight().setEnabled(false);
+        XAxis xLabels = mChart.getXAxis();
+        xLabels.setDrawGridLines(false);
+        xLabels.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xLabels.setTextColor(Color.BLACK);
+
+
+        mChart.getLegend().setEnabled(true);
+
+
+
+
+        Legend l = mChart.getLegend();
+        l.setVerticalAlignment(Legend.LegendVerticalAlignment.BOTTOM);
+        l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.LEFT);
+        l.setOrientation(Legend.LegendOrientation.HORIZONTAL);
+        l.setDrawInside(false);
+        l.setForm(Legend.LegendForm.SQUARE);
+        l.setFormSize(9f);
+        l.setTextSize(11f);
+        l.setXEntrySpace(4f);
+
+
+        setData(12, 50);
+
+
+    }
+
+
+
+    private void setTableHeaderData() {
+        for (int i = 0; i <5; i++) {
+            data.add(new DataBean("id__", "data1", "data2", "data3", "data4", "data5", "data6", "data7",
+                    "data8"));
+        }
+
+
+    }
+    private int[] getColors() {
+
+        int stacksize = 6;
+
+        // have as many colors as stack-values per entry
+        int[] colors = new int[stacksize];
+
+
+        colors[0] = Color.parseColor("#D4A280");
+        colors[1] = Color.parseColor("#00B0EC");
+        colors[2] = Color.parseColor("#00CBAC");
+//        colors[3] = Color.parseColor("#D4A280");
+//        colors[4] = Color.parseColor("#00B0EC");
+//        colors[5] = Color.parseColor("#00CBAC");
+
+//        for (int i = 0; i < colors.length; i++) {
+//            colors[i] = ColorTemplate.MATERIAL_COLORS[i];
+//
+//        }
+        return colors;
+    }
+
+
+    private void setData(int count, float range) {
+
+        float start = 1f;
+
+        ArrayList<BarEntry> yVals1 = new ArrayList<BarEntry>();
+
+        for (int i = (int) start; i < start + count + 1; i++) {
+            float mult = (range + 1);
+            float val = (float) (Math.random() * mult);
+
+            if (Math.random() * 100 < 25) {
+                yVals1.add(new BarEntry(i, val, getResources().getDrawable(R.drawable.custom_spinner_back)));
+            } else {
+                yVals1.add(new BarEntry(i, val));
+            }
+        }
+
+        BarDataSet set1;
+
+        if (mChart.getData() != null &&
+                mChart.getData().getDataSetCount() > 0) {
+            set1 = (BarDataSet) mChart.getData().getDataSetByIndex(0);
+            set1.setValues(yVals1);
+            mChart.getData().notifyDataChanged();
+            mChart.notifyDataSetChanged();
+        } else {
+            set1 = new BarDataSet(yVals1, "The year 2018");
+
+            set1.setDrawIcons(false);
+            set1.setDrawValues(false);
+
+            set1.setColors(getColors());
+
+            ArrayList<IBarDataSet> dataSets = new ArrayList<IBarDataSet>();
+            dataSets.add(set1);
+
+            BarData data = new BarData(dataSets);
+//            data.setValueTextSize(10f);
+//            data.setValueTypeface(mTfLight);
+            data.setBarWidth(0.7f);
+
+            mChart.setData(data);
+        }
+    }
+
+    private void setTableAdapter(String[] dates) {
+        dates[0] = "Title";
+        final FixTableAdapter fixTableAdapter = new FixTableAdapter(dates, data);
+        fixTableLayout.setAdapter(fixTableAdapter);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
+    }
+
+    @Override
+    public void onItemSelected(int month, Integer selectedYear) {
+        this.month = month;
+        this.year = selectedYear;
+
+        createTableHeader(month, selectedYear);
+    }
+
+    private void createTableHeader(int month, Integer selectedYear) {
+        calendar.set(Calendar.MONTH, month);
+        calendar.set(Calendar.YEAR, selectedYear);
+        List<WeekList> list = createWeeksFromMonth(calendar);
+        ;
+        List<String> listString = new ArrayList<>();
+        for (Integer item :
+                list.get(0).getDates()) {
+
+            Log.d(TAG, "createTableHeader: item" + item);
+            listString.add(String.valueOf(item));
+        }
+
+        setTableAdapter(listString.toArray(new String[listString.size()]));
+
+    }
+
+    @Override
+    public void onItemSelected(WeekList list, int month, Integer selectedYear) {
+
+        this.month = month;
+        this.year = selectedYear;
+        this.listWeek = list;
+
+        createTableDaysHeader(list, month, selectedYear);
+
+
+    }
+
+
+
+    private void createTableDaysHeader(WeekList list, int month, Integer selectedYear) {
+        calendar.set(Calendar.MONTH, month);
+        calendar.set(Calendar.YEAR, selectedYear);
+        List<String> lists = new ArrayList<>();
+        for (Integer item : list.getDates()
+                ) {
+            lists.add(String.valueOf(item));
+        }
+
+
+        setTableAdapter(lists.toArray(new String[lists.size()]));
+
+
+    }
+    protected RectF mOnValueSelectedRectF = new RectF();
+
+    @Override
+    public void onValueSelected(Entry e, Highlight h) {
+        if (e == null)
+            return;
+
+        RectF bounds = mOnValueSelectedRectF;
+        mChart.getBarBounds((BarEntry) e, bounds);
+        MPPointF position = mChart.getPosition(e, YAxis.AxisDependency.LEFT);
+
+        Log.i("bounds", bounds.toString());
+        Log.i("position", position.toString());
+
+        Log.i("x-index",
+                "low: " + mChart.getLowestVisibleX() + ", high: "
+                        + mChart.getHighestVisibleX());
+
+        MPPointF.recycleInstance(position);
+    }
+
+    @Override
+    public void onNothingSelected() {
+
+    }
+
+
+    @Override
+    public void onItemSelect(Integer selectedYear) {
+        this.year = selectedYear;
+        calendar.set(Calendar.YEAR, selectedYear);
+        CommonMethod.createMonthsFromYear(calendar);
+
+
+    }
 }

@@ -1,4 +1,4 @@
-package itg8.com.seotoolapp;
+package itg8.com.seotoolapp.external_links;
 
 
 import android.content.Context;
@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 
 import java.util.List;
 
+import itg8.com.seotoolapp.home.HomeActivity;
+import itg8.com.seotoolapp.R;
 import itg8.com.seotoolapp.traffic.controller.HomeController;
 
 
