@@ -44,8 +44,7 @@
         app:fixtable_show_left_view_shadow="true"
         app:fixtable_column_1_color="@color/colorGrayLight"
         app:fixtable_column_2_color="@color/white"
-        app:fixtable_show_item_divider="true"
-        />
+        app:fixtable_show_item_divider="true" />
 
 
 

@@ -26,5 +26,12 @@
     <color name="colorTwitter">#26A7EB</color>
     <color name="colorBlue">#0071bc</color>
     <color name="colorBlueTransparent">#DEE7ED</color>
+    <color name="colorGroup1_10">#801a32</color>
+    <color name="colorGroup11_20">#e048200b</color>
+    <color name="colorOrangeTransparent">#e4edd1</color>
+    <color name="colorGroup21_30">#4b3f0a</color>
+    <color name="colorGroup31_40">#232323</color>
+    <color name="colorGroup41_50">#454545</color>
+    <color name="colorGroup51_PLUS">#565656</color>
 
 </resources>

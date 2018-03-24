@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <application
+        android:name=".common.MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -45,7 +46,15 @@
             android:name=".pincheck.PinVerificationActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_pin_verification"
-            android:theme="@style/FullscreenTheme"/>
+            android:theme="@style/FullscreenTheme" />
+        <activity
+            android:name=".social_media.SocialMediaActivity"
+            android:label="@string/title_activity_social_media"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".keyword.KeyWordDetailsActivity"
+            android:label="@string/title_activity_key_word_details"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

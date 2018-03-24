@@ -94,23 +94,28 @@ public class TrafficDetailsActivity extends AppCompatActivity implements View.On
 
     @Override
     public void onItemSelect(CommonMethod.WeekList selectWeek, int months, Integer years) {
-        lblDate.setText(String.valueOf(selectWeek) +"Week");
+        Integer first = selectWeek.getDates().get(0);
+        Integer last = selectWeek.getDates().get(1);
+
+        lblDate.setText(String.valueOf(first)+"-"+String.valueOf(last)+"Week");
+
         listener.onItemSelected(selectWeek, months, years);
+
+    }
+
+    private void getFirstElement(CommonMethod.WeekList selectWeek) {
 
     }
 
     @Override
     public void onItemSelect(int selectedMonth, Integer selectedYear) {
-        getMonthFromIndex(selectedMonth);
-        lblDate.setText(String.valueOf(selectedMonth) +"M "+ String.valueOf(selectedYear)+" "+" Y");
+        String month =months[selectedMonth];
+        lblDate.setText(month +"M "+ String.valueOf(selectedYear)+" "+" Y");
         listener.onItemSelected(selectedMonth, selectedYear);
 
     }
 
-    private void getMonthFromIndex(int selectedMonth) {
-        Arrays.asList(months).indexOf(selectedMonth);
 
-    }
 
     @Override
     public void onItemSelect(Integer selectedYear) {

@@ -1,13 +1,194 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="itg8.com.seotoolapp.keyword.KeyWordFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content">
 
-</FrameLayout>
+        <TextView
+            android:id="@+id/lbl_currentDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_16"
+            android:layout_marginStart="@dimen/margin_16"
+            android:layout_marginTop="@dimen/margin_16"
+            android:fontFamily="@font/roboto"
+            android:text="MARCH 2017"
+            android:textAllCaps="true"
+            android:textColor="@color/colorBlack"
+            android:textSize="@dimen/textSize_14"
+            android:textStyle="normal" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/margin_16"
+            android:layout_marginEnd="@dimen/margin_16"
+            android:fontFamily="@font/roboto"
+            android:text=" Previous Month "
+            android:padding="@dimen/margin_8"
+            android:layout_alignBaseline="@+id/lbl_currentDate"
+            android:background="@color/colorBlueTransparent"
+            android:layout_alignParentEnd="true"
+            android:textAllCaps="true"
+            android:textColor="@color/colorBlack"
+            android:textSize="@dimen/textSize_14"
+            android:textStyle="normal"
+            android:layout_marginTop="@dimen/margin_16"
+            android:layout_alignParentRight="true" />
+
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/cardView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/lbl_currentDate"
+            android:layout_margin="@dimen/margin_16"
+            app:cardBackgroundColor="@color/colorBlueTransparent"
+            app:cardCornerRadius="@dimen/margin_4"
+            app:cardPreventCornerOverlap="true"
+            app:cardUseCompatPadding="true">
+
+            <com.github.mikephil.charting.charts.PieChart
+                android:id="@+id/pieChart"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="@dimen/margin_16"
+                android:layout_marginRight="@dimen/margin_4"
+                android:layout_marginEnd="@dimen/margin_4"
+                android:layout_marginStart="20dp" />
+
+        </android.support.v7.widget.CardView>
+
+        <RelativeLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/cardView"
+            android:layout_marginEnd="@dimen/margin_16"
+            android:layout_marginLeft="@dimen/margin_16"
+            android:layout_marginStart="@dimen/margin_16">
+
+            <TableLayout
+                android:id="@+id/tableLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TableRow>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="top"
+                        android:background="@color/colorGrayLight"
+                        android:paddingBottom="@dimen/margin_4"
+                        android:paddingStart="2dp"
+                        android:paddingTop="@dimen/margin_4"
+                        android:text="Loc: India"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="@dimen/textSize_14"
+
+                        android:textStyle="bold"
+                        android:paddingLeft="2dp" />
+
+                    <TextView
+                        android:id="@+id/lbl_tbl_date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_span="2"
+                        android:paddingStart="2dp"
+                        android:layout_weight="1"
+                        android:background="@color/colorGrayLight"
+                        android:gravity="center"
+                        android:padding="@dimen/margin_4"
+                        android:text="Months 2018"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="@dimen/textSize_14"
+                        android:textStyle="bold"
+                        android:paddingLeft="2dp" />
+                </TableRow>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:orientation="vertical">
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/colorBlack" />
+                </LinearLayout>
+
+                <TableRow
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/lbl_keyword"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="top"
+                        android:paddingStart="2dp"
+                        android:paddingEnd="2dp"
+
+                        android:layout_weight="1"
+                        android:background="@color/colorGrayLight"
+
+                        android:paddingBottom="@dimen/margin_4"
+                        android:paddingTop="@dimen/margin_4"
+                        android:text="Targeted Keywords"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="@dimen/textSize_14"
+
+                        android:textStyle="normal"
+                        android:paddingLeft="2dp" />
+
+                    <TextView
+                        android:id="@+id/lbl_page"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="top"
+                        android:layout_weight="1"
+                        android:paddingStart="2dp"
+                        android:paddingEnd="2dp"
+
+                        android:background="@color/colorGrayLight"
+                        android:gravity="center"
+                        android:padding="@dimen/margin_4"
+                        android:text="Page"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="@dimen/textSize_14"
+                        android:textStyle="normal"
+                        android:paddingLeft="2dp" />
+
+                    <TextView
+                        android:id="@+id/lbl_ranked"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="top"
+                        android:layout_weight="1"
+                        android:background="@color/colorGrayLight"
+                        android:gravity="center"
+                        android:padding="@dimen/margin_4"
+                        android:text="Ranked"
+                        android:paddingStart="2dp"
+
+                        android:textColor="@color/colorBlack"
+                        android:textSize="@dimen/textSize_14"
+                        android:textStyle="normal"
+                        android:paddingLeft="2dp" />
+                </TableRow>
+
+
+            </TableLayout>
+
+
+        </RelativeLayout>
+    </RelativeLayout>
+</ScrollView>

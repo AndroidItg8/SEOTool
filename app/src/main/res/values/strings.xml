@@ -23,4 +23,8 @@
     <string name="invalid_pass">Invalid passcode</string>
 
     <string name="title_activity_pin_verification">PinVerificationActivity</string>
+    <string name="title_activity_social_media">SocialMediaActivity</string>
+    <string name="title_activity_key_word_details">KeyWordDetailsActivity</string>
+    <string name="url_kewwird">/seoportal/Keywordstatusmasters/appkeywordbetweendate</string>
+    <string name="url_traffic_category">/seoportal/Trafficcategorymasters/applistdata</string>
 </resources>

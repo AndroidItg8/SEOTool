@@ -2,16 +2,22 @@ package itg8.com.seotoolapp.common;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.res.Resources;
 import android.os.Build;
+import android.support.v4.app.FragmentActivity;
 import android.telephony.TelephonyManager;
 import android.text.format.DateFormat;
 import android.util.Log;
+import android.util.TypedValue;
 
 import com.google.gson.Gson;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by swapnilmeshram on 22/03/18.
@@ -21,9 +27,16 @@ public class CommonMethod {
 
 
     public static final String TOKEN = "myToken";
-    public static final String BASE_URL = "sdfsdf";
+    public static final String BASE_URL = "http://192.168.1.55";
     public static final String SECRET_KEY = "sValue";
     public static final String P_KEY = "passwordKey";
+    public static final String SELECT_YEAR = "SELECT_YEAR";
+    public static final String SELECT_MONTH = "SELECT_MONTH";
+    private static final java.lang.String DATE_FORMAT = "MM-yyyy";
+    public static SimpleDateFormat dateFormat = new SimpleDateFormat(CommonMethod.DATE_FORMAT, Locale.getDefault());
+    private static final java.lang.String DATE_FORMAT_CURRENT = "yyyy-MM-dd";
+    public static SimpleDateFormat dateFormatCurrent = new SimpleDateFormat(CommonMethod.DATE_FORMAT_CURRENT, Locale.getDefault());
+
 
     @SuppressLint("MissingPermission")
     public static String getMyPhoneNO(Context context) {
@@ -90,6 +103,62 @@ public class CommonMethod {
 
     public static void createMonthsFromYear(Calendar calendar) {
 
+    }
+
+    public static String getCurrentDateString() {
+        String newDate = "";
+        try {
+            newDate = dateFormat.format(Calendar.getInstance().getTime());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return newDate;
+
+    }
+
+    public static String getCurrentDateToString()
+    {
+        String newDate = "";
+        try {
+            newDate = dateFormatCurrent.format(Calendar.getInstance().getTime());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return newDate;
+
+    }   public static String getMonthDateToString(Calendar calendar)
+    {
+        String newDate = "";
+        try {
+            newDate = dateFormatCurrent.format(calendar.getTime());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return newDate;
+
+    }
+
+    public static Calendar getThisMonth() {
+        Calendar calendar=Calendar.getInstance();
+        calendar.set(Calendar.DAY_OF_MONTH,1);
+
+        return calendar;
+    }
+    public static Calendar getThisMonthLast() {
+        Calendar calendar=Calendar.getInstance();
+        calendar.set(Calendar.DAY_OF_MONTH,calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
+
+        return calendar;
+    }
+
+    public static int dpTopx(int dp, Context context) {
+
+        return dpToPx(dp, context.getResources());
+    }
+
+    public static int dpToPx(float dp, Resources resources) {
+        float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, resources.getDisplayMetrics());
+        return (int) px;
     }
 
     public static class WeekList {

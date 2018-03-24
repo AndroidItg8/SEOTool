@@ -10,17 +10,22 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import itg8.com.seotoolapp.R;
+import itg8.com.seotoolapp.common.CommonMethod;
+import itg8.com.seotoolapp.common.NetworkUtility;
 import itg8.com.seotoolapp.external_links.ExternalLinksFragment;
 import itg8.com.seotoolapp.keyword.KeyWordFragment;
+import itg8.com.seotoolapp.keyword.model.KeyWordModel;
 import itg8.com.seotoolapp.social_media.SocialMediaFragment;
+import itg8.com.seotoolapp.splash.SplashActivity;
 import itg8.com.seotoolapp.traffic.TrafficDetailsActivity;
 import itg8.com.seotoolapp.traffic.TrafficFragment;
-
-import itg8.com.seotoolapp.splash.SplashActivity;
 import itg8.com.seotoolapp.traffic.controller.HomeController;
+import itg8.com.seotoolapp.traffic.model.TrafficModel;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -44,10 +49,61 @@ public class HomeActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        startActivity(new Intent(this,SplashActivity.class));
+        startActivity(new Intent(this, SplashActivity.class));
         init();
 
+        downloadReleatedData();
+    }
 
+    private void downloadReleatedData() {
+
+        downloadKeyWordReleatedData();
+        downloadDashBoardRelatedData();
+
+    }
+
+    private void downloadDashBoardRelatedData() {
+        new NetworkUtility.NetworkBuilder().build().getTrafficCategory(getString(R.string.url_traffic_category), new NetworkUtility.ResponseListener() {
+            @Override
+            public void onSuccess(Object message) {
+                trafficFragmentListener.onListOfCategoryAvailable((List<? extends TrafficModel>) message);
+
+            }
+
+            @Override
+            public void onFailure(Object err) {
+                trafficFragmentListener.onListDownloadFail();
+            }
+
+            @Override
+            public void onSomethingWrong(Object e) {
+
+            }
+        });
+    }
+
+    private void downloadKeyWordReleatedData() {
+        new NetworkUtility.NetworkBuilder().build().getkeyWordList(getString(R.string.url_kewwird),
+                CommonMethod.getMonthDateToString(CommonMethod.getThisMonth()),
+                CommonMethod.getMonthDateToString(CommonMethod.getThisMonthLast()),
+                "2",
+                new NetworkUtility.ResponseListener() {
+                    @Override
+                    public void onSuccess(Object message) {
+                        keywordFragmentListener.onKeywordDetailAvailable((List<? extends KeyWordModel>) message);
+
+                    }
+
+                    @Override
+                    public void onFailure(Object err) {
+                        keywordFragmentListener.onDownloadFail();
+                    }
+
+                    @Override
+                    public void onSomethingWrong(Object e) {
+
+                    }
+                });
     }
 
     private void init() {
@@ -94,7 +150,7 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     public void setTrafficFragmentListener(HomeController.TrafficFragmentListener listener) {
-        trafficFragmentListener=listener;
+        trafficFragmentListener = listener;
     }
 
     public void setKeywordFragmentListener(HomeController.KeyWordFragmentListener keywordFragmentListener) {

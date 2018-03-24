@@ -36,6 +36,7 @@ import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 import itg8.com.seotoolapp.R;
 import itg8.com.seotoolapp.common.CommonMethod;
+import itg8.com.seotoolapp.common.Prefs;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -180,14 +181,14 @@ public class DatePickerFragment extends DialogFragment implements RadioGroup.OnC
              sprWeek.setSelection(selectWeek.getWeek());
 
          }
-          if(selectedMonth>0)
+          if(Prefs.getInt(CommonMethod.SELECT_MONTH)>0)
           {
-              sprMonth.setSelection(selectedMonth);
+              sprMonth.setSelection(Prefs.getInt(CommonMethod.SELECT_MONTH));
 
           }
-          if(selectedYear>0)
+          if(Prefs.getInt(CommonMethod.SELECT_YEAR)>0)
           {
-              sprYear.setSelection(selectedYear);
+              sprYear.setSelection(Prefs.getInt(CommonMethod.SELECT_YEAR));
           }
 
 
@@ -373,16 +374,19 @@ public class DatePickerFragment extends DialogFragment implements RadioGroup.OnC
                     break;
                 selectedYear = Integer.parseInt(years[i]);
                 calendar.set(Calendar.YEAR, selectedYear);
+                Prefs.putInt(CommonMethod.SELECT_YEAR, selectedYear);
                 break;
             case R.id.spr_month:
                 if (i == 0)
                     break;
                 selectedMonth = i - 1;
                 calendar.set(Calendar.MONTH, selectedMonth);
+                Prefs.putInt(CommonMethod.SELECT_MONTH, selectedMonth);
                 createWeekSpinner(calendar);
                 break;
             case R.id.spr_week:
                 selectWeek = weekListHashMap.get(weekArray[i]);
+
                 break;
         }
 

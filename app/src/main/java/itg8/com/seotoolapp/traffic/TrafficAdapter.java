@@ -9,9 +9,15 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.util.HashMap;
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import itg8.com.seotoolapp.R;
+import itg8.com.seotoolapp.common.CommonMethod;
+import itg8.com.seotoolapp.traffic.model.TrafficModel;
+import itg8.com.seotoolapp.traffic.model.Trafficcategorymaster;
 
 /**
  * Created by Android itg 8 on 3/22/2018.
@@ -19,11 +25,15 @@ import itg8.com.seotoolapp.R;
 
 class TrafficAdapter extends RecyclerView.Adapter<TrafficAdapter.TrafficViewHolder> {
     private final Context context;
+    private List<Trafficcategorymaster> trafficcategorymasterList;
     private final OnItemClickedListener listener;
+    private final HashMap<Trafficcategorymaster, List<TrafficModel>> list;
 
 
-    public TrafficAdapter(Context context, OnItemClickedListener listener) {
+    public TrafficAdapter(Context context, HashMap<Trafficcategorymaster, List<TrafficModel>> list,List<Trafficcategorymaster> trafficcategorymasterList,  OnItemClickedListener listener) {
         this.context = context;
+        this.list = list;
+        this.trafficcategorymasterList = trafficcategorymasterList;
         this.listener = listener;
     }
 
@@ -35,12 +45,25 @@ class TrafficAdapter extends RecyclerView.Adapter<TrafficAdapter.TrafficViewHold
 
     @Override
     public void onBindViewHolder(TrafficViewHolder holder, int position) {
+        holder.lblTitle.setText(trafficcategorymasterList.get(position).getTraffic());
+       String count =  findCountOf(list.get(trafficcategorymasterList.get(position)));
+       holder.lblValue.setText(count);
+       holder.lblDate.setText(CommonMethod.getCurrentDateString());
 
+    }
+
+    private String findCountOf(List<TrafficModel> trafficModels) {
+       int i = 0;
+        for (TrafficModel model:trafficModels
+             ) {
+            i=+ Integer.parseInt(model.getTrafficmaster().getContof());
+        }
+        return String.valueOf(i);
     }
 
     @Override
     public int getItemCount() {
-        return 10;
+        return trafficcategorymasterList.size();
     }
 
     public class TrafficViewHolder extends RecyclerView.ViewHolder {
@@ -53,6 +76,7 @@ class TrafficAdapter extends RecyclerView.Adapter<TrafficAdapter.TrafficViewHold
         TextView lblValue;
         @BindView(R.id.lbl_value_sign)
         TextView lblValueSign;
+        TrafficModel model;
 
 
 

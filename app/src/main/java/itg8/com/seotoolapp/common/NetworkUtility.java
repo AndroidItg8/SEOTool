@@ -2,13 +2,19 @@ package itg8.com.seotoolapp.common;
 
 
 import java.io.IOException;
+import java.util.List;
 
 import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
+import itg8.com.seotoolapp.keyword.model.KeyWordModel;
+import itg8.com.seotoolapp.traffic.model.TrafficModel;
 import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public  class NetworkUtility {
 
@@ -48,6 +54,41 @@ public  class NetworkUtility {
                 });
     }
 
+
+
+    public  void getkeyWordList(String url , String dateFrom , String dateTo, String projectId ,final ResponseListener listener)
+    {
+        if(listener==null)
+        {
+            throwNullPointer();
+        }
+         Call<List<KeyWordModel>> call = controller.getKeyWordStatusList(url, dateFrom, dateTo, projectId);
+        call.enqueue(new Callback<List<KeyWordModel>>() {
+            @Override
+            public void onResponse(Call<List<KeyWordModel>> call, Response<List<KeyWordModel>> response) {
+                 if(response.isSuccessful())
+                 {
+                     if(response.body()!=null)
+                     {
+                         listener.onSuccess(response.body());
+                     }else
+                     {
+                         listener.onFailure(response.message());
+                     }
+                 }
+
+            }
+
+            @Override
+            public void onFailure(Call<List<KeyWordModel>> call, Throwable t) {
+                listener.onFailure(t.getMessage());
+                t.printStackTrace();
+            }
+        });
+
+
+    }
+
     private void throwNullPointer() {
         throw new NullPointerException("null provided in NetworkUtility listner");
     }
@@ -57,6 +98,35 @@ public  class NetworkUtility {
             throwNullPointer();
         Observable<ResponseBody> bodyObservable=controller.checkOtp();
 
+    }
+
+    public void getTrafficCategory(String url, final ResponseListener listener) {
+        if(listener==null)
+        {
+            throwNullPointer();
+        }
+        Call<List<TrafficModel>> call = controller.getTrafficCategory(url);
+        call.enqueue(new Callback<List<TrafficModel>>() {
+            @Override
+            public void onResponse(Call<List<TrafficModel>> call, Response<List<TrafficModel>> response) {
+                if(response.isSuccessful())
+                {
+                    if(response.body()!=null)
+                        listener.onSuccess(response.body());
+                }
+                else
+                {
+                    listener.onFailure(response.message());
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<List<TrafficModel>> call, Throwable t) {
+                listener.onFailure(t.getMessage());
+                t.printStackTrace();
+            }
+        });
     }
 
     public interface ResponseListener{
