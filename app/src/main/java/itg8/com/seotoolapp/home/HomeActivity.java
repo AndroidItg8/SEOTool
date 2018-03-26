@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
@@ -26,6 +27,7 @@ import itg8.com.seotoolapp.traffic.TrafficDetailsActivity;
 import itg8.com.seotoolapp.traffic.TrafficFragment;
 import itg8.com.seotoolapp.traffic.controller.HomeController;
 import itg8.com.seotoolapp.traffic.model.TrafficModel;
+import itg8.com.seotoolapp.traffic.model.Trafficcategorymaster;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -63,7 +65,11 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void downloadDashBoardRelatedData() {
-        new NetworkUtility.NetworkBuilder().build().getTrafficCategory(getString(R.string.url_traffic_category), new NetworkUtility.ResponseListener() {
+        new NetworkUtility.NetworkBuilder().build().getTrafficCategory(getString(R.string.url_traffic_category),
+                CommonMethod.getMonthDateToString(CommonMethod.getThisMonth()),
+                CommonMethod.getMonthDateToString(CommonMethod.getThisMonthLast()),
+                "2",
+                new NetworkUtility.ResponseListener() {
             @Override
             public void onSuccess(Object message) {
                 trafficFragmentListener.onListOfCategoryAvailable((List<? extends TrafficModel>) message);
@@ -166,7 +172,9 @@ public class HomeActivity extends AppCompatActivity {
     }
 
 
-    public void startTrafficDetail() {
-        startActivity(new Intent(HomeActivity.this, TrafficDetailsActivity.class));
+    public void startTrafficDetail(HashMap<Trafficcategorymaster, List<TrafficModel>> list) {
+        Intent intent=new Intent(HomeActivity.this, TrafficDetailsActivity.class);
+        intent.putExtra(CommonMethod.TRAFFIC_DETAILS, list);
+        startActivity(intent);
     }
 }

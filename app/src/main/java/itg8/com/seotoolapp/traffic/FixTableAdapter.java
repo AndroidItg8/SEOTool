@@ -4,7 +4,9 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import itg8.com.seotoolapp.traffic.model.DataBean;
+import itg8.com.seotoolapp.common.CommonMethod;
+import itg8.com.seotoolapp.traffic.model.TrafficModel;
+import itg8.com.seotoolapp.traffic.model.TrafficModel;
 import itg8.com.seotoolapp.widget.fixtablelayout.inter.IDataAdapter;
 
 /**
@@ -15,14 +17,14 @@ public class FixTableAdapter implements IDataAdapter {
 
     public String[] titles;
 
-    public List<DataBean> data;
+    public List<Object> data;
 
-    public FixTableAdapter(String[] titles, List<DataBean> data) {
+    public FixTableAdapter(String[] titles, List<Object> data) {
         this.titles = titles;
         this.data = data;
     }
 
-    public void setData(List<DataBean> data) {
+    public void setData(List<Object> data) {
         this.data = data;
     }
 
@@ -44,40 +46,61 @@ public class FixTableAdapter implements IDataAdapter {
 
     @Override
     public void convertData(int position, List<TextView> bindViews) {
-        DataBean dataBean = data.get(position);
-        bindViews.get(0)
-                .setText(dataBean.id);
-        for (int i =1; i<=titles.length-1; i++)
+        if(data.get(position) instanceof  TrafficModel)
         {
-            bindViews.get(i)
-                    .setText(dataBean.data1);
+            TrafficModel TrafficModel = (itg8.com.seotoolapp.traffic.model.TrafficModel) data.get(position);
+            bindViews.get(0)
+                    .setText(TrafficModel.getTrafficmaster().getDateof());
+            for (int i =1; i<=titles.length-1; i++)
+            {
+                bindViews.get(i)
+                        .setText(TrafficModel.getTrafficmaster().getContof());
 
 
+            }
+        }else if(data.get(position) instanceof CommonMethod.TempYearHashMap)
+        {
+            CommonMethod.TempYearHashMap  tempYearHashMap = (CommonMethod.TempYearHashMap) data.get(position);
+            bindViews.get(0).setText(tempYearHashMap.getMonth() + "-" +tempYearHashMap.getYear());
+
+            bindViews.get(1).setText(String.valueOf(tempYearHashMap.getValue()));
         }
 
+
 //        bindViews.get(titles.length)
-//                .setText(dataBean.id);
+//                .setText(TrafficModel.id);
 //        bindViews.get(1)
-//                .setText(dataBean.data1);
+//                .setText(TrafficModel.data1);
 //        bindViews.get(2)
-//                .setText(dataBean.data2);
+//                .setText(TrafficModel.data2);
 //        bindViews.get(3)
-//                .setText(dataBean.data3);
+//                .setText(TrafficModel.data3);
 //        bindViews.get(4)
-//                .setText(dataBean.data4);
+//                .setText(TrafficModel.data4);
 //        bindViews.get(5)
-//                .setText(dataBean.data5);
+//                .setText(TrafficModel.data5);
 //        bindViews.get(6)
-//                .setText(dataBean.data6);
+//                .setText(TrafficModel.data6);
 //        bindViews.get(7)
-//                .setText(dataBean.data7);
+//                .setText(TrafficModel.data7);
 //        bindViews.get(8)
-//                .setText(dataBean.data8);
+//                .setText(TrafficModel.data8);
 
     }
 
     @Override
     public void convertLeftData(int position, TextView bindView) {
-        bindView.setText(data.get(position).id);
+
+        if(data.get(position) instanceof  TrafficModel) {
+            TrafficModel TrafficModel = (itg8.com.seotoolapp.traffic.model.TrafficModel) data.get(position);
+
+            bindView.setText(TrafficModel.getTrafficmaster().getDateof());
+        }else if(data.get(position) instanceof CommonMethod.TempYearHashMap )
+        {
+            CommonMethod.TempYearHashMap  tempYearHashMap = (CommonMethod.TempYearHashMap) data.get(position);
+
+            bindView.setText(tempYearHashMap.getMonth() + "-" +tempYearHashMap.getYear());
+
+        }
     }
 }

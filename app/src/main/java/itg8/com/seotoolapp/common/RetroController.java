@@ -30,5 +30,9 @@ public interface RetroController {
                                                    @Field("Keywordstatusmaster[projectid]") String projectId);
     @FormUrlEncoded
     @POST
-    Call<List<TrafficModel>> getTrafficCategory(@Url String url);
+    Call<List<TrafficModel>> getTrafficBetweenDate(@Url String url,
+                                                   @Field("Trafficmaster[datefrom]") String dateFrom,
+                                                   @Field("Trafficmaster[dateto]") String dateTo,
+                                                   @Field("Trafficmaster[projectid]") String projectId
+                                                   );
 }

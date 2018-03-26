@@ -100,12 +100,12 @@ public  class NetworkUtility {
 
     }
 
-    public void getTrafficCategory(String url, final ResponseListener listener) {
+    public void getTrafficCategory(String url, String fromDate, String toDate, String projectId, final ResponseListener listener) {
         if(listener==null)
         {
             throwNullPointer();
         }
-        Call<List<TrafficModel>> call = controller.getTrafficCategory(url);
+        Call<List<TrafficModel>> call = controller.getTrafficBetweenDate(url,fromDate,toDate,projectId );
         call.enqueue(new Callback<List<TrafficModel>>() {
             @Override
             public void onResponse(Call<List<TrafficModel>> call, Response<List<TrafficModel>> response) {
@@ -128,6 +128,8 @@ public  class NetworkUtility {
             }
         });
     }
+
+
 
     public interface ResponseListener{
         void onSuccess(Object message);

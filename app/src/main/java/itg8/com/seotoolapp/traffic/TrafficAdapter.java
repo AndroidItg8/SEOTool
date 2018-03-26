@@ -54,8 +54,7 @@ class TrafficAdapter extends RecyclerView.Adapter<TrafficAdapter.TrafficViewHold
 
     private String findCountOf(List<TrafficModel> trafficModels) {
        int i = 0;
-        for (TrafficModel model:trafficModels
-             ) {
+        for (TrafficModel model:trafficModels) {
             i=+ Integer.parseInt(model.getTrafficmaster().getContof());
         }
         return String.valueOf(i);
@@ -86,7 +85,7 @@ class TrafficAdapter extends RecyclerView.Adapter<TrafficAdapter.TrafficViewHold
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    listener.onItemClicked();
+                    listener.onItemClicked(list);
                 }
             });
         }
@@ -94,6 +93,6 @@ class TrafficAdapter extends RecyclerView.Adapter<TrafficAdapter.TrafficViewHold
 
     public interface OnItemClickedListener {
 
-        void onItemClicked();
+        void onItemClicked(HashMap<Trafficcategorymaster, List<TrafficModel>> list);
     }
 }

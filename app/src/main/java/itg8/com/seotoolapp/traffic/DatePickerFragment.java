@@ -318,10 +318,13 @@ public class DatePickerFragment extends DialogFragment implements RadioGroup.OnC
                 if (validate()) {
                     if (rbtnWeek.isChecked())
                         listener.onItemSelect(selectWeek, selectedMonth, selectedYear);
-                    else if(rbtnMonth.isChecked())
+                    else if(rbtnMonth.isChecked()) {
                         listener.onItemSelect(selectedMonth, selectedYear);
-                   else if (rbtnYear.isChecked())
+                    }
+                   else if (rbtnYear.isChecked()) {
                         listener.onItemSelect(selectedYear);
+                    }
+
                     getDialog().dismiss();
                 }
 
@@ -408,6 +411,8 @@ public class DatePickerFragment extends DialogFragment implements RadioGroup.OnC
 
         void onItemSelect(Integer selectedYear);
     }
+
+
 
 
 }

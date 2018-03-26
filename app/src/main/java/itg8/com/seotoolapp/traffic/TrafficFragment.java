@@ -82,7 +82,6 @@ public class TrafficFragment extends Fragment implements TrafficAdapter.OnItemCl
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_dash_board, container, false);
-
         unbinder = ButterKnife.bind(this, view);
         return view;
     }
@@ -107,9 +106,11 @@ public class TrafficFragment extends Fragment implements TrafficAdapter.OnItemCl
     }
 
     @Override
-    public void onItemClicked() {
+    public void onItemClicked( HashMap<Trafficcategorymaster, List<TrafficModel>> list) {
 
-        ((HomeActivity)getActivity()).startTrafficDetail();     ;
+
+
+        ((HomeActivity)getActivity()).startTrafficDetail(list);
 
     }
 

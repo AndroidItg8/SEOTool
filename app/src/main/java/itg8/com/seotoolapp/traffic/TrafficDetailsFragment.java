@@ -19,15 +19,14 @@ import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
-import com.github.mikephil.charting.utils.ColorTemplate;
 import com.github.mikephil.charting.utils.MPPointF;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
@@ -35,7 +34,8 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import itg8.com.seotoolapp.R;
 import itg8.com.seotoolapp.common.CommonMethod;
-import itg8.com.seotoolapp.traffic.model.DataBean;
+import itg8.com.seotoolapp.traffic.model.TrafficModel;
+import itg8.com.seotoolapp.traffic.model.Trafficcategorymaster;
 import itg8.com.seotoolapp.widget.fixtablelayout.FixTableLayout;
 
 import static itg8.com.seotoolapp.common.CommonMethod.WeekList;
@@ -54,7 +54,8 @@ public class TrafficDetailsFragment extends Fragment implements TrafficDetailsAc
     private static final String TAG = "TrafficDetailsFragment";
     public String[] title = {"Traffi", "title2", "title3", "title4", "title5", "title6", "title7",
             "title8", "title9"};
-    public List<DataBean> data = new ArrayList<>();
+    public List<Object> data = new ArrayList<>();
+    protected RectF mOnValueSelectedRectF = new RectF();
     @BindView(R.id.fixTableLayout)
     FixTableLayout fixTableLayout;
     Unbinder unbinder;
@@ -68,7 +69,7 @@ public class TrafficDetailsFragment extends Fragment implements TrafficDetailsAc
     private int month;
     private Integer year;
     private WeekList listWeek;
-
+    private HashMap<Trafficcategorymaster, List<TrafficModel>> listHashMap;
 
     public TrafficDetailsFragment() {
         // Required empty public constructor
@@ -107,7 +108,6 @@ public class TrafficDetailsFragment extends Fragment implements TrafficDetailsAc
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_traffic_details, container, false);
         unbinder = ButterKnife.bind(this, view);
-        init();
         return view;
     }
 
@@ -118,23 +118,17 @@ public class TrafficDetailsFragment extends Fragment implements TrafficDetailsAc
         ((TrafficDetailsActivity) mContext).setyearListner(this);
     }
 
-    private void init() {
-        setTableHeaderData();
-        setBarchart();
 
 
-    }
+    private void setBarchart(List<Object> lists, CharSequence title) {
 
-    private void setBarchart() {
-
- mChart.setOnChartValueSelectedListener(this);
+        mChart.setOnChartValueSelectedListener(this);
 
         mChart.getDescription().setEnabled(false);
 
         // if more than 60 entries are displayed in the chart, no values will be
 //        // drawn
-        mChart.setMaxVisibleValueCount(40);
-
+//        mChart.setMaxVisibleValueCount(40);
 
 
         // scaling can now only be done on x- and y-axis separately
@@ -170,72 +164,78 @@ public class TrafficDetailsFragment extends Fragment implements TrafficDetailsAc
         mChart.getLegend().setEnabled(true);
 
 
-
-
         Legend l = mChart.getLegend();
         l.setVerticalAlignment(Legend.LegendVerticalAlignment.BOTTOM);
         l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.LEFT);
         l.setOrientation(Legend.LegendOrientation.HORIZONTAL);
         l.setDrawInside(false);
         l.setForm(Legend.LegendForm.SQUARE);
+
+
         l.setFormSize(9f);
         l.setTextSize(11f);
         l.setXEntrySpace(4f);
 
 
-        setData(12, 50);
+            setData(lists, title);
+          }
+
+
+
+
+    private void setTableHeaderData(List<TrafficModel> lists) {
+        data.clear();
+        data.addAll(lists);
+//        for (int i = 0; i <lists.size(); i++) {
+//            data.addA(lists.get(i));
+//        }
 
 
     }
 
+    private int[] getColors(int size) {
 
-
-    private void setTableHeaderData() {
-        for (int i = 0; i <5; i++) {
-            data.add(new DataBean("id__", "data1", "data2", "data3", "data4", "data5", "data6", "data7",
-                    "data8"));
-        }
-
-
-    }
-    private int[] getColors() {
-
-        int stacksize = 6;
+        int stacksize = size;
 
         // have as many colors as stack-values per entry
         int[] colors = new int[stacksize];
 
 
-        colors[0] = Color.parseColor("#D4A280");
-        colors[1] = Color.parseColor("#00B0EC");
-        colors[2] = Color.parseColor("#00CBAC");
+
+//        colors[1] = Color.parseColor("#D4A280");
+//        colors[2] = Color.parseColor("#D4A280");
 //        colors[3] = Color.parseColor("#D4A280");
 //        colors[4] = Color.parseColor("#00B0EC");
 //        colors[5] = Color.parseColor("#00CBAC");
 
-//        for (int i = 0; i < colors.length; i++) {
-//            colors[i] = ColorTemplate.MATERIAL_COLORS[i];
-//
-//        }
+        for (int i = 0; i < colors.length; i++) {
+            colors[i] = Color.parseColor("#D4A280");
+
+        }
         return colors;
     }
 
+    private void setData(List<Object> list, CharSequence title) {
 
-    private void setData(int count, float range) {
-
-        float start = 1f;
 
         ArrayList<BarEntry> yVals1 = new ArrayList<BarEntry>();
 
-        for (int i = (int) start; i < start + count + 1; i++) {
-            float mult = (range + 1);
-            float val = (float) (Math.random() * mult);
 
-            if (Math.random() * 100 < 25) {
-                yVals1.add(new BarEntry(i, val, getResources().getDrawable(R.drawable.custom_spinner_back)));
-            } else {
-                yVals1.add(new BarEntry(i, val));
+        for (int i = (int) 1; i <=list.size()-1; i++) {
+            if(list.get(i) instanceof CommonMethod.TempYearHashMap)
+            {
+                CommonMethod.TempYearHashMap tempYearHashMap = (CommonMethod.TempYearHashMap) list.get(i);
+                yVals1.add(new BarEntry(i, tempYearHashMap.getValue(), getResources().getDrawable(R.drawable.custom_spinner_back)));
+
+            }else if(list.get(i) instanceof TrafficModel)
+            {
+              TrafficModel trafficModel = (TrafficModel) list.get(i);
+                yVals1.add(new BarEntry(i, Float.parseFloat(trafficModel.getTrafficmaster().getContof()), getResources().getDrawable(R.drawable.custom_spinner_back)));
+
+
             }
+
+
         }
 
         BarDataSet set1;
@@ -247,12 +247,12 @@ public class TrafficDetailsFragment extends Fragment implements TrafficDetailsAc
             mChart.getData().notifyDataChanged();
             mChart.notifyDataSetChanged();
         } else {
-            set1 = new BarDataSet(yVals1, "The year 2018");
+            set1 = new BarDataSet(yVals1, title.toString());
 
             set1.setDrawIcons(false);
             set1.setDrawValues(false);
 
-            set1.setColors(getColors());
+            set1.setColors(getColors(list.size()));
 
             ArrayList<IBarDataSet> dataSets = new ArrayList<IBarDataSet>();
             dataSets.add(set1);
@@ -267,8 +267,9 @@ public class TrafficDetailsFragment extends Fragment implements TrafficDetailsAc
     }
 
     private void setTableAdapter(String[] dates) {
-        dates[0] = "Title";
-        final FixTableAdapter fixTableAdapter = new FixTableAdapter(dates, data);
+        String [] title = new String[]{"Title" ,dates[1]};
+//        dates[0] = "Title";
+        FixTableAdapter fixTableAdapter = new FixTableAdapter(title, data);
         fixTableLayout.setAdapter(fixTableAdapter);
     }
 
@@ -283,7 +284,7 @@ public class TrafficDetailsFragment extends Fragment implements TrafficDetailsAc
         this.month = month;
         this.year = selectedYear;
 
-        createTableHeader(month, selectedYear);
+      //  createTableHeader(month, selectedYear);
     }
 
     private void createTableHeader(int month, Integer selectedYear) {
@@ -310,28 +311,14 @@ public class TrafficDetailsFragment extends Fragment implements TrafficDetailsAc
         this.year = selectedYear;
         this.listWeek = list;
 
-        createTableDaysHeader(list, month, selectedYear);
-
 
     }
 
-
-
-    private void createTableDaysHeader(WeekList list, int month, Integer selectedYear) {
-        calendar.set(Calendar.MONTH, month);
-        calendar.set(Calendar.YEAR, selectedYear);
-        List<String> lists = new ArrayList<>();
-        for (Integer item : list.getDates()
-                ) {
-            lists.add(String.valueOf(item));
-        }
-
-
-        setTableAdapter(lists.toArray(new String[lists.size()]));
+    private void createTableDaysHeader(List<TrafficModel> list) {
+        setTableAdapter(new String[]{null, list.get(0).getTrafficcategorymaster().getTraffic()});
 
 
     }
-    protected RectF mOnValueSelectedRectF = new RectF();
 
     @Override
     public void onValueSelected(Entry e, Highlight h) {
@@ -358,11 +345,58 @@ public class TrafficDetailsFragment extends Fragment implements TrafficDetailsAc
     }
 
 
+
     @Override
     public void onItemSelect(Integer selectedYear) {
         this.year = selectedYear;
         calendar.set(Calendar.YEAR, selectedYear);
         CommonMethod.createMonthsFromYear(calendar);
+
+
+    }
+
+    @Override
+    public void onTrafficModelList(List<CommonMethod.TempYearHashMap> lists, CharSequence title) {
+
+        data.clear();
+        data.addAll(lists);
+
+        setTableAdapter(new String[]{null, String.valueOf(title)});
+
+
+    }
+
+    @Override
+    public void onTrafficDailyData(List<TrafficModel> lists, WeekList selectWeek) {
+        initDailyTrafficData(lists, selectWeek);
+        List<Object> list = new ArrayList<>();
+        list.addAll(lists);
+        setBarchart(list,getActivity().getActionBar().getTitle());
+
+
+
+    }
+
+    private void initDailyTrafficData(List<TrafficModel> lists, WeekList selectWeek) {
+        createTableDaysHeader(lists);
+        setTableHeaderData(lists);
+        List<Object> list = new ArrayList<>();
+        list.addAll(lists);
+        setBarchart(list,getActivity().getActionBar().getTitle());
+
+
+
+    }
+
+    @Override
+    public void onTrafficYearData(List<CommonMethod.TempYearHashMap> lists, CharSequence title) {
+        data.clear();
+        data.addAll(lists);
+        setTableAdapter(new String[]{null, String.valueOf(title)});
+        List<Object> list = new ArrayList<>();
+        list.addAll(lists);
+
+        setBarchart(list,title);
 
 
     }
