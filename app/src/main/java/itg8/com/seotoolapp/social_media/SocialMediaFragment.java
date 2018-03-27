@@ -10,10 +10,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
-import com.github.mikephil.charting.animation.Easing;
-import com.github.mikephil.charting.charts.PieChart;
-import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
@@ -31,8 +29,12 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import itg8.com.seotoolapp.R;
+import itg8.com.seotoolapp.common.CommonMethod;
 import itg8.com.seotoolapp.home.HomeActivity;
+import itg8.com.seotoolapp.social_media.model.SocialMediaModel;
+import itg8.com.seotoolapp.traffic.FixTableAdapter;
 import itg8.com.seotoolapp.traffic.controller.HomeController;
+import itg8.com.seotoolapp.widget.fixtablelayout.FixTableLayout;
 
 
 /**
@@ -40,18 +42,23 @@ import itg8.com.seotoolapp.traffic.controller.HomeController;
  * Use the {@link SocialMediaFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class SocialMediaFragment extends Fragment implements HomeController.SocialMediaFragmentListener, OnChartValueSelectedListener {
+public class SocialMediaFragment extends Fragment implements HomeController.SocialMediaFragmentListener<SocialMediaModel>, OnChartValueSelectedListener, View.OnClickListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    @BindView(R.id.pieChart)
-    PieChart mChart;
+//    @BindView(R.id.pieChart)
+//    PieChart mChart;
     Unbinder unbinder;
+    @BindView(R.id.lbl_date)
+    TextView lblDate;
+    @BindView(R.id.fixTableLayout)
+    FixTableLayout fixTableLayout;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    public List<Object> data = new ArrayList<>();
 
 
     public SocialMediaFragment() {
@@ -89,67 +96,73 @@ public class SocialMediaFragment extends Fragment implements HomeController.Soci
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_social_media, container, false);
+        View view = inflater.inflate(R.layout.fragment_external_links, container, false);
         unbinder = ButterKnife.bind(this, view);
         init();
         return view;
     }
 
     private void init() {
-        createPieChart();
+        lblDate.setText(CommonMethod.getCurrentDateString());
+        onClickedListner();
+
+
+        //createPieChart();
+    }
+
+    private void onClickedListner() {
+        lblDate.setOnClickListener(this);
     }
 
     private void createPieChart() {
 
-        mChart.setUsePercentValues(true);
-        mChart.getDescription().setEnabled(false);
-        mChart.setExtraOffsets(5, 10, 5, 5);
-
-        mChart.setDragDecelerationFrictionCoef(0.95f);
-
-
-
-        mChart.setDrawHoleEnabled(true);
-        mChart.setHoleColor(Color.WHITE);
-
-        mChart.setTransparentCircleColor(Color.WHITE);
-        mChart.setTransparentCircleAlpha(110);
-
-        mChart.setHoleRadius(58f);
-        mChart.setTransparentCircleRadius(61f);
-
-        mChart.setDrawCenterText(true);
-
-        mChart.setRotationAngle(0);
-        // enable rotation of the chart by touch
-        mChart.setRotationEnabled(true);
-        mChart.setHighlightPerTapEnabled(true);
-
-        // mChart.setUnit(" €");
-        // mChart.setDrawUnitsInChart(true);
-
-        // add a selection listener
-        mChart.setOnChartValueSelectedListener(this);
-
-        setData(4, 100);
-
-        mChart.animateY(1400, Easing.EasingOption.EaseInOutQuad);
-        // mChart.spin(2000, 0, 360);
-
-
-
-        Legend l = mChart.getLegend();
-        l.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
-        l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT);
-        l.setOrientation(Legend.LegendOrientation.VERTICAL);
-        l.setDrawInside(false);
-        l.setXEntrySpace(7f);
-        l.setYEntrySpace(0f);
-        l.setYOffset(0f);
-
-        // entry label styling
-        mChart.setEntryLabelColor(Color.WHITE);
-        mChart.setEntryLabelTextSize(12f);
+//        mChart.setUsePercentValues(true);
+//        mChart.getDescription().setEnabled(false);
+//        mChart.setExtraOffsets(5, 10, 5, 5);
+//
+//        mChart.setDragDecelerationFrictionCoef(0.95f);
+//
+//
+//        mChart.setDrawHoleEnabled(true);
+//        mChart.setHoleColor(Color.WHITE);
+//
+//        mChart.setTransparentCircleColor(Color.WHITE);
+//        mChart.setTransparentCircleAlpha(110);
+//
+//        mChart.setHoleRadius(58f);
+//        mChart.setTransparentCircleRadius(61f);
+//
+//        mChart.setDrawCenterText(true);
+//
+//        mChart.setRotationAngle(0);
+//        // enable rotation of the chart by touch
+//        mChart.setRotationEnabled(true);
+//        mChart.setHighlightPerTapEnabled(true);
+//
+//        // mChart.setUnit(" €");
+//        // mChart.setDrawUnitsInChart(true);
+//
+//        // add a selection listener
+//        mChart.setOnChartValueSelectedListener(this);
+//
+//        setData(4, 100);
+//
+//        mChart.animateY(1400, Easing.EasingOption.EaseInOutQuad);
+//        // mChart.spin(2000, 0, 360);
+//
+//
+//        Legend l = mChart.getLegend();
+//        l.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
+//        l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT);
+//        l.setOrientation(Legend.LegendOrientation.VERTICAL);
+//        l.setDrawInside(false);
+//        l.setXEntrySpace(7f);
+//        l.setYEntrySpace(0f);
+//        l.setYOffset(0f);
+//
+//        // entry label styling
+//        mChart.setEntryLabelColor(Color.WHITE);
+//        mChart.setEntryLabelTextSize(12f);
 
     }
 
@@ -160,8 +173,8 @@ public class SocialMediaFragment extends Fragment implements HomeController.Soci
 
         // NOTE: The order of the entries when being added to the entries array determines their position around the center of
         // the chart.
-        String[] mParties={"","",""};
-        for (int i = 0; i < count ; i++) {
+        String[] mParties = {"", "", ""};
+        for (int i = 0; i < count; i++) {
             entries.add(new PieEntry((float) ((Math.random() * mult) + mult / 5),
 
                     mParties[i % mParties.length],
@@ -204,12 +217,12 @@ public class SocialMediaFragment extends Fragment implements HomeController.Soci
         data.setValueFormatter(new PercentFormatter());
         data.setValueTextSize(11f);
         data.setValueTextColor(Color.WHITE);
-        mChart.setData(data);
-
-        // undo all highlights
-        mChart.highlightValues(null);
-
-        mChart.invalidate();
+//        mChart.setData(data);
+//
+//        // undo all highlights
+//        mChart.highlightValues(null);
+//
+//        mChart.invalidate();
     }
 
     @Override
@@ -219,12 +232,30 @@ public class SocialMediaFragment extends Fragment implements HomeController.Soci
     }
 
     @Override
-    public void onSocMediaAvail(List t) {
+    public void onSocMediaAvail(List<SocialMediaModel> t) {
+//        countSessionOfSocialMedia(t);
 
+        createTableData(t);
     }
 
+
+    private void createTableData(List<SocialMediaModel> t) {
+        data.clear();
+        data.addAll(t);
+
+        setTableAdapter(new String[]{null, "No of KeyStatus","Submission Status"});
+    }
+
+    private void setTableAdapter(String[] dates) {
+        String [] title = new String[]{"Title" ,dates[1],dates[2]};
+//        dates[0] = "Title";
+        FixTableAdapter fixTableAdapter = new FixTableAdapter(title, data);
+        fixTableLayout.setAdapter(fixTableAdapter);
+    }
+
+
     @Override
-    public void onDownloadFail() {
+    public void onDownloadFail(String message, int type) {
 
     }
 
@@ -251,5 +282,14 @@ public class SocialMediaFragment extends Fragment implements HomeController.Soci
     @Override
     public void onNothingSelected() {
 
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId())
+        {
+            case R.id.lbl_date:
+                break;
+        }
     }
 }

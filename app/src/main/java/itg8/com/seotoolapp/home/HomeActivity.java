@@ -7,18 +7,28 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 import itg8.com.seotoolapp.R;
 import itg8.com.seotoolapp.common.CommonMethod;
 import itg8.com.seotoolapp.common.NetworkUtility;
 import itg8.com.seotoolapp.external_links.ExternalLinksFragment;
+import itg8.com.seotoolapp.external_links.model.ExternalLinksModel;
 import itg8.com.seotoolapp.keyword.KeyWordFragment;
 import itg8.com.seotoolapp.keyword.model.KeyWordModel;
 import itg8.com.seotoolapp.social_media.SocialMediaFragment;
@@ -39,6 +49,9 @@ public class HomeActivity extends AppCompatActivity {
     ViewPager container;
     @BindView(R.id.fab)
     FloatingActionButton fab;
+
+    private static final String TAG = "HomeActivity";
+
     private HomeController.TrafficFragmentListener trafficFragmentListener;
     private HomeController.KeyWordFragmentListener keywordFragmentListener;
     private HomeController.ExternalLinksFragmentListener externalLinksFragmentListener;
@@ -59,8 +72,125 @@ public class HomeActivity extends AppCompatActivity {
 
     private void downloadReleatedData() {
 
-        downloadKeyWordReleatedData();
-        downloadDashBoardRelatedData();
+        downloadSocialMediaLinksData();
+
+
+    }
+
+    private void downloadSocialMediaLinksData() {
+        Log.d(TAG, "downloadSocialMediaLinksData: "+CommonMethod.getThisMonth());
+        Log.d(TAG, "downloadSocialMediaLinksDataLast : "+CommonMethod.getThisMonthLast());
+        new NetworkUtility.NetworkBuilder().build().getExternalLinksData(getString(R.string.url_external_links),
+                CommonMethod.getMonthDateToString(CommonMethod.getThisMonth()),
+                CommonMethod.getMonthDateToString(CommonMethod.getThisMonthLast()),
+                "1",1, new NetworkUtility.ResponseListener() {
+                    @Override
+                    public void onSuccess(Object message) {
+                        if(socialMediaFragmentListener!=null)
+
+                            socialMediaFragmentListener.onSocMediaAvail((List) message);
+                    }
+
+                    @Override
+                    public void onFailure(Object err) {
+                        if(socialMediaFragmentListener!=null)
+                            socialMediaFragmentListener.onDownloadFail();
+                    }
+
+                    @Override
+                    public void onSomethingWrong(Object e) {
+
+                    }
+                });
+
+    }
+
+
+
+    private void downloadExternalLinksData(final int type) {
+        final int types  ;
+        if(type== CommonMethod.EXTERNAL_LINKS)
+            types = CommonMethod.EXTERNAL_LINKS;
+        else
+            types = CommonMethod.SOCIAL_MEDIA;
+
+
+        new NetworkUtility.NetworkBuilder().build().getExternalLinksData(getString(R.string.url_external_links),
+                CommonMethod.getMonthDateToString(CommonMethod.getThisMonth()),
+                CommonMethod.getMonthDateToString(CommonMethod.getThisMonthLast()),
+                "1",types, new NetworkUtility.ResponseListener() {
+                    @Override
+                    public void onSuccess(Object message) {
+                        sortExternalLinksForSession((List<? extends ExternalLinksModel>) message, type);
+                    }
+
+                    @Override
+                    public void onFailure(Object err) {
+
+                                externalLinksFragmentListener.onDownloadFail(err.toString(), type);
+                    }
+
+                    @Override
+                    public void onSomethingWrong(Object e) {
+
+                    }
+                });
+
+    }
+
+    private void sortExternalLinksForSession(final List<? extends ExternalLinksModel> list, final int type) {
+
+        Observable.create(new ObservableOnSubscribe<HashMap<String, List<ExternalLinksModel>>>() {
+            @Override
+            public void subscribe(ObservableEmitter<HashMap<String, List<ExternalLinksModel>>> e) throws Exception {
+                HashMap<String, List<ExternalLinksModel>> hashMapMonthDates = CommonMethod.getMonthHashMapForExtLinks(Calendar.getInstance());
+                int value=0;
+                for (ExternalLinksModel model :list
+                     ) {
+
+                    hashMapMonthDates.get(model.getExlinkmaster().getDateof()).add(model);
+
+
+                }
+
+
+                e.onNext(hashMapMonthDates);
+                e.onComplete();
+            }
+
+        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<HashMap<String, List<ExternalLinksModel>>>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+
+            }
+
+            @Override
+            public void onNext(HashMap<String, List<ExternalLinksModel>> stringListHashMap) {
+                if(type== CommonMethod.EXTERNAL_LINKS)
+                externalLinksFragmentListener.onExtLinkAvail(stringListHashMap, type);
+                else
+                    socialMediaFragmentListener.onSocMediaAvail(stringListHashMap, type);
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                if(type== CommonMethod.EXTERNAL_LINKS)
+                    externalLinksFragmentListener.onDownloadFail(e.getMessage(), type);
+                else
+                    socialMediaFragmentListener.onDownloadFail();
+
+
+            }
+
+            @Override
+            public void onComplete() {
+
+            }
+        });
+
+
+
 
     }
 
@@ -70,22 +200,24 @@ public class HomeActivity extends AppCompatActivity {
                 CommonMethod.getMonthDateToString(CommonMethod.getThisMonthLast()),
                 "2",
                 new NetworkUtility.ResponseListener() {
-            @Override
-            public void onSuccess(Object message) {
-                trafficFragmentListener.onListOfCategoryAvailable((List<? extends TrafficModel>) message);
+                    @Override
+                    public void onSuccess(Object message) {
+                        if(trafficFragmentListener!=null)
+                            trafficFragmentListener.onListOfCategoryAvailable((List<? extends TrafficModel>) message);
 
-            }
+                    }
 
-            @Override
-            public void onFailure(Object err) {
-                trafficFragmentListener.onListDownloadFail();
-            }
+                    @Override
+                    public void onFailure(Object err) {
+                        if(trafficFragmentListener!=null)
+                            trafficFragmentListener.onListDownloadFail();
+                    }
 
-            @Override
-            public void onSomethingWrong(Object e) {
+                    @Override
+                    public void onSomethingWrong(Object e) {
 
-            }
-        });
+                    }
+                });
     }
 
     private void downloadKeyWordReleatedData() {
@@ -157,23 +289,31 @@ public class HomeActivity extends AppCompatActivity {
 
     public void setTrafficFragmentListener(HomeController.TrafficFragmentListener listener) {
         trafficFragmentListener = listener;
+        downloadDashBoardRelatedData();
     }
 
     public void setKeywordFragmentListener(HomeController.KeyWordFragmentListener keywordFragmentListener) {
         this.keywordFragmentListener = keywordFragmentListener;
+        downloadKeyWordReleatedData();
+
+
     }
 
     public void setExternalLinksFragmentListener(HomeController.ExternalLinksFragmentListener externalLinksFragmentListener) {
         this.externalLinksFragmentListener = externalLinksFragmentListener;
+        downloadExternalLinksData(CommonMethod.EXTERNAL_LINKS);
+
     }
 
     public void setSocialMediaFragmentListener(HomeController.SocialMediaFragmentListener socialMediaFragmentListener) {
         this.socialMediaFragmentListener = socialMediaFragmentListener;
+        downloadExternalLinksData(CommonMethod.SOCIAL_MEDIA);
+
     }
 
 
     public void startTrafficDetail(HashMap<Trafficcategorymaster, List<TrafficModel>> list) {
-        Intent intent=new Intent(HomeActivity.this, TrafficDetailsActivity.class);
+        Intent intent = new Intent(HomeActivity.this, TrafficDetailsActivity.class);
         intent.putExtra(CommonMethod.TRAFFIC_DETAILS, list);
         startActivity(intent);
     }

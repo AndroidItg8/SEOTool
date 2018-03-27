@@ -395,7 +395,6 @@ public class TrafficDetailsFragment extends Fragment implements TrafficDetailsAc
         setTableAdapter(new String[]{null, String.valueOf(title)});
         List<Object> list = new ArrayList<>();
         list.addAll(lists);
-
         setBarchart(list,title);
 
 

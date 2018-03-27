@@ -3,6 +3,7 @@ package itg8.com.seotoolapp.common;
 import java.util.List;
 
 import io.reactivex.Observable;
+import itg8.com.seotoolapp.external_links.model.ExternalLinksModel;
 import itg8.com.seotoolapp.keyword.model.KeyWordModel;
 import itg8.com.seotoolapp.traffic.model.TrafficModel;
 import okhttp3.ResponseBody;
@@ -35,4 +36,17 @@ public interface RetroController {
                                                    @Field("Trafficmaster[dateto]") String dateTo,
                                                    @Field("Trafficmaster[projectid]") String projectId
                                                    );
+    @FormUrlEncoded
+    @POST
+    Call<List<ExternalLinksModel>> getExternalLinksBetween(@Url String url,
+                                                           @Field("Exlinkmaster[datefrom]")  String dateTo,
+                                                           @Field("Exlinkmaster[dateto]") String dateFrom,
+                                                           @Field("Exlinkmaster[projectid]")   String projectId,
+                                                           @Field("Exlinkmaster[typeof]") int type);
+//    @FormUrlEncoded
+//    @POST
+//    Call<List<So>> getSocialMediaBetween(@Url String url,
+//                                                       @Field("Sociallinkmaster[datefrom]")    String toDate,
+//                                                       @Field("Sociallinkmaster[dateto]") String dateFrom,
+//                                                       @Field("Sociallinkmaster[projectid]")   String projectId);
 }

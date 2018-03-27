@@ -27,4 +27,6 @@
     <string name="title_activity_key_word_details">KeyWordDetailsActivity</string>
     <string name="url_kewwird">/seoportal/Keywordstatusmasters/appkeywordbetweendate</string>
     <string name="url_traffic_category">/seoportal/Trafficmasters/apptrafficbetweendate</string>
+    <string name="url_external_links">/seoportal/Exlinkmasters/appextlinkbetweendate</string>
+    <string name="url_social_media_links">/seoportal/Sociallinkmasters/appsocialbetweendate</string>
 </resources>

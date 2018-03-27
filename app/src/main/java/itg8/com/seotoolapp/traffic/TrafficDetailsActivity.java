@@ -102,8 +102,6 @@ public class TrafficDetailsActivity extends AppCompatActivity implements View.On
                             if (weekDate.equalsIgnoreCase(model.getTrafficmaster().getDateof())) {
                                 temp.add(model);
                                 value += Integer.valueOf(model.getTrafficmaster().getContof());
-
-
                             } else {
                                 temp.add(null);
                             }

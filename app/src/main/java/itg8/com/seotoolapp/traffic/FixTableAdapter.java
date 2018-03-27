@@ -5,6 +5,9 @@ import android.widget.TextView;
 import java.util.List;
 
 import itg8.com.seotoolapp.common.CommonMethod;
+import itg8.com.seotoolapp.external_links.model.ExternalLinksModel;
+import itg8.com.seotoolapp.external_links.model.Liveurlmaster;
+import itg8.com.seotoolapp.social_media.model.SocialMediaModel;
 import itg8.com.seotoolapp.traffic.model.TrafficModel;
 import itg8.com.seotoolapp.traffic.model.TrafficModel;
 import itg8.com.seotoolapp.widget.fixtablelayout.inter.IDataAdapter;
@@ -65,26 +68,17 @@ public class FixTableAdapter implements IDataAdapter {
 
             bindViews.get(1).setText(String.valueOf(tempYearHashMap.getValue()));
         }
+        else if(data.get(position) instanceof Liveurlmaster)
+        {
+          Liveurlmaster socialMediaModel= (Liveurlmaster) data.get(position);
+
+          bindViews.get(0).setText("");
+            bindViews.get(1).setText(String.valueOf(socialMediaModel.getLiveurl()));
+            bindViews.get(2).setText(String.valueOf(socialMediaModel.getStatus()));
+            bindViews.get(3).setText(String.valueOf(socialMediaModel.getSession()));
+        }
 
 
-//        bindViews.get(titles.length)
-//                .setText(TrafficModel.id);
-//        bindViews.get(1)
-//                .setText(TrafficModel.data1);
-//        bindViews.get(2)
-//                .setText(TrafficModel.data2);
-//        bindViews.get(3)
-//                .setText(TrafficModel.data3);
-//        bindViews.get(4)
-//                .setText(TrafficModel.data4);
-//        bindViews.get(5)
-//                .setText(TrafficModel.data5);
-//        bindViews.get(6)
-//                .setText(TrafficModel.data6);
-//        bindViews.get(7)
-//                .setText(TrafficModel.data7);
-//        bindViews.get(8)
-//                .setText(TrafficModel.data8);
 
     }
 
@@ -102,5 +96,14 @@ public class FixTableAdapter implements IDataAdapter {
             bindView.setText(tempYearHashMap.getMonth() + "-" +tempYearHashMap.getYear());
 
         }
+
+        //        else if(data.get(position) instanceof Liveurlmaster)
+//        {
+//            bindView.setText(titles[0]);
+//            bindView.setText(titles[1]);
+//            bindView.setText(titles[2]);
+//
+//        }
+
     }
 }

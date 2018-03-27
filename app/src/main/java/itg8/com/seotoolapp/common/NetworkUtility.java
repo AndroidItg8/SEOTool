@@ -9,7 +9,9 @@ import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
+import itg8.com.seotoolapp.external_links.model.ExternalLinksModel;
 import itg8.com.seotoolapp.keyword.model.KeyWordModel;
+
 import itg8.com.seotoolapp.traffic.model.TrafficModel;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -129,6 +131,65 @@ public  class NetworkUtility {
         });
     }
 
+    public void getExternalLinksData(String url, String dateTo, String dateFrom, String projectId, int type,final ResponseListener listener) {
+        if(listener==null)
+        {
+            throwNullPointer();
+        }
+        Call<List<ExternalLinksModel>> call = controller.getExternalLinksBetween(url,dateTo,dateFrom,projectId ,type);
+        call.enqueue(new Callback<List<ExternalLinksModel>>() {
+            @Override
+            public void onResponse(Call<List<ExternalLinksModel>> call, Response<List<ExternalLinksModel>> response) {
+                if(response.isSuccessful())
+                {
+                    if(response.body()!=null)
+                        listener.onSuccess(response.body());
+                }
+                else
+                {
+                    listener.onFailure(response.message());
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<List<ExternalLinksModel>> call, Throwable t) {
+                listener.onFailure(t.getMessage());
+                t.printStackTrace();
+            }
+        });
+    }
+
+//    public void getSocialMediaLinks(String url, String toDate, String fromDate, String projectId, final ResponseListener listener) {
+//        if(listener==null)
+//        {
+//            throwNullPointer();
+//        }
+//        Call<List<SocialMediaModel>> call = controller.getSocialMediaBetween(url,toDate,fromDate,projectId );
+//        call.enqueue(new Callback<List<SocialMediaModel>>() {
+//            @Override
+//            public void onResponse(Call<List<SocialMediaModel>> call, Response<List<SocilaMediaModel>> response) {
+//                if(response.isSuccessful())
+//                {
+//                    if(response.body()!=null)
+//                        listener.onSuccess(response.body());
+//                }
+//                else
+//                {
+//                    listener.onFailure(response.message());
+//                }
+//
+//            }
+//
+//            @Override
+//            public void onFailure(Call<List<SocilaMediaModel>> call, Throwable t) {
+//                listener.onFailure(t.getMessage());
+//                t.printStackTrace();
+//            }
+//        });
+//
+//
+//    }
 
 
     public interface ResponseListener{

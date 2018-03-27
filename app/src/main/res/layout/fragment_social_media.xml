@@ -2,9 +2,67 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="itg8.com.seotoolapp.social_media.SocialMediaFragment">
-    <com.github.mikephil.charting.charts.PieChart
-        android:id="@+id/pieChart"
+
+
+
+
+    <TextView
+        android:id="@+id/lbl_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/margin_16"
+        android:layout_marginStart="@dimen/margin_16"
+        android:layout_marginTop="@dimen/margin_16"
+        android:fontFamily="@font/roboto_medium"
+        android:text="JAN 17"
+        android:textColor="@color/colorBlack"
+        android:textSize="@dimen/textSize_16"
+        android:layout_marginEnd="@dimen/margin_16"
+        android:gravity="center_vertical"
+        android:background="@color/colorBlueTransparent"
+        android:drawableLeft="@drawable/ic_date_range_black_24dp"
+        android:drawablePadding="@dimen/margin_4"
+        android:layout_marginLeft="@dimen/margin_8"
+        android:drawableStart="@drawable/ic_date_range_black_24dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/margin_16"
+        android:layout_marginEnd="@dimen/margin_16"
+        android:fontFamily="@font/roboto"
+        android:text=" Previous Month "
+        android:padding="@dimen/margin_8"
+        android:layout_alignBaseline="@+id/lbl_date"
+        android:background="@color/colorBlueTransparent"
+        android:layout_alignParentEnd="true"
+        android:textAllCaps="true"
+        android:textColor="@color/colorBlack"
+        android:textSize="@dimen/textSize_14"
+        android:textStyle="normal"
+        android:layout_marginTop="@dimen/margin_16"
+        android:layout_alignParentRight="true" />
+
+
+
+    <itg8.com.seotoolapp.widget.fixtablelayout.FixTableLayout
+        android:id="@+id/fixTableLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        app:fixtable_divider_color="@color/colorGrayLight"
+        android:layout_below="@+id/lbl_date"
+        app:fixtable_title_color="#C5CDEF"
+        app:fixtable_divider_height="1dp"
+        android:layout_margin="@dimen/margin_8"
+        app:fixtable_item_gravity="CENTER"
+        app:fixtable_item_top_bottom_padding="8dp"
+        app:fixtable_item_width="100dp"
+        app:fixtable_show_left_view_shadow="true"
+        app:fixtable_column_1_color="@color/colorGrayLight"
+        app:fixtable_column_2_color="@color/white"
+        app:fixtable_show_item_divider="true" />
+
+
 </RelativeLayout>

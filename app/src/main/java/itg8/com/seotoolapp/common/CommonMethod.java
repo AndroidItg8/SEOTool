@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
+import itg8.com.seotoolapp.external_links.model.ExternalLinksModel;
 import itg8.com.seotoolapp.traffic.model.TrafficModel;
 
 /**
@@ -26,15 +27,19 @@ public class CommonMethod {
 
 
     public static final String TOKEN = "myToken";
-    public static final String BASE_URL = "http://192.168.1.55";
+    public static final String BASE_URL = "https://seo.itechgalaxysolutions.com";
     public static final String SECRET_KEY = "sValue";
     public static final String P_KEY = "passwordKey";
     public static final String SELECT_YEAR = "SELECT_YEAR";
     public static final String SELECT_MONTH = "SELECT_MONTH";
     public static final String TRAFFIC_DETAILS = "TRAFFIC_DETAILS";
     private static final java.lang.String DATE_FORMAT = "MM-yyyy";
+    private static final java.lang.String DATE_FORMATS = "dd/MM";
     private static final java.lang.String DATE_FORMAT_CURRENT = "yyyy-MM-dd";
+    public static final int EXTERNAL_LINKS = 2;
+    public static final int SOCIAL_MEDIA = 1;
     public static SimpleDateFormat dateFormat = new SimpleDateFormat(CommonMethod.DATE_FORMAT, Locale.getDefault());
+    public static SimpleDateFormat dateFormats = new SimpleDateFormat(CommonMethod.DATE_FORMATS, Locale.getDefault());
     public static SimpleDateFormat dateFormatCurrent = new SimpleDateFormat(CommonMethod.DATE_FORMAT_CURRENT, Locale.getDefault());
 
 
@@ -120,6 +125,8 @@ public class CommonMethod {
 
     }
 
+
+
     public static String getCurrentDateToString() {
         String newDate = "";
         try {
@@ -152,6 +159,14 @@ public class CommonMethod {
     public static Calendar getThisMonthLast() {
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
+
+        return calendar;
+    }
+
+    public static Calendar getThisMonthNext() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.MONTH,2);
+//        calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
 
         return calendar;
     }
@@ -196,6 +211,39 @@ public class CommonMethod {
         hashMap.put(Calendar.NOVEMBER, new ArrayList<TrafficModel>());
         hashMap.put(Calendar.DECEMBER, new ArrayList<TrafficModel>());
         return hashMap;
+    }
+
+
+    public  static HashMap<String,List<ExternalLinksModel>>  getMonthHashMapForExtLinks(Calendar month)
+    {
+        HashMap<String, List<ExternalLinksModel>> hashMap = new HashMap<>();
+        month.set(Calendar.DAY_OF_MONTH, 1);
+        do {
+            String date = getMonthDateToString(month);
+
+            hashMap.put(date,new ArrayList());
+            month.add(Calendar.DAY_OF_MONTH,1);
+
+        }while ((month.get(Calendar.DAY_OF_MONTH) < month.getActualMaximum(Calendar.DAY_OF_MONTH)));
+        String date = getMonthDateToString(month);
+        hashMap.put(date,new ArrayList<ExternalLinksModel>());
+
+
+
+         return hashMap;
+
+    }
+
+
+    public static String convertStringDateToDDMM(String dateof) {
+        Calendar calendar = Calendar.getInstance();
+        try {
+            calendar.setTime(dateFormatCurrent.parse(dateof));
+            return dateFormats.format(calendar.getTime());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return "";
     }
 
     public static long convertStringToDate(String dateof) {
