@@ -26,6 +26,9 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import itg8.com.seotoolapp.R;
+import itg8.com.seotoolapp.common.CommonMethod;
+import itg8.com.seotoolapp.common.Prefs;
+import itg8.com.seotoolapp.home.HomeActivity;
 import itg8.com.seotoolapp.login.LoginActivity;
 
 
@@ -127,7 +130,15 @@ public class SplashActivity extends AppCompatActivity {
             @Override
             public void run() {
                 if (!isStopped){
-                    startLoginActivity();
+                    String userId = Prefs.getString(CommonMethod.USER_ID,null);
+                    if(userId==null)
+                    {  finish();
+                        startLoginActivity();
+
+
+                    }else
+                        finish();
+                        startActivity(new Intent(SplashActivity.this, HomeActivity.class));
                 }
             }
         }, 1000);

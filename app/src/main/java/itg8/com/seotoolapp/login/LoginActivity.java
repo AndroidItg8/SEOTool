@@ -10,22 +10,18 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.InvalidParameterSpecException;
-import java.security.spec.KeySpec;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
-import javax.crypto.SecretKeyFactory;
-import javax.crypto.spec.PBEKeySpec;
-import javax.crypto.spec.SecretKeySpec;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -38,6 +34,7 @@ import itg8.com.seotoolapp.common.UtilSnackbar;
 import itg8.com.seotoolapp.home.HomeActivity;
 import itg8.com.seotoolapp.login.mvp.LoginMVP;
 import itg8.com.seotoolapp.login.mvp.LoginPresenterImp;
+import itg8.com.seotoolapp.passcode.ChangePassCodeActivity;
 import me.philio.pinentry.PinEntryView;
 
 import static itg8.com.seotoolapp.common.CommonMethod.getMyPhoneNO;
@@ -45,10 +42,9 @@ import static itg8.com.seotoolapp.common.CommonMethod.getMyPhoneNO;
 public class LoginActivity extends BaseActivity implements View.OnClickListener, LoginMVP.LoginView {
 
 
+    private static final String TAG = "LoginActivity";
     @BindView(R.id.pin_entry_colors)
     PinEntryView pinEntryColors;
-
-    private static final String TAG = "LoginActivity";
     @BindView(R.id.edtPhoneNumber)
     EditText edtPhoneNumber;
     @BindView(R.id.inputPhoneNumber)
@@ -57,6 +53,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     FloatingActionButton fab;
 
     LoginMVP.LoginPresenter presenter;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+    @BindView(R.id.progressbar)
+    ProgressBar progressbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +65,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         ButterKnife.bind(this);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        presenter=new LoginPresenterImp(this);
+        presenter = new LoginPresenterImp(this);
         checkPermissionFirst();
         fab.setOnClickListener(this);
         pinEntryColors.addTextChangedListener(new TextWatcher() {
@@ -88,7 +88,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         });
 
     }
-
 
 
     private void checkPermissionFirst() {
@@ -133,8 +132,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
     @Override
     public void onClick(View view) {
-//        presenter.onLoginClicked(view);
-        startActivity(new Intent(LoginActivity.this, HomeActivity.class));
+        presenter.onLoginClicked(view);
+//        startActivity(new Intent(LoginActivity.this, HomeActivity.class));
     }
 
     @Override
@@ -150,10 +149,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     @Override
     public void onSuccess() {
         try {
-            SecretKey key= SecretGenerator.generateKey(getString(R.string.app_name));
-            Prefs.putString(CommonMethod.SECRET_KEY,key.toString());
+            SecretKey key = SecretGenerator.generateKey(getString(R.string.app_name));
+            Prefs.putString(CommonMethod.SECRET_KEY, key.toString());
             byte[] value = SecretGenerator.encryptMsg(getPassword(), key);
-            Prefs.putString(CommonMethod.P_KEY,new String(value, "UTF-8"));
+            Prefs.putString(CommonMethod.P_KEY, new String(value, "UTF-8"));
 
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
@@ -172,6 +171,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         } catch (IllegalBlockSizeException e) {
             e.printStackTrace();
         }
+
+        finish();
+        startActivity(new Intent(LoginActivity.this, HomeActivity.class));
+
     }
 
     @Override
@@ -191,16 +194,25 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
     @Override
     public void onPasswordInvalid(String err) {
-        UtilSnackbar.showSnakbarRedColor(inputPhoneNumber,err);
+        UtilSnackbar.showSnakbarRedColor(inputPhoneNumber, err);
     }
 
     @Override
     public void showProgress() {
+        progressbar.setVisibility(View.VISIBLE);
 
     }
 
     @Override
+    public void onFirstTimeLogin() {
+
+        finish();
+        startActivity(new Intent(LoginActivity.this, ChangePassCodeActivity.class));
+    }
+
+    @Override
     public void hideProgress() {
+        progressbar.setVisibility(View.GONE);
 
     }
 }

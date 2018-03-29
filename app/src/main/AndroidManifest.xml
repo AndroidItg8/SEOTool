@@ -16,13 +16,7 @@
         <activity
             android:name=".home.HomeActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar"/>
 
         <meta-data
             android:name="preloaded_fonts"
@@ -35,12 +29,19 @@
         <activity
             android:name=".login.LoginActivity"
             android:label="@string/title_activity_login"
+            android:windowSoftInputMode="stateAlwaysVisible"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".splash.SplashActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="@string/title_activity_splash"
-            android:theme="@style/FullscreenTheme" />
+            android:label="@string/app_name"
+            android:theme="@style/FullscreenTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity android:name=".common.BaseActivity" />
         <activity
             android:name=".pincheck.PinVerificationActivity"
@@ -54,7 +55,11 @@
         <activity
             android:name=".keyword.KeyWordDetailsActivity"
             android:label="@string/title_activity_key_word_details"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".passcode.ChangePassCodeActivity"
+            android:label="@string/title_activity_change_pass_code"
+            android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 
 </manifest>

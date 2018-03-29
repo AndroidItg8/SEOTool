@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">SeoToolApp</string>
-    <string name="action_settings">Settings</string>
-    <string name="title_activity_login">LoginActivity</string>
+    <string name="action_settings">LOGOUT</string>
+    <string name="title_activity_login">Login</string>
 
     <string name="title_activity_splash">SplashActivity</string>
     <string name="dummy_button">Dummy Button</string>
@@ -16,7 +16,7 @@
     <string name="select_week">Select Month</string>
     <string name="select_month">Select Month</string>
     <string name="select_year">Select Year</string>
-    <string name="url_login">sdfs</string>
+    <string name="url_login">/seoportal/applogin</string>
     <string name="empty_mobile">Mobile number is empty</string>
     <string name="empty_password">Passcode is empty</string>
     <string name="invalid_mobile">Invalid mobile number</string>
@@ -28,5 +28,14 @@
     <string name="url_kewwird">/seoportal/Keywordstatusmasters/appkeywordbetweendate</string>
     <string name="url_traffic_category">/seoportal/Trafficmasters/apptrafficbetweendate</string>
     <string name="url_external_links">/seoportal/Exlinkmasters/appextlinkbetweendate</string>
-    <string name="url_social_media_links">/seoportal/Sociallinkmasters/appsocialbetweendate</string>
+    <string name="url_social_media_links">/seoport/Sociallinkmasters/appsocialbetweendate</string>
+    <string name="title_activity_change_pass_code">Change PassCode</string>
+    <string name="pass_not_match">Passcode does not match</string>
+    <string name="url_change_passcode">/seoportal/changepasswordapp</string>
+
+    <!--<string name="url_kewwird">/Keywordstatusmasters/appkeywordbetweendate</string>-->
+    <!--<string name="url_traffic_category">/Trafficmasters/apptrafficbetweendate</string>-->
+    <!--<string name="url_external_links">/Exlinkmasters/appextlinkbetweendate</string>-->
+    <!--<string name="url_social_media_links">/Sociallinkmasters/appsocialbetweendate</string>-->
+    <!--<string name="url_change_passcode">/changepasswordapp</string>-->
 </resources>

@@ -18,7 +18,9 @@ import retrofit2.http.Url;
 public interface RetroController {
 
     @GET
-    Observable<ResponseBody> checkLogin(@Url String url, @Query("username") String username, @Query("password") String password);
+    Observable<ResponseBody> checkLogin(@Url String url,
+                                        @Query("username") String username,
+                                        @Query("password") String password);
 
 
     Observable<ResponseBody> checkOtp();
@@ -43,6 +45,14 @@ public interface RetroController {
                                                            @Field("Exlinkmaster[dateto]") String dateFrom,
                                                            @Field("Exlinkmaster[projectid]")   String projectId,
                                                            @Field("Exlinkmaster[typeof]") int type);
+
+
+    @FormUrlEncoded
+    @POST
+    Call<ResponseBody> changePasscode(@Url String url,
+                                      @Field("User[id]") String userId,
+                                      @Field("User[password]") String passcode,
+                                      @Field("User[cpassword]") String passcodeConfirm);
 //    @FormUrlEncoded
 //    @POST
 //    Call<List<So>> getSocialMediaBetween(@Url String url,

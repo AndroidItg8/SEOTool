@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.RectF;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -62,6 +63,8 @@ public class TrafficDetailsFragment extends Fragment implements TrafficDetailsAc
     Calendar calendar = Calendar.getInstance();
     @BindView(R.id.barchart)
     BarChart mChart;
+    @BindView(R.id.cardView)
+    CardView cardView;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -117,7 +120,6 @@ public class TrafficDetailsFragment extends Fragment implements TrafficDetailsAc
         mContext = context;
         ((TrafficDetailsActivity) mContext).setyearListner(this);
     }
-
 
 
     private void setBarchart(List<Object> lists, CharSequence title) {
@@ -177,10 +179,8 @@ public class TrafficDetailsFragment extends Fragment implements TrafficDetailsAc
         l.setXEntrySpace(4f);
 
 
-            setData(lists, title);
-          }
-
-
+        setData(lists, title);
+    }
 
 
     private void setTableHeaderData(List<TrafficModel> lists) {
@@ -199,7 +199,6 @@ public class TrafficDetailsFragment extends Fragment implements TrafficDetailsAc
 
         // have as many colors as stack-values per entry
         int[] colors = new int[stacksize];
-
 
 
 //        colors[1] = Color.parseColor("#D4A280");
@@ -221,17 +220,26 @@ public class TrafficDetailsFragment extends Fragment implements TrafficDetailsAc
         ArrayList<BarEntry> yVals1 = new ArrayList<BarEntry>();
 
 
-        for (int i = (int) 1; i <=list.size()-1; i++) {
-            if(list.get(i) instanceof CommonMethod.TempYearHashMap)
-            {
+        for (int i = (int) 1; i <= list.size() - 1; i++) {
+            if (list.get(i) instanceof CommonMethod.TempYearHashMap) {
                 CommonMethod.TempYearHashMap tempYearHashMap = (CommonMethod.TempYearHashMap) list.get(i);
                 yVals1.add(new BarEntry(i, tempYearHashMap.getValue(), getResources().getDrawable(R.drawable.custom_spinner_back)));
 
-            }else if(list.get(i) instanceof TrafficModel)
-            {
-              TrafficModel trafficModel = (TrafficModel) list.get(i);
-                yVals1.add(new BarEntry(i, Float.parseFloat(trafficModel.getTrafficmaster().getContof()), getResources().getDrawable(R.drawable.custom_spinner_back)));
+            } else if (list.get(i) instanceof TrafficModel) {
+                TrafficModel trafficModel = null;
+                try {
+                    trafficModel = (TrafficModel) list.get(i);
+                    if (trafficModel.getTrafficmaster().getContof() != null) {
 
+                        float count = Float.parseFloat(trafficModel.getTrafficmaster().getContof());
+                        yVals1.add(new BarEntry(i, count, getResources().getDrawable(R.drawable.custom_spinner_back)));
+                    } else {
+                        continue;
+                    }
+                } catch (NumberFormatException ex) {
+                    ex.printStackTrace();
+
+                }
 
             }
 
@@ -252,7 +260,7 @@ public class TrafficDetailsFragment extends Fragment implements TrafficDetailsAc
             set1.setDrawIcons(false);
             set1.setDrawValues(false);
 
-            set1.setColors(getColors(list.size()));
+            set1.setColor(Color.parseColor("#D4A280"));
 
             ArrayList<IBarDataSet> dataSets = new ArrayList<IBarDataSet>();
             dataSets.add(set1);
@@ -261,13 +269,15 @@ public class TrafficDetailsFragment extends Fragment implements TrafficDetailsAc
 //            data.setValueTextSize(10f);
 //            data.setValueTypeface(mTfLight);
             data.setBarWidth(0.7f);
-
             mChart.setData(data);
+
         }
     }
 
     private void setTableAdapter(String[] dates) {
-        String [] title = new String[]{"Title" ,dates[1]};
+        title[0] = null;
+        title[1] = null;
+        String[] title = new String[]{"Title", dates[1]};
 //        dates[0] = "Title";
         FixTableAdapter fixTableAdapter = new FixTableAdapter(title, data);
         fixTableLayout.setAdapter(fixTableAdapter);
@@ -284,7 +294,7 @@ public class TrafficDetailsFragment extends Fragment implements TrafficDetailsAc
         this.month = month;
         this.year = selectedYear;
 
-      //  createTableHeader(month, selectedYear);
+        //  createTableHeader(month, selectedYear);
     }
 
     private void createTableHeader(int month, Integer selectedYear) {
@@ -345,7 +355,6 @@ public class TrafficDetailsFragment extends Fragment implements TrafficDetailsAc
     }
 
 
-
     @Override
     public void onItemSelect(Integer selectedYear) {
         this.year = selectedYear;
@@ -360,30 +369,36 @@ public class TrafficDetailsFragment extends Fragment implements TrafficDetailsAc
 
         data.clear();
         data.addAll(lists);
-
+        List<Object> list = new ArrayList<>();
+        list.addAll(lists);
         setTableAdapter(new String[]{null, String.valueOf(title)});
+        setBarchart(list, title.toString());
 
 
     }
 
     @Override
-    public void onTrafficDailyData(List<TrafficModel> lists, WeekList selectWeek) {
-        initDailyTrafficData(lists, selectWeek);
-        List<Object> list = new ArrayList<>();
-        list.addAll(lists);
-        setBarchart(list,getActivity().getActionBar().getTitle());
-
+    public void onTrafficDailyData(List<TrafficModel> lists, WeekList selectWeek, CharSequence title) {
+        initDailyTrafficData(lists, selectWeek, title.toString());
+//        List<Object> list = new ArrayList<>();
+//        list.addAll(lists);
+//        setBarchart(list,getActivity().getActionBar().getTitle());
 
 
     }
 
-    private void initDailyTrafficData(List<TrafficModel> lists, WeekList selectWeek) {
+    @Override
+    public void onTrafficData(List<CommonMethod.TempYearHashMap> lists, CharSequence title) {
+
+
+    }
+
+    private void initDailyTrafficData(List<TrafficModel> lists, WeekList selectWeek, String title) {
         createTableDaysHeader(lists);
         setTableHeaderData(lists);
         List<Object> list = new ArrayList<>();
         list.addAll(lists);
-        setBarchart(list,getActivity().getActionBar().getTitle());
-
+        setBarchart(list, title);
 
 
     }
@@ -395,7 +410,8 @@ public class TrafficDetailsFragment extends Fragment implements TrafficDetailsAc
         setTableAdapter(new String[]{null, String.valueOf(title)});
         List<Object> list = new ArrayList<>();
         list.addAll(lists);
-        setBarchart(list,title);
+
+        setBarchart(list, title);
 
 
     }

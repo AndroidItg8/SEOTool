@@ -26,12 +26,12 @@
     <color name="colorTwitter">#26A7EB</color>
     <color name="colorBlue">#0071bc</color>
     <color name="colorBlueTransparent">#DEE7ED</color>
-    <color name="colorGroup1_10">#801a32</color>
-    <color name="colorGroup11_20">#e048200b</color>
-    <color name="colorOrangeTransparent">#e4edd1</color>
-    <color name="colorGroup21_30">#4b3f0a</color>
-    <color name="colorGroup31_40">#232323</color>
-    <color name="colorGroup41_50">#454545</color>
-    <color name="colorGroup51_PLUS">#565656</color>
+    <color name="colorGroup1_10">#fa57ac62</color>
+    <color name="colorGroup11_20">#ca9579</color>
+    <color name="colorOrangeTransparent">#d1ad1d</color>
+    <color name="colorGroup21_30">#cf7068</color>
+    <color name="colorGroup31_40">#94d2c1</color>
+    <color name="colorGroup41_50">#7aa6df</color>
+    <color name="colorGroup51_PLUS">#a38391</color>
 
 </resources>

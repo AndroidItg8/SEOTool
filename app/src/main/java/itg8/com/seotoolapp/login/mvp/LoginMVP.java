@@ -22,6 +22,8 @@ public interface LoginMVP {
         void showProgress();
 
         void hideProgress();
+
+        void onFirstTimeLogin();
     }
 
     public interface LoginPresenter{
@@ -33,6 +35,8 @@ public interface LoginMVP {
         void onSuccess();
         void onFail(String message);
         void onError(Object t);
+
+        void onFirstTimeSuccess();
     }
 
     public interface LoginModule{

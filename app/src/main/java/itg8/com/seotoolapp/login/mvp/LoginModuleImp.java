@@ -19,11 +19,18 @@ class LoginModuleImp implements LoginMVP.LoginModule {
                 if(response!=null){
                     try {
                         JSONObject object=new JSONObject(response);
-                        if(object.has("access_token") && object.has("UserType")) {
-                            if (object.has("access_token")) {
-                                Prefs.putString(CommonMethod.TOKEN, object.getString("access_token"));
-                                listener.onSuccess();
-                            } else if (object.has("error_description")) {
+                        if(object.has("flag")) {
+                            if (object.get("flag").equals("1") ) {
+                                if(object.get("firsttimelogin").equals("1")) {
+//                                Prefs.putString(CommonMethod.TOKEN, object.getString("userid"));
+                                    Prefs.putString(CommonMethod.USER_ID, object.getString("userid"));
+                                    Prefs.putString(CommonMethod.PROJECT_ID, object.getString("projectid"));
+                                    listener.onFirstTimeSuccess();
+                                }else
+                                    listener.onSuccess();
+                            }
+                            else
+                            {
                                 listener.onFail(object.getString("error_description"));
                             }
                         }else {

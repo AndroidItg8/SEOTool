@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <TableRow
 
     android:layout_width="match_parent"
@@ -12,13 +11,11 @@
         android:layout_height="wrap_content"
         android:layout_gravity="top"
         android:layout_weight="1"
-
         android:paddingBottom="@dimen/margin_4"
         android:paddingTop="@dimen/margin_4"
         android:text="Targeted Keywords"
         android:textColor="@color/colorBlack"
         android:textSize="@dimen/textSize_14"
-
         android:textStyle="normal" />
 
     <TextView

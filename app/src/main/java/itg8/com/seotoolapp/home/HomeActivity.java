@@ -27,10 +27,12 @@ import io.reactivex.schedulers.Schedulers;
 import itg8.com.seotoolapp.R;
 import itg8.com.seotoolapp.common.CommonMethod;
 import itg8.com.seotoolapp.common.NetworkUtility;
+import itg8.com.seotoolapp.common.Prefs;
 import itg8.com.seotoolapp.external_links.ExternalLinksFragment;
 import itg8.com.seotoolapp.external_links.model.ExternalLinksModel;
 import itg8.com.seotoolapp.keyword.KeyWordFragment;
 import itg8.com.seotoolapp.keyword.model.KeyWordModel;
+import itg8.com.seotoolapp.login.LoginActivity;
 import itg8.com.seotoolapp.social_media.SocialMediaFragment;
 import itg8.com.seotoolapp.splash.SplashActivity;
 import itg8.com.seotoolapp.traffic.TrafficDetailsActivity;
@@ -64,7 +66,9 @@ public class HomeActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        startActivity(new Intent(this, SplashActivity.class));
+
+
+
         init();
 
         downloadReleatedData();
@@ -121,7 +125,11 @@ public class HomeActivity extends AppCompatActivity {
                 "1",types, new NetworkUtility.ResponseListener() {
                     @Override
                     public void onSuccess(Object message) {
-                        sortExternalLinksForSession((List<? extends ExternalLinksModel>) message, type);
+                        if(type==CommonMethod.EXTERNAL_LINKS)
+                            sortExternalLinksForSession((List<? extends ExternalLinksModel>) message, CommonMethod.EXTERNAL_LINKS);
+                        else
+                            sortExternalLinksForSession((List<? extends ExternalLinksModel>) message, CommonMethod.SOCIAL_MEDIA);
+
                     }
 
                     @Override
@@ -167,18 +175,18 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onNext(HashMap<String, List<ExternalLinksModel>> stringListHashMap) {
                 if(type== CommonMethod.EXTERNAL_LINKS)
-                externalLinksFragmentListener.onExtLinkAvail(stringListHashMap, type);
+                externalLinksFragmentListener.onExtLinkAvail(stringListHashMap, CommonMethod.EXTERNAL_LINKS);
                 else
-                    socialMediaFragmentListener.onSocMediaAvail(stringListHashMap, type);
+                    externalLinksFragmentListener.onExtLinkAvail(stringListHashMap, CommonMethod.SOCIAL_MEDIA);
 
             }
 
             @Override
             public void onError(Throwable e) {
                 if(type== CommonMethod.EXTERNAL_LINKS)
-                    externalLinksFragmentListener.onDownloadFail(e.getMessage(), type);
+                    externalLinksFragmentListener.onDownloadFail(e.getMessage(), CommonMethod.EXTERNAL_LINKS);
                 else
-                    socialMediaFragmentListener.onDownloadFail();
+                    externalLinksFragmentListener.onDownloadFail(e.getMessage(), CommonMethod.SOCIAL_MEDIA);
 
 
             }
@@ -260,8 +268,8 @@ public class HomeActivity extends AppCompatActivity {
         HomeViewPagerAdapter adapter = new HomeViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new TrafficFragment(), "Dashboard");
         adapter.addFragment(new KeyWordFragment(), "Keyword Status");
-        adapter.addFragment(new ExternalLinksFragment(), "Submission");
-        adapter.addFragment(new SocialMediaFragment(), "Social");
+        adapter.addFragment( ExternalLinksFragment.newInstance(CommonMethod.EXTERNAL_LINKS), "Submission");
+        adapter.addFragment( ExternalLinksFragment.newInstance(CommonMethod.SOCIAL_MEDIA), "Social");
         container.setAdapter(adapter);
     }
 
@@ -281,6 +289,9 @@ public class HomeActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            Prefs.clear();
+            finish();
+            startActivity(new Intent(HomeActivity.this, LoginActivity.class));
             return true;
         }
 
@@ -299,10 +310,12 @@ public class HomeActivity extends AppCompatActivity {
 
     }
 
-    public void setExternalLinksFragmentListener(HomeController.ExternalLinksFragmentListener externalLinksFragmentListener) {
+    public void setExternalLinksFragmentListener(HomeController.ExternalLinksFragmentListener externalLinksFragmentListener, int type) {
         this.externalLinksFragmentListener = externalLinksFragmentListener;
+        if(type==CommonMethod.EXTERNAL_LINKS)
         downloadExternalLinksData(CommonMethod.EXTERNAL_LINKS);
-
+        else
+            downloadExternalLinksData(CommonMethod.SOCIAL_MEDIA);
     }
 
     public void setSocialMediaFragmentListener(HomeController.SocialMediaFragmentListener socialMediaFragmentListener) {

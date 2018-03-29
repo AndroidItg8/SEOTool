@@ -20,6 +20,14 @@ public class LoginPresenterImp extends BaseWeakPresenter implements LoginMVP.Log
     }
 
     @Override
+    public void onFirstTimeSuccess() {
+        if(hasView()){
+            getLoginView().hideProgress();
+            getLoginView().onFirstTimeLogin();
+        }
+    }
+
+    @Override
     public void onDestroy() {
         detactView();
         module.onDestroy();

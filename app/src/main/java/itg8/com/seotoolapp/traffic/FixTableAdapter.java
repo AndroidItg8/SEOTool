@@ -7,6 +7,7 @@ import java.util.List;
 import itg8.com.seotoolapp.common.CommonMethod;
 import itg8.com.seotoolapp.external_links.model.ExternalLinksModel;
 import itg8.com.seotoolapp.external_links.model.Liveurlmaster;
+import itg8.com.seotoolapp.keyword.model.KeyWordModel;
 import itg8.com.seotoolapp.social_media.model.SocialMediaModel;
 import itg8.com.seotoolapp.traffic.model.TrafficModel;
 import itg8.com.seotoolapp.traffic.model.TrafficModel;
@@ -78,6 +79,16 @@ public class FixTableAdapter implements IDataAdapter {
             bindViews.get(3).setText(String.valueOf(socialMediaModel.getSession()));
         }
 
+        else if(data.get(position) instanceof KeyWordModel)
+        {
+          KeyWordModel socialMediaModel= (KeyWordModel) data.get(position);
+
+          bindViews.get(0).setText("");
+            bindViews.get(1).setText(String.valueOf(socialMediaModel.getKeywordstatusmaster().getKeyword()));
+            bindViews.get(2).setText(String.valueOf(socialMediaModel.getKeywordstatusmaster().getPageno()));
+            bindViews.get(3).setText(String.valueOf(socialMediaModel.getKeywordstatusmaster().getRank()));
+        }
+
 
 
     }
@@ -97,13 +108,12 @@ public class FixTableAdapter implements IDataAdapter {
 
         }
 
-        //        else if(data.get(position) instanceof Liveurlmaster)
-//        {
-//            bindView.setText(titles[0]);
-//            bindView.setText(titles[1]);
-//            bindView.setText(titles[2]);
-//
-//        }
+        else if(data.get(position) instanceof KeyWordModel)
+        {
+           KeyWordModel tempYearHashMap = (KeyWordModel) data.get(position);
+
+            bindView.setText(CommonMethod.convertStringDateToDDMM(tempYearHashMap.getKeywordstatusmaster().getDateof()) );
+        }
 
     }
 }

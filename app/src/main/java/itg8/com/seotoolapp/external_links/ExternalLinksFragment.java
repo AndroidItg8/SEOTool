@@ -1,6 +1,7 @@
 package itg8.com.seotoolapp.external_links;
 
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.AxisBase;
@@ -50,6 +52,7 @@ import itg8.com.seotoolapp.widget.fixtablelayout.FixTableLayout;
  * Use the {@link ExternalLinksFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
+
 public class ExternalLinksFragment extends Fragment implements HomeController.ExternalLinksFragmentListener<ExternalLinksModel>, OnChartValueSelectedListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -78,26 +81,33 @@ public class ExternalLinksFragment extends Fragment implements HomeController.Ex
     private String mParam2;
     private List<Object> data = new ArrayList<>();
     private XAxis xLabels;
+    private int type;
+    private HashMap<String, List<ExternalLinksModel>> listExternalLinks;
+    private boolean isDestroyed=false;
+    private boolean isExternalView=true;
 
 
     public ExternalLinksFragment() {
+
         // Required empty public constructor
     }
+
+
+
 
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
      * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
+
      * @return A new instance of fragment ExternalLinksFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static ExternalLinksFragment newInstance(String param1, String param2) {
+    public static ExternalLinksFragment newInstance(int param1) {
         ExternalLinksFragment fragment = new ExternalLinksFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putInt(ARG_PARAM1, param1);
         fragment.setArguments(args);
         return fragment;
     }
@@ -106,7 +116,7 @@ public class ExternalLinksFragment extends Fragment implements HomeController.Ex
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
+            type = getArguments().getInt(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
@@ -117,25 +127,37 @@ public class ExternalLinksFragment extends Fragment implements HomeController.Ex
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_external_links, container, false);
         unbinder = ButterKnife.bind(this, view);
+        isDestroyed=false;
         init();
+
         return view;
     }
 
     private void init() {
         lblDate.setText(CommonMethod.getCurrentDateString());
+            if (listExternalLinks != null && listExternalLinks.size() > 0) {
+                SortExternalLinksFor(listExternalLinks, this.type);
+            }
+
 
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        ((HomeActivity) getActivity()).setExternalLinksFragmentListener(this);
+        ((HomeActivity) getActivity()).setExternalLinksFragmentListener(this,this.type);
     }
 
 
     @Override
     public void onExtLinkAvail(HashMap<String, List<ExternalLinksModel>> hashMapList, int type) {
+        this.type=type;
+        listExternalLinks = hashMapList;
+
+        if(hashMapList!=null && hashMapList.size()>0)
         SortExternalLinksFor(hashMapList, type);
+        else
+            Toast.makeText(getActivity(), "", Toast.LENGTH_SHORT).show();
 
 //        initDailyTrafficData(lists, selectWeek);
 //        List<Object> list = new ArrayList<>();
@@ -146,55 +168,59 @@ public class ExternalLinksFragment extends Fragment implements HomeController.Ex
     }
 
     private void SortExternalLinksFor(HashMap<String, List<ExternalLinksModel>> hashMapList, int type) {
+        if (!isDestroyed) {
+            this.type = type;
+            setBarchart();
+            ArrayList<BarEntry> yVals1 = new ArrayList<BarEntry>();
 
 
-        setBarchart();
-        ArrayList<BarEntry> yVals1 = new ArrayList<BarEntry>();
+            final List<String> list = new ArrayList<>();
 
 
-        final List<String> list = new ArrayList<>();
-
-
-        float f = 0;
-        for (Map.Entry<String, List<ExternalLinksModel>> entry : hashMapList.entrySet()
-                ) {
-            int value = 0;
-            ExternalLinksModel models = null;
-            for (ExternalLinksModel model : entry.getValue()
+            float f = 0;
+            for (Map.Entry<String, List<ExternalLinksModel>> entry : hashMapList.entrySet()
                     ) {
-                models = model;
-                for (Liveurlmaster master : model.getLiveurlmaster()) {
+                int value = 0;
+                ExternalLinksModel models = null;
+                for (ExternalLinksModel model : entry.getValue()
+                        ) {
+                    models = model;
+                    for (Liveurlmaster master : model.getLiveurlmaster()) {
 
-                    value += Integer.parseInt(master.getSession());
-                }
+                        value += Integer.parseInt(master.getSession());
+                    }
 
-                Log.d(TAG, "SortExternalLinksFor: " + value);
-                list.add(String.valueOf(CommonMethod.convertStringDateToDDMM(entry.getKey())));
-                yVals1.add(new BarEntry(f, value, models));
+                    Log.d(TAG, "SortExternalLinksFor: " + value);
+                    list.add(String.valueOf(CommonMethod.convertStringDateToDDMM(entry.getKey())));
+                    yVals1.add(new BarEntry(f, value, models));
 //                mChart.notifyDataSetChanged();
 
-                f++;
+                    f++;
+                }
+
             }
+
+
+            xLabels.setPosition(XAxis.XAxisPosition.BOTTOM);
+            xLabels.setDrawGridLines(false);
+            xLabels.setValueFormatter(new IAxisValueFormatter() {
+                @Override
+                public String getFormattedValue(float value, AxisBase axis) {
+                    if (list.size() > 0)
+                        return list.get((int) value);
+                    return "";
+
+                }
+            });
+
+
+            setChartData(yVals1, "Submission");
+            mChart.setOnChartValueSelectedListener(this);
+            mChart.getData().notifyDataChanged();
+            mChart.notifyDataSetChanged();
+
 
         }
-
-
-        xLabels.setPosition(XAxis.XAxisPosition.BOTTOM);
-        xLabels.setDrawGridLines(false);
-        xLabels.setValueFormatter(new IAxisValueFormatter() {
-            @Override
-            public String getFormattedValue(float value, AxisBase axis) {
-                return list.get((int) value);
-            }
-        });
-
-
-        setChartData(yVals1, "Submission");
-        mChart.setOnChartValueSelectedListener(this);
-        mChart.getData().notifyDataChanged();
-        mChart.notifyDataSetChanged();
-
-
     }
 
     private void setChartData(ArrayList<BarEntry> yVals1, CharSequence title) {
@@ -230,6 +256,7 @@ public class ExternalLinksFragment extends Fragment implements HomeController.Ex
 
 
     private void setBarchart() {
+
 
         mChart.setOnChartValueSelectedListener(this);
 
@@ -365,8 +392,12 @@ public class ExternalLinksFragment extends Fragment implements HomeController.Ex
 //    }
 
     private void setTableAdapter() {
-        String[] title = new String[]{"", "Live Url", "Status", "Session"};
-//        dates[0] = "Title";
+        String[]  title = new String[0];
+        if (this.type == CommonMethod.EXTERNAL_LINKS)
+           title = new String[]{"", "Live Url", "Status", "Session"};
+        else
+            title = new String[]{"", "Live Url", "Status", "Session"};
+
         FixTableAdapter fixTableAdapter = new FixTableAdapter(title, data);
         fixTableLayout.setAdapter(fixTableAdapter);
     }
@@ -380,6 +411,7 @@ public class ExternalLinksFragment extends Fragment implements HomeController.Ex
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+        isDestroyed=true;
     }
 
     @Override

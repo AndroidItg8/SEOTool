@@ -195,6 +195,8 @@ public class TrafficDetailsActivity extends AppCompatActivity implements View.On
             public void onNext(List<TempYearHashMap> lists) {
 
                 listener.onTrafficYearData(lists, getSupportActionBar().getTitle());
+//                listener.onTrafficData(lists, getSupportActionBar().getTitle());
+
 
             }
 
@@ -261,7 +263,7 @@ public class TrafficDetailsActivity extends AppCompatActivity implements View.On
 
             @Override
             public void onNext(List<TrafficModel> lists) {
-                listener.onTrafficDailyData(lists, selectWeek);
+                listener.onTrafficDailyData(lists, selectWeek, getSupportActionBar().getTitle());
 
             }
 
@@ -307,9 +309,7 @@ public class TrafficDetailsActivity extends AppCompatActivity implements View.On
             case R.id.lbl_date:
                 openDialogueSelectDateFragment();
                 break;
-                case R.id.ll_data:
-                openDialogueSelectDateFragment();
-                break;
+
         }
     }
 
@@ -326,7 +326,7 @@ public class TrafficDetailsActivity extends AppCompatActivity implements View.On
     public void onItemSelect(CommonMethod.WeekList selectWeek, int months, Integer years) {
         Integer first = selectWeek.getDates().get(0);
         Integer last = selectWeek.getDates().get(selectWeek.getDates().size() - 1);
-        lblDate.setText(String.valueOf(first) + "-" + String.valueOf(last) + " Week ");
+        lblDate.setText(String.valueOf(first) + "-" + String.valueOf(last) + "W "+ months +"M "+ years+"Y");
         String FirstWeekDate = selectWeek.getDatesStrings().get(0);
         String lastWeekDate = selectWeek.getDatesStrings().get(selectWeek.getDatesStrings().size() - 1);
         downloadDailyTrafficDataFromServer(FirstWeekDate, lastWeekDate, selectWeek);
@@ -377,6 +377,11 @@ public class TrafficDetailsActivity extends AppCompatActivity implements View.On
     public void onItemSelect(Integer selectedYear) {
         lblDate.setText(String.valueOf(selectedYear) + " " + " Year");
         listener.onItemSelect(selectedYear);
+        getCurrentMonthDateDownload(selectedYear);
+
+    }
+
+    private void getCurrentMonthDateDownload(Integer selectedYear) {
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.YEAR, selectedYear);
         calendar.set(Calendar.MONTH, 0);
@@ -387,7 +392,6 @@ public class TrafficDetailsActivity extends AppCompatActivity implements View.On
         calendar.set(Calendar.DAY_OF_MONTH, 31);
         String endDate = CommonMethod.getMonthDateToString(calendar);
         downloadYearTrafficDetails(startDate, endDate, selectedYear);
-
     }
 
     private void downloadYearTrafficDetails(String startDate, String endDate, final Integer selectedYear) {
@@ -442,8 +446,10 @@ public class TrafficDetailsActivity extends AppCompatActivity implements View.On
 
         void onTrafficModelList(List<TempYearHashMap> lists, CharSequence title);
 
-        void onTrafficDailyData(List<TrafficModel> lists, CommonMethod.WeekList selectWeek);
+        void onTrafficDailyData(List<TrafficModel> lists, CommonMethod.WeekList selectWeek, CharSequence title);
 
         void onTrafficYearData(List<TempYearHashMap> lists, CharSequence title);
+
+        void onTrafficData(List<TempYearHashMap> lists, CharSequence title);
     }
 }

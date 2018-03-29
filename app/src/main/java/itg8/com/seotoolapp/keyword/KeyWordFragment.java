@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
@@ -12,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -57,24 +59,25 @@ import itg8.com.seotoolapp.traffic.controller.HomeController;
  * Use the {@link KeyWordFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class KeyWordFragment extends Fragment implements HomeController.KeyWordFragmentListener<KeyWordModel>, OnChartValueSelectedListener {
+public class KeyWordFragment extends Fragment implements HomeController.KeyWordFragmentListener<KeyWordModel>, OnChartValueSelectedListener, View.OnClickListener {
     public static final String GRUOP_1_10 = "1-10";
     public static final String GROUP_11_20 = "11-20";
     public static final String GROUP_21_30 = "21-30";
     public static final String GROUP_31_40 = "31-40";
     public static final String GROUP_41_50 = "41-50";
     public static final String GROUP_50_P = "50+";
-
+    // TODO: Rename parameter arguments, choose names that match
+    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+    private static final String ARG_PARAM1 = "param1";
+    private static final String ARG_PARAM2 = "param2";
+    private static final int FROM_SELECT = 1;
+    private static final int FROM_ALL = 2;
     List<Keywordstatusmaster> listGroup1_10 = new ArrayList<>();
     List<Keywordstatusmaster> listGroup11_20 = new ArrayList<>();
     List<Keywordstatusmaster> listGroup21_30 = new ArrayList<>();
     List<Keywordstatusmaster> listGroup31_40 = new ArrayList<>();
     List<Keywordstatusmaster> listGroup41_50 = new ArrayList<>();
     List<Keywordstatusmaster> listGroup50 = new ArrayList<>();
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
     @BindView(R.id.pieChart)
     PieChart mChart;
     Unbinder unbinder;
@@ -95,11 +98,19 @@ public class KeyWordFragment extends Fragment implements HomeController.KeyWordF
     TextView lblPage;
     @BindView(R.id.lbl_ranked)
     TextView lblRanked;
+    @BindView(R.id.rl_top)
+    RelativeLayout rlTop;
+    @BindView(R.id.lbl_loc)
+    TextView lblLoc;
+    @BindView(R.id.lbl_history)
+    TextView lblHistory;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    private boolean isShowBackground=true;
+    private boolean isShowBackground = true;
+    private List<KeyWordModel> listKeyWord;
+    TextView tv;
 
 
     public KeyWordFragment() {
@@ -152,8 +163,13 @@ public class KeyWordFragment extends Fragment implements HomeController.KeyWordF
 
     @Override
     public void onKeywordDetailAvailable(List<KeyWordModel> t) {
+        listKeyWord = t;
 
 
+        sortKeyWordData(t);
+    }
+
+    private void sortKeyWordData(List<KeyWordModel> t) {
         Observable.just(t).flatMap(new Function<List<KeyWordModel>, Observable<HashMap<String, Keywordstatusmaster>>>() {
             @Override
             public Observable<HashMap<String, Keywordstatusmaster>> apply(List<KeyWordModel> keyWordModels) throws Exception {
@@ -167,7 +183,7 @@ public class KeyWordFragment extends Fragment implements HomeController.KeyWordF
 
             @Override
             public void onNext(HashMap<String, Keywordstatusmaster> stringKeywordstatusmasterHashMap) {
-                addTableRow(stringKeywordstatusmasterHashMap);
+                addTableRow(stringKeywordstatusmasterHashMap, FROM_ALL);
 
 
             }
@@ -190,16 +206,64 @@ public class KeyWordFragment extends Fragment implements HomeController.KeyWordF
             public void subscribe(ObservableEmitter<HashMap<String, Keywordstatusmaster>> e) throws Exception {
                 for (KeyWordModel mo :
                         keyWordModels) {
-
                     hashMap.put(mo.getKeywordstatusmaster().getKeyword(), mo.getKeywordstatusmaster());
-
                 }
                 e.onNext(hashMap);
                 e.onComplete();
             }
         }).subscribeOn(Schedulers.io());
     }
+    private void addTableRow(HashMap<String, Keywordstatusmaster> t, int from) {
+        if (from == FROM_SELECT) {
+            View view = (View) rlTop.getParent();
+            if (view.getParent() != null) {
+                for (int i = 0; i < tableLayout.getChildCount(); i++) {
+                    tableLayout.addView(lblLoc);
+                    tableLayout.addView(lblTblDate);
+                    tableLayout.addView(lblKeyword);
+                    tableLayout.addView(lblPage);
+                    tableLayout.addView(lblRanked);
+                }
+            }
 
+        }
+
+        for (Map.Entry<String, Keywordstatusmaster> master : t.entrySet()) {
+
+
+            final TableRow tr = (TableRow) getLayoutInflater().inflate(R.layout.item_rv_keystatus, null);
+
+            // Fill out our cells
+            tv = (TextView) tr.findViewById(R.id.lbl_keyword);
+            tv.setText(master.getKey());
+            tv.setPadding(4, 0, 4, 0);
+            tv = (TextView) tr.findViewById(R.id.lbl_page);
+            tv.setText(master.getValue().getPageno());
+            tv = (TextView) tr.findViewById(R.id.lbl_ranked);
+            tv.setText(master.getValue().getRank());
+
+            tableLayout.addView(tr);
+            if (isShowBackground)
+                tr.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.colorOrangeTransparent));
+            else
+                tr.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.colorBlueTransparent));
+
+
+            // Draw separator
+            tv = new TextView(getActivity());
+            tv.setHeight(CommonMethod.dpTopx(2, getActivity()));
+
+            tv.setBackgroundColor(Color.parseColor("#80808080"));
+            tableLayout.addView(tv);
+
+
+            registerForContextMenu(tr);
+            isShowBackground = !isShowBackground;
+        }
+        if (from == FROM_ALL)
+            genrateKeyWordRankedGroup(t);
+
+    }
     @Override
     public void onDownloadFail() {
 
@@ -207,58 +271,16 @@ public class KeyWordFragment extends Fragment implements HomeController.KeyWordF
 
 
     private void init() {
-
+        lblHistory.setOnClickListener(this);
         lblCurrentDate.setText("Current Date : " + CommonMethod.getCurrentDateString());
         lblTblDate.setText(CommonMethod.getCurrentDateString());
+        if (listKeyWord != null && listKeyWord.size() > 0)
+            sortKeyWordData(listKeyWord);
 
 
     }
 
-    private void addTableRow(HashMap<String, Keywordstatusmaster> t) {
-        for (Map.Entry<String, Keywordstatusmaster> master : t.entrySet()) {
 
-
-            final TableRow tr = (TableRow) getLayoutInflater().inflate(R.layout.item_rv_keystatus, null);
-
-            TextView tv;
-            // Fill out our cells
-            tv = (TextView) tr.findViewById(R.id.lbl_keyword);
-            tv.setText(master.getKey());
-            tv.setPadding(4,0,4,0);
-
-            tv = (TextView) tr.findViewById(R.id.lbl_page);
-            tv.setText(master.getValue().getPageno());
-
-
-            tv = (TextView) tr.findViewById(R.id.lbl_ranked);
-            tv.setText(master.getValue().getRank());
-
-            tableLayout.addView(tr);
-            if(isShowBackground)
-                tr.setBackgroundColor(ContextCompat.getColor(getActivity(),R.color.colorOrangeTransparent));
-            else
-                tr.setBackgroundColor(ContextCompat.getColor(getActivity(),R.color.colorBlueTransparent));
-
-
-
-
-            // Draw separator
-            tv = new TextView(getActivity());
-        tv.setHeight(CommonMethod.dpTopx(2, getActivity()));
-
-            tv.setBackgroundColor(Color.parseColor("#80808080"));
-            tableLayout.addView(tv);
-
-            // If you use context menu it should be registered for each table row
-            registerForContextMenu(tr);
-
-
-            isShowBackground =!isShowBackground;
-        }
-
-        genrateKeyWordRankedGroup(t);
-
-    }
 
     private void genrateKeyWordRankedGroup(HashMap<String, Keywordstatusmaster> t) {
 
@@ -266,7 +288,6 @@ public class KeyWordFragment extends Fragment implements HomeController.KeyWordF
             int rank = Integer.parseInt(master.getValue().getRank());
             if (rank > 0 && rank <= 10) {
                 listGroup1_10.add(master.getValue());
-
             } else if (rank > 10 && rank <= 20) {
                 listGroup11_20.add(master.getValue());
             } else if (rank > 20 && rank <= 30) {
@@ -299,20 +320,17 @@ public class KeyWordFragment extends Fragment implements HomeController.KeyWordF
         mChart.setHoleRadius(58f);
         mChart.setTransparentCircleRadius(61f);
 
+
+        mChart.setDrawCenterText(true);
+        mChart.setCenterTextSize(8);
         mChart.setDrawCenterText(true);
 
         mChart.setRotationAngle(0);
         // enable rotation of the chart by touch
         mChart.setRotationEnabled(true);
         mChart.setHighlightPerTapEnabled(true);
-
-        // mChart.setUnit(" €");
-        // mChart.setDrawUnitsInChart(true);
-
-        // add a selection listener
+        mChart.setRotationEnabled(false);
         mChart.setOnChartValueSelectedListener(this);
-
-
         setData(6);
 
         mChart.animateY(1400, Easing.EasingOption.EaseInOutQuad);
@@ -346,9 +364,8 @@ public class KeyWordFragment extends Fragment implements HomeController.KeyWordF
         for (int i = 0; i < mParties.length; i++) {
             if (getSize(mParties[i]).size() != 0) {
                 entries.add(new PieEntry(getSize(mParties[i]).size(),
-
                         mParties[i],
-                        mParties[i]));
+                        getSize(mParties[i])));
             }
         }
 
@@ -359,27 +376,6 @@ public class KeyWordFragment extends Fragment implements HomeController.KeyWordF
         dataSet.setSliceSpace(3f);
         dataSet.setIconsOffset(new MPPointF(0, 40));
         dataSet.setSelectionShift(5f);
-
-        // add a lot of colors
-
-//        ArrayList<Integer> colors = new ArrayList<Integer>();
-
-//        for (int c : ColorTemplate.VORDIPLOM_COLORS)
-//            colors.add(c);
-//
-//        for (int c : ColorTemplate.JOYFUL_COLORS)
-//            colors.add(c);
-//
-//        for (int c : ColorTemplate.COLORFUL_COLORS)
-//            colors.add(c);
-//
-//        for (int c : ColorTemplate.LIBERTY_COLORS)
-//            colors.add(c);
-//
-//        for (int c : ColorTemplate.PASTEL_COLORS)
-//            colors.add(c);
-//
-//        colors.add(ColorTemplate.getHoloBlue());
 
 
         dataSet.setColors(getColors());
@@ -422,23 +418,12 @@ public class KeyWordFragment extends Fragment implements HomeController.KeyWordF
 
         // have as many colors as stack-values per entry
         int[] colors = new int[stacksize];
-
-
         colors[0] = ContextCompat.getColor(getActivity(), R.color.colorGroup1_10);
         colors[1] = ContextCompat.getColor(getActivity(), R.color.colorGroup11_20);
         colors[2] = ContextCompat.getColor(getActivity(), R.color.colorGroup21_30);
         colors[3] = ContextCompat.getColor(getActivity(), R.color.colorGroup31_40);
         colors[4] = ContextCompat.getColor(getActivity(), R.color.colorGroup41_50);
         colors[5] = ContextCompat.getColor(getActivity(), R.color.colorGroup51_PLUS);
-
-//        colors[3] = Color.parseColor("#D4A280");
-//        colors[4] = Color.parseColor("#00B0EC");
-//        colors[5] = Color.parseColor("#00CBAC");
-
-//        for (int i = 0; i < colors.length; i++) {
-//            colors[i] = ColorTemplate.MATERIAL_COLORS[i];
-//
-//        }
         return colors;
     }
 
@@ -449,13 +434,32 @@ public class KeyWordFragment extends Fragment implements HomeController.KeyWordF
         if (e == null)
             return;
 
-        Intent intent = new Intent(getActivity(), KeyWordDetailsActivity.class);
+
+        if (e.getData() instanceof ArrayList) {
+            List<Keywordstatusmaster> master = (List<Keywordstatusmaster>) e.getData();
+            HashMap<String, Keywordstatusmaster> hashMap = new HashMap<>();
+            for (Keywordstatusmaster m1 : master) {
+                hashMap.put(m1.getKeyword(), m1);
+            }
+
+            tableLayout.removeAllViewsInLayout();
+            addTableRow(hashMap, FROM_SELECT);
+
+
+        }
         Log.i("VAL SELECTED",
                 "Value: " +
                         e.getData().toString());
 
 
     }
+
+    private void callDetailsActivity() {
+        Intent intent = new Intent(getActivity(), KeyWordDetailsActivity.class);
+        intent.putParcelableArrayListExtra(CommonMethod.KEYWORD_DETAILS, (ArrayList<? extends Parcelable>)listKeyWord );
+        startActivity(intent);
+    }
+
 
     @Override
     public void onNothingSelected() {
@@ -466,5 +470,15 @@ public class KeyWordFragment extends Fragment implements HomeController.KeyWordF
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId())
+        {
+            case R.id.lbl_history:
+                callDetailsActivity();
+                break;
+        }
     }
 }

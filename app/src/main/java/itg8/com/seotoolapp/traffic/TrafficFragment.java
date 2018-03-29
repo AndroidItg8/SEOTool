@@ -44,6 +44,7 @@ public class TrafficFragment extends Fragment implements TrafficAdapter.OnItemCl
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private List<TrafficModel> listTraffic;
 
 
     public TrafficFragment() {
@@ -83,12 +84,22 @@ public class TrafficFragment extends Fragment implements TrafficAdapter.OnItemCl
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_dash_board, container, false);
         unbinder = ButterKnife.bind(this, view);
+       setData();
         return view;
+    }
+
+    private void setData() {
+        if(listTraffic!=null &&listTraffic.size()>0)
+        {
+            hashMapCategory.clear();
+            generateCategoryList(listTraffic);
+        }
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        Log.d(TAG, "onAttach: ");
         ((HomeActivity)context).setTrafficFragmentListener(this);
 
 
@@ -119,7 +130,7 @@ public class TrafficFragment extends Fragment implements TrafficAdapter.OnItemCl
     public void onListOfCategoryAvailable(List<TrafficModel> list) {
 
 //        init(list);
-
+        listTraffic=list;
         generateCategoryList(list);
     }
 

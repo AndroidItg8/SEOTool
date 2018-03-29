@@ -26,8 +26,9 @@ import itg8.com.seotoolapp.traffic.model.TrafficModel;
 public class CommonMethod {
 
 
-    public static final String TOKEN = "myToken";
-    public static final String BASE_URL = "https://seo.itechgalaxysolutions.com";
+//    public static final String TOKEN = "myToken";
+//    public static final String BASE_URL = "https://seo.itechgalaxysolutions.com";
+    public static final String BASE_URL = "http://192.168.1.55/";
     public static final String SECRET_KEY = "sValue";
     public static final String P_KEY = "passwordKey";
     public static final String SELECT_YEAR = "SELECT_YEAR";
@@ -38,6 +39,9 @@ public class CommonMethod {
     private static final java.lang.String DATE_FORMAT_CURRENT = "yyyy-MM-dd";
     public static final int EXTERNAL_LINKS = 2;
     public static final int SOCIAL_MEDIA = 1;
+    public static final String USER_ID = "USER_ID";
+    public static final String PROJECT_ID = "PROJECT_ID";
+    public static final String KEYWORD_DETAILS = "KEYWORD_DETAILS";
     public static SimpleDateFormat dateFormat = new SimpleDateFormat(CommonMethod.DATE_FORMAT, Locale.getDefault());
     public static SimpleDateFormat dateFormats = new SimpleDateFormat(CommonMethod.DATE_FORMATS, Locale.getDefault());
     public static SimpleDateFormat dateFormatCurrent = new SimpleDateFormat(CommonMethod.DATE_FORMAT_CURRENT, Locale.getDefault());
