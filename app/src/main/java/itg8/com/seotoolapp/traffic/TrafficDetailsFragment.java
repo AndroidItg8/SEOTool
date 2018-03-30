@@ -293,15 +293,15 @@ public class TrafficDetailsFragment extends Fragment implements TrafficDetailsAc
     public void onItemSelected(int month, Integer selectedYear) {
         this.month = month;
         this.year = selectedYear;
+        createTableHeader(month, selectedYear);
 
-        //  createTableHeader(month, selectedYear);
     }
 
     private void createTableHeader(int month, Integer selectedYear) {
         calendar.set(Calendar.MONTH, month);
         calendar.set(Calendar.YEAR, selectedYear);
         List<WeekList> list = createWeeksFromMonth(calendar);
-        ;
+
         List<String> listString = new ArrayList<>();
         for (Integer item :
                 list.get(0).getDates()) {
@@ -309,14 +309,12 @@ public class TrafficDetailsFragment extends Fragment implements TrafficDetailsAc
             Log.d(TAG, "createTableHeader: item" + item);
             listString.add(String.valueOf(item));
         }
-
         setTableAdapter(listString.toArray(new String[listString.size()]));
 
     }
 
     @Override
     public void onItemSelected(WeekList list, int month, Integer selectedYear) {
-
         this.month = month;
         this.year = selectedYear;
         this.listWeek = list;
@@ -326,8 +324,6 @@ public class TrafficDetailsFragment extends Fragment implements TrafficDetailsAc
 
     private void createTableDaysHeader(List<TrafficModel> list) {
         setTableAdapter(new String[]{null, list.get(0).getTrafficcategorymaster().getTraffic()});
-
-
     }
 
     @Override
@@ -385,6 +381,7 @@ public class TrafficDetailsFragment extends Fragment implements TrafficDetailsAc
 //        setBarchart(list,getActivity().getActionBar().getTitle());
 
 
+
     }
 
     @Override
@@ -410,7 +407,6 @@ public class TrafficDetailsFragment extends Fragment implements TrafficDetailsAc
         setTableAdapter(new String[]{null, String.valueOf(title)});
         List<Object> list = new ArrayList<>();
         list.addAll(lists);
-
         setBarchart(list, title);
 
 

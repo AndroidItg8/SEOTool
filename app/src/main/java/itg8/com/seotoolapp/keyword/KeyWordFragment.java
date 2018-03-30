@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -104,6 +105,12 @@ public class KeyWordFragment extends Fragment implements HomeController.KeyWordF
     TextView lblLoc;
     @BindView(R.id.lbl_history)
     TextView lblHistory;
+    @BindView(R.id.tbl_row_first)
+    TableRow tblRowFirst;
+    @BindView(R.id.ll_table)
+    LinearLayout llTable;
+    @BindView(R.id.tbl_row_second)
+    TableRow tblRowSecond;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -213,18 +220,13 @@ public class KeyWordFragment extends Fragment implements HomeController.KeyWordF
             }
         }).subscribeOn(Schedulers.io());
     }
+
     private void addTableRow(HashMap<String, Keywordstatusmaster> t, int from) {
         if (from == FROM_SELECT) {
-            View view = (View) rlTop.getParent();
-            if (view.getParent() != null) {
-                for (int i = 0; i < tableLayout.getChildCount(); i++) {
-                    tableLayout.addView(lblLoc);
-                    tableLayout.addView(lblTblDate);
-                    tableLayout.addView(lblKeyword);
-                    tableLayout.addView(lblPage);
-                    tableLayout.addView(lblRanked);
-                }
-            }
+            cleanTable(tableLayout);
+            tableLayout.addView(tblRowFirst);
+            tableLayout.addView(llTable);
+            tableLayout.addView(tblRowSecond);
 
         }
 
@@ -264,6 +266,7 @@ public class KeyWordFragment extends Fragment implements HomeController.KeyWordF
             genrateKeyWordRankedGroup(t);
 
     }
+
     @Override
     public void onDownloadFail() {
 
@@ -279,7 +282,6 @@ public class KeyWordFragment extends Fragment implements HomeController.KeyWordF
 
 
     }
-
 
 
     private void genrateKeyWordRankedGroup(HashMap<String, Keywordstatusmaster> t) {
@@ -442,7 +444,7 @@ public class KeyWordFragment extends Fragment implements HomeController.KeyWordF
                 hashMap.put(m1.getKeyword(), m1);
             }
 
-            tableLayout.removeAllViewsInLayout();
+
             addTableRow(hashMap, FROM_SELECT);
 
 
@@ -456,7 +458,7 @@ public class KeyWordFragment extends Fragment implements HomeController.KeyWordF
 
     private void callDetailsActivity() {
         Intent intent = new Intent(getActivity(), KeyWordDetailsActivity.class);
-        intent.putParcelableArrayListExtra(CommonMethod.KEYWORD_DETAILS, (ArrayList<? extends Parcelable>)listKeyWord );
+        intent.putParcelableArrayListExtra(CommonMethod.KEYWORD_DETAILS, (ArrayList<? extends Parcelable>) listKeyWord);
         startActivity(intent);
     }
 
@@ -474,11 +476,21 @@ public class KeyWordFragment extends Fragment implements HomeController.KeyWordF
 
     @Override
     public void onClick(View view) {
-        switch (view.getId())
-        {
+        switch (view.getId()) {
             case R.id.lbl_history:
                 callDetailsActivity();
                 break;
+        }
+    }
+
+
+    private void cleanTable(TableLayout table) {
+
+        int childCount = table.getChildCount();
+
+        // Remove all rows except the first one
+        if (childCount > 1) {
+            table.removeViews(0, childCount);
         }
     }
 }

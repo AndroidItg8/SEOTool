@@ -24,7 +24,7 @@
 
     <string name="title_activity_pin_verification">PinVerificationActivity</string>
     <string name="title_activity_social_media">SocialMediaActivity</string>
-    <string name="title_activity_key_word_details">KeyWordDetailsActivity</string>
+    <string name="title_activity_key_word_details">KeyWord Details</string>
     <string name="url_kewwird">/seoportal/Keywordstatusmasters/appkeywordbetweendate</string>
     <string name="url_traffic_category">/seoportal/Trafficmasters/apptrafficbetweendate</string>
     <string name="url_external_links">/seoportal/Exlinkmasters/appextlinkbetweendate</string>
@@ -32,6 +32,7 @@
     <string name="title_activity_change_pass_code">Change PassCode</string>
     <string name="pass_not_match">Passcode does not match</string>
     <string name="url_change_passcode">/seoportal/changepasswordapp</string>
+    <string name="title_activity_social_details">SocialDetailsActivity</string>
 
     <!--<string name="url_kewwird">/Keywordstatusmasters/appkeywordbetweendate</string>-->
     <!--<string name="url_traffic_category">/Trafficmasters/apptrafficbetweendate</string>-->

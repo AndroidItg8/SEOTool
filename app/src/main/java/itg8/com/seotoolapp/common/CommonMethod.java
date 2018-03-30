@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Locale;
 
 import itg8.com.seotoolapp.external_links.model.ExternalLinksModel;
+import itg8.com.seotoolapp.keyword.model.KeyWordModel;
 import itg8.com.seotoolapp.traffic.model.TrafficModel;
 
 /**
@@ -42,6 +43,7 @@ public class CommonMethod {
     public static final String USER_ID = "USER_ID";
     public static final String PROJECT_ID = "PROJECT_ID";
     public static final String KEYWORD_DETAILS = "KEYWORD_DETAILS";
+    public static final String EXTERNAL_LINKS_TYPE = "EXTERNAL_LINKS_TYPE";
     public static SimpleDateFormat dateFormat = new SimpleDateFormat(CommonMethod.DATE_FORMAT, Locale.getDefault());
     public static SimpleDateFormat dateFormats = new SimpleDateFormat(CommonMethod.DATE_FORMATS, Locale.getDefault());
     public static SimpleDateFormat dateFormatCurrent = new SimpleDateFormat(CommonMethod.DATE_FORMAT_CURRENT, Locale.getDefault());
@@ -68,12 +70,7 @@ public class CommonMethod {
     public static List<WeekList> createWeeksFromMonth(Calendar calendar) {
         int startDate = calendar.getFirstDayOfWeek();
         int minimalDay = calendar.getMinimalDaysInFirstWeek();
-//        Log.d(TAG, "createWeeksFromMonth: "+calendar.getTime());
-//        Log.d(TAG, "createWeeksFromMonth: "+startDate);
-//        Log.d(TAG, "createWeeksFromMonth: "+minimalDay);
-////        Log.d(TAG, "createWeeksFromMonth: "+calendar.get(Calendar.SUNDAY));
-//        Log.d(TAG, "createWeeksFromMonth: "+calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
-//        Log.d(TAG, "createWeeksFromMonth: "+calendar.getActualMaximum(Calendar.WEEK_OF_MONTH));
+//
 
         List<WeekList> days = new ArrayList<>();
         List<Integer> dates = new ArrayList<>();
@@ -98,7 +95,7 @@ public class CommonMethod {
                 dates = new ArrayList<>();
                 datesString = new ArrayList<>();
             }
-//            Log.d(TAG, "createWeeksFromMonth: Day:"+);
+
             calendar.add(Calendar.DATE, 1);
         }
         while ((calendar.get(Calendar.DAY_OF_MONTH) < calendar.getActualMaximum(Calendar.DAY_OF_MONTH)));
@@ -110,7 +107,7 @@ public class CommonMethod {
         list.setDates(dates);
         list.setDatesStrings(datesString);
         days.add(list);
-//        Log.d(TAG, "createWeeksFromMonth: "+new Gson().toJson(list));
+
         return days;
     }
 
@@ -214,6 +211,23 @@ public class CommonMethod {
         hashMap.put(Calendar.OCTOBER, new ArrayList<TrafficModel>());
         hashMap.put(Calendar.NOVEMBER, new ArrayList<TrafficModel>());
         hashMap.put(Calendar.DECEMBER, new ArrayList<TrafficModel>());
+        return hashMap;
+    }
+
+    public static HashMap<Integer, List<KeyWordModel>> getMonthHashMapForKeyWord() {
+        HashMap<Integer, List<KeyWordModel>> hashMap = new HashMap<>();
+        hashMap.put(Calendar.JANUARY, new ArrayList<KeyWordModel>());
+        hashMap.put(Calendar.FEBRUARY, new ArrayList<KeyWordModel>());
+        hashMap.put(Calendar.MARCH, new ArrayList<KeyWordModel>());
+        hashMap.put(Calendar.APRIL, new ArrayList<KeyWordModel>());
+        hashMap.put(Calendar.MAY, new ArrayList<KeyWordModel>());
+        hashMap.put(Calendar.JUNE, new ArrayList<KeyWordModel>());
+        hashMap.put(Calendar.JULY, new ArrayList<KeyWordModel>());
+        hashMap.put(Calendar.AUGUST, new ArrayList<KeyWordModel>());
+        hashMap.put(Calendar.SEPTEMBER, new ArrayList<KeyWordModel>());
+        hashMap.put(Calendar.OCTOBER, new ArrayList<KeyWordModel>());
+        hashMap.put(Calendar.NOVEMBER, new ArrayList<KeyWordModel>());
+        hashMap.put(Calendar.DECEMBER, new ArrayList<KeyWordModel>());
         return hashMap;
     }
 
@@ -336,6 +350,117 @@ public class CommonMethod {
             this.year = year;
         }
     }
+
+
+    public static class TempYearKeyWordHashMap {
+        int year;
+        int value;
+        int month;
+
+        public List<KeyWordModel> getList() {
+            return list;
+        }
+
+        public void setList(List<KeyWordModel> list) {
+            this.list = list;
+        }
+
+        List<KeyWordModel> list;
+
+        public int getMonth() {
+            return month;
+        }
+
+        public void setMonth(int month) {
+            this.month = month;
+        }
+
+        public TempYearKeyWordHashMap(int year, int value, int month, List<KeyWordModel> list) {
+            this.year = year;
+            this.value = value;
+            this.month = month;
+            this.list = list;
+        }
+
+        public TempYearKeyWordHashMap() {
+        }
+
+        public int getValue() {
+
+            return value;
+        }
+
+        public void setValue(int value) {
+            this.value = value;
+        }
+
+        public int getYear() {
+
+            return year;
+        }
+
+        public void setYear(int year) {
+            this.year = year;
+        }
+    }
+
+
+    public  static class TempYearExternalHashMap{
+
+        int year;
+        int value;
+        int month;
+
+        public List<ExternalLinksModel> getList() {
+            return list;
+        }
+
+        public void setList(List<ExternalLinksModel> list) {
+            this.list = list;
+        }
+
+        List<ExternalLinksModel> list;
+
+        public int getMonth() {
+            return month;
+        }
+
+        public void setMonth(int month) {
+            this.month = month;
+        }
+
+        public TempYearExternalHashMap(int year, int value, int month, List<ExternalLinksModel> list) {
+            this.year = year;
+            this.value = value;
+            this.month = month;
+            this.list = list;
+        }
+
+        public TempYearExternalHashMap() {
+        }
+
+        public int getValue() {
+
+            return value;
+        }
+
+        public void setValue(int value) {
+            this.value = value;
+        }
+
+        public int getYear() {
+
+            return year;
+        }
+
+        public void setYear(int year) {
+            this.year = year;
+        }
+
+
+    }
+
+
 
 
 }

@@ -266,12 +266,12 @@ public class SocialMediaFragment extends Fragment implements HomeController.Soci
     @Override
     public void onSocMediaAvail(List<SocialMediaModel> t) {
 //        countSessionOfSocialMedia(t);
-        createTableData(t);
+       // createTableData(t);
     }
 
     @Override
     public void onSocMediaAvail(HashMap<String, List<ExternalLinksModel>> stringListHashMap, int type) {
-        SortExternalLinksFor(stringListHashMap, type);
+       // SortExternalLinksFor(stringListHashMap, type);
 
     }
 

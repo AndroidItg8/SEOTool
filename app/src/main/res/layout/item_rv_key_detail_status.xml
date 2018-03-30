@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableRow
+
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <TextView
+        android:id="@+id/lbl_keyword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:layout_weight="1"
+        android:paddingBottom="@dimen/margin_4"
+        android:paddingTop="@dimen/margin_4"
+        android:text="Targeted Keywords"
+        android:textColor="@color/colorBlack"
+        android:textSize="@dimen/textSize_14"
+        android:textStyle="normal" />
+
+    <TextView
+        android:id="@+id/lbl_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_gravity="top"
+        android:padding="@dimen/margin_4"
+        android:text="Date"
+        android:gravity="center"
+        android:textColor="@color/colorBlack"
+        android:textSize="@dimen/textSize_14"
+        android:textStyle="normal" />
+
+    <TextView
+        android:id="@+id/lbl_page"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_gravity="top"
+        android:padding="@dimen/margin_4"
+        android:text="Page"
+        android:gravity="center"
+        android:textColor="@color/colorBlack"
+        android:textSize="@dimen/textSize_14"
+        android:textStyle="normal" />
+
+    <TextView
+        android:id="@+id/lbl_ranked"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:layout_weight="1"
+        android:padding="@dimen/margin_4"
+        android:text="Ranked"
+        android:gravity="center"
+        android:textColor="@color/colorBlack"
+        android:textSize="@dimen/textSize_14"
+        android:textStyle="normal" />
+</TableRow>

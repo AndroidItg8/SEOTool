@@ -79,15 +79,15 @@ public class FixTableAdapter implements IDataAdapter {
             bindViews.get(3).setText(String.valueOf(socialMediaModel.getSession()));
         }
 
-        else if(data.get(position) instanceof KeyWordModel)
-        {
-          KeyWordModel socialMediaModel= (KeyWordModel) data.get(position);
-
-          bindViews.get(0).setText("");
-            bindViews.get(1).setText(String.valueOf(socialMediaModel.getKeywordstatusmaster().getKeyword()));
-            bindViews.get(2).setText(String.valueOf(socialMediaModel.getKeywordstatusmaster().getPageno()));
-            bindViews.get(3).setText(String.valueOf(socialMediaModel.getKeywordstatusmaster().getRank()));
-        }
+//        else if(data.get(position) instanceof KeyWordModel)
+//        {
+//          KeyWordModel socialMediaModel= (KeyWordModel) data.get(position);
+//
+//          bindViews.get(0).setText("");
+//            bindViews.get(1).setText(String.valueOf(socialMediaModel.getKeywordstatusmaster().getKeyword()));
+//            bindViews.get(2).setText(String.valueOf(socialMediaModel.getKeywordstatusmaster().getPageno()));
+//            bindViews.get(3).setText(String.valueOf(socialMediaModel.getKeywordstatusmaster().getRank()));
+//        }
 
 
 
@@ -108,12 +108,12 @@ public class FixTableAdapter implements IDataAdapter {
 
         }
 
-        else if(data.get(position) instanceof KeyWordModel)
-        {
-           KeyWordModel tempYearHashMap = (KeyWordModel) data.get(position);
-
-            bindView.setText(CommonMethod.convertStringDateToDDMM(tempYearHashMap.getKeywordstatusmaster().getDateof()) );
-        }
+//        else if(data.get(position) instanceof KeyWordModel)
+//        {
+//           KeyWordModel tempYearHashMap = (KeyWordModel) data.get(position);
+//
+//            bindView.setText(CommonMethod.convertStringDateToDDMM(tempYearHashMap.getKeywordstatusmaster().getDateof()) );
+//        }
 
     }
 }

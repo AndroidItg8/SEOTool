@@ -344,9 +344,7 @@ public class DatePickerFragment extends DialogFragment implements RadioGroup.OnC
                  showError(sprYear, "Please select year");
                  isValid = false;
              }
-
-
-              if (selectedMonth < 0 && !rbtnYear.isChecked()) {
+                if (selectedMonth < 0 && !rbtnYear.isChecked()) {
                   showError(sprMonth, "Please select month");
                   isValid = false;
               }
