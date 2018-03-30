@@ -148,6 +148,7 @@ public class ExternalLinksDetailsActivity extends AppCompatActivity implements V
         String startDate = CommonMethod.getMonthDateToString(calendar);
         calendar.set(Calendar.YEAR, year);
         calendar.set(Calendar.MONTH, 11);
+
         calendar.set(Calendar.DAY_OF_MONTH, 31);
         String endDate = CommonMethod.getMonthDateToString(calendar);
         downloadCurrentMonthDateExternalLinks(startDate,endDate,selectedYear);
