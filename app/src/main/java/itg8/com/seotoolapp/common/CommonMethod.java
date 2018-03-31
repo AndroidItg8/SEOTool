@@ -410,6 +410,49 @@ public class CommonMethod {
         int year;
         int value;
         int month;
+        String date;
+        String liveUrl;
+        String status;
+        List<ExternalLinksModel> list;
+
+        public String getKeyWord() {
+            return keyWord;
+        }
+
+        public void setKeyWord(String keyWord) {
+            this.keyWord = keyWord;
+        }
+
+        String keyWord;
+
+        public String getDate() {
+            return date;
+        }
+
+        public void setDate(String date) {
+            this.date = date;
+        }
+
+
+
+        public String getLiveUrl() {
+            return liveUrl;
+        }
+
+        public void setLiveUrl(String liveUrl) {
+            this.liveUrl = liveUrl;
+        }
+
+        public String getStatus() {
+            return status;
+        }
+
+        public void setStatus(String status) {
+            this.status = status;
+        }
+
+
+
 
         public List<ExternalLinksModel> getList() {
             return list;
@@ -419,7 +462,7 @@ public class CommonMethod {
             this.list = list;
         }
 
-        List<ExternalLinksModel> list;
+
 
         public int getMonth() {
             return month;
@@ -429,11 +472,15 @@ public class CommonMethod {
             this.month = month;
         }
 
-        public TempYearExternalHashMap(int year, int value, int month, List<ExternalLinksModel> list) {
+        public TempYearExternalHashMap(int year, int value, int month, String date, String liveUrl, String status, List<ExternalLinksModel> list, String keyWord) {
             this.year = year;
             this.value = value;
             this.month = month;
+            this.date = date;
+            this.liveUrl = liveUrl;
+            this.status = status;
             this.list = list;
+            this.keyWord = keyWord;
         }
 
         public TempYearExternalHashMap() {

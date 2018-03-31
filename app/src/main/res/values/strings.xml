@@ -32,7 +32,7 @@
     <string name="title_activity_change_pass_code">Change PassCode</string>
     <string name="pass_not_match">Passcode does not match</string>
     <string name="url_change_passcode">/seoportal/changepasswordapp</string>
-    <string name="title_activity_social_details">SocialDetailsActivity</string>
+    <string name="title_activity_social_details">Social Details</string>
 
     <!--<string name="url_kewwird">/Keywordstatusmasters/appkeywordbetweendate</string>-->
     <!--<string name="url_traffic_category">/Trafficmasters/apptrafficbetweendate</string>-->

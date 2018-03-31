@@ -124,6 +124,8 @@ public class SplashActivity extends AppCompatActivity {
             constraintSet1.applyTo(container);
         } else {
             txtSeoAnalysis.setVisibility(View.VISIBLE);
+
+
         }
 
         new Handler().postDelayed(new Runnable() {
@@ -132,13 +134,15 @@ public class SplashActivity extends AppCompatActivity {
                 if (!isStopped){
                     String userId = Prefs.getString(CommonMethod.USER_ID,null);
                     if(userId==null)
-                    {  finish();
+                    {
+                        Log.d(TAG, "run:userId  LoginActivity"+ userId );
                         startLoginActivity();
-
-
-                    }else
                         finish();
-                        startActivity(new Intent(SplashActivity.this, HomeActivity.class));
+                    }else
+
+                    Log.d(TAG, "run:userId  HomeActivity"+ userId );
+                    startActivity(new Intent(SplashActivity.this, HomeActivity.class));
+                    finish();
                 }
             }
         }, 1000);

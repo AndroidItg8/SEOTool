@@ -50,15 +50,31 @@
         <RelativeLayout
             android:id="@+id/rl_top"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:layout_below="@+id/ll_data"
+            android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/margin_16"
             android:layout_marginLeft="@dimen/margin_16"
             android:layout_marginStart="@dimen/margin_16">
 
+            <ScrollView
+                android:id="@+id/layout"
+                android:layout_height="wrap_content"
+                android:scrollbars="horizontal|vertical"
+                android:layout_width="match_parent"
+                android:scrollbarFadeDuration="1000"
+                android:scrollbarSize="12dip"
+                android:scrollbarStyle="outsideInset">
+
+            <HorizontalScrollView
+                android:id="@+id/horizontalView"
+                android:layout_height="wrap_content"
+                android:scrollbars="none"
+                android:layout_width="wrap_content">
+
+
             <TableLayout
                 android:id="@+id/tableLayout"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
 
                 <TableRow
@@ -78,7 +94,6 @@
                         android:text="Loc: India"
                         android:textColor="@color/colorBlack"
                         android:textSize="@dimen/textSize_14"
-
                         android:textStyle="bold"
                         android:paddingLeft="2dp" />
 
@@ -176,7 +191,7 @@
                         android:background="@color/colorGrayLight"
                         android:gravity="center"
                         android:padding="@dimen/margin_4"
-                        android:text="Lived"
+                        android:text="Live"
                         android:paddingStart="2dp"
                         android:textColor="@color/colorBlack"
                         android:textSize="@dimen/textSize_14"
@@ -199,12 +214,15 @@
                         android:textStyle="normal"
                         android:paddingLeft="2dp" />
                 </TableRow>
-
-
             </TableLayout>
-
+            </HorizontalScrollView>
+            </ScrollView>
 
         </RelativeLayout>
+
+
+
+
     </RelativeLayout>
 
 
