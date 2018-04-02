@@ -27,6 +27,7 @@ class LoginModuleImp implements LoginMVP.LoginModule {
                                     Prefs.putString(CommonMethod.PROJECT_ID, object.getString("projectid"));
                                     listener.onFirstTimeSuccess();
                                 }else
+                                    Prefs.putString(CommonMethod.USER_ID, object.getString("userid"));
                                     listener.onSuccess();
                             }
                             else

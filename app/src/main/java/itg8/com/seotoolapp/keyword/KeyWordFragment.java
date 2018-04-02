@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TableLayout;
@@ -111,6 +112,12 @@ public class KeyWordFragment extends Fragment implements HomeController.KeyWordF
     LinearLayout llTable;
     @BindView(R.id.tbl_row_second)
     TableRow tblRowSecond;
+    @BindView(R.id.img_no)
+    ImageView imgNo;
+    @BindView(R.id.rl_no_item)
+    RelativeLayout rlNoItem;
+    @BindView(R.id.rl_data)
+    RelativeLayout rlData;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -118,6 +125,7 @@ public class KeyWordFragment extends Fragment implements HomeController.KeyWordF
     private boolean isShowBackground = true;
     private List<KeyWordModel> listKeyWord;
     TextView tv;
+    private boolean isViewCreated;
 
 
     public KeyWordFragment() {
@@ -157,6 +165,7 @@ public class KeyWordFragment extends Fragment implements HomeController.KeyWordF
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_key_word, container, false);
         unbinder = ButterKnife.bind(this, view);
+        isViewCreated=true;
         init();
         return view;
     }
@@ -170,10 +179,16 @@ public class KeyWordFragment extends Fragment implements HomeController.KeyWordF
 
     @Override
     public void onKeywordDetailAvailable(List<KeyWordModel> t) {
-        listKeyWord = t;
+         if(isViewCreated) {
+             if (t.size() > 0) {
+                 CommonMethod.showHideView(rlData, rlNoItem);
+                 listKeyWord = t;
+                 sortKeyWordData(t);
+             } else
+                 CommonMethod.showHideView(rlNoItem, rlData);
 
+         }
 
-        sortKeyWordData(t);
     }
 
     private void sortKeyWordData(List<KeyWordModel> t) {
@@ -278,7 +293,14 @@ public class KeyWordFragment extends Fragment implements HomeController.KeyWordF
         lblCurrentDate.setText("Current Date : " + CommonMethod.getCurrentDateString());
         lblTblDate.setText(CommonMethod.getCurrentDateString());
         if (listKeyWord != null && listKeyWord.size() > 0)
+        {
+            CommonMethod.showHideView(rlData,rlNoItem);
             sortKeyWordData(listKeyWord);
+
+        }
+        else
+            CommonMethod.showHideView(rlNoItem, rlData);
+
 
 
     }
@@ -472,6 +494,7 @@ public class KeyWordFragment extends Fragment implements HomeController.KeyWordF
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+        isViewCreated=false;
     }
 
     @Override

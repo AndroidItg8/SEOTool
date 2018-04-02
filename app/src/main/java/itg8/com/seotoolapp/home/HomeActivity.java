@@ -33,6 +33,7 @@ import itg8.com.seotoolapp.external_links.model.ExternalLinksModel;
 import itg8.com.seotoolapp.keyword.KeyWordFragment;
 import itg8.com.seotoolapp.keyword.model.KeyWordModel;
 import itg8.com.seotoolapp.login.LoginActivity;
+import itg8.com.seotoolapp.passcode.ChangePassCodeActivity;
 import itg8.com.seotoolapp.social_media.SocialMediaFragment;
 import itg8.com.seotoolapp.splash.SplashActivity;
 import itg8.com.seotoolapp.traffic.TrafficDetailsActivity;
@@ -65,6 +66,7 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
         ButterKnife.bind(this);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        checkLogin();
         setSupportActionBar(toolbar);
 
 
@@ -74,8 +76,18 @@ public class HomeActivity extends AppCompatActivity {
         downloadReleatedData();
     }
 
-    private void downloadReleatedData() {
+    private void checkLogin() {
+        if (Prefs.getString(CommonMethod.USER_ID,null) == null) {
+            callLoginActivity();
+            finish();
+        }
+    }
 
+    private void callLoginActivity() {
+        startActivity(new Intent(HomeActivity.this, LoginActivity.class));
+    }
+
+    private void downloadReleatedData() {
         downloadSocialMediaLinksData();
 
 
@@ -91,16 +103,13 @@ public class HomeActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(Object message) {
                         if(socialMediaFragmentListener!=null)
-
                             socialMediaFragmentListener.onSocMediaAvail((List) message);
                     }
-
                     @Override
                     public void onFailure(Object err) {
                         if(socialMediaFragmentListener!=null)
                             socialMediaFragmentListener.onDownloadFail();
                     }
-
                     @Override
                     public void onSomethingWrong(Object e) {
 
@@ -134,8 +143,7 @@ public class HomeActivity extends AppCompatActivity {
 
                     @Override
                     public void onFailure(Object err) {
-
-                                externalLinksFragmentListener.onDownloadFail(err.toString(), type);
+                         externalLinksFragmentListener.onDownloadFail(err.toString(), type);
                     }
 
                     @Override
@@ -147,7 +155,6 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void sortExternalLinksForSession(final List<? extends ExternalLinksModel> list, final int type) {
-
         Observable.create(new ObservableOnSubscribe<HashMap<String, List<ExternalLinksModel>>>() {
             @Override
             public void subscribe(ObservableEmitter<HashMap<String, List<ExternalLinksModel>>> e) throws Exception {
@@ -229,6 +236,7 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void downloadKeyWordReleatedData() {
+
         new NetworkUtility.NetworkBuilder().build().getkeyWordList(getString(R.string.url_kewwird),
                 CommonMethod.getMonthDateToString(CommonMethod.getThisMonth()),
                 CommonMethod.getMonthDateToString(CommonMethod.getThisMonthLast()),
@@ -288,11 +296,19 @@ public class HomeActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            Prefs.clear();
-            finish();
-            startActivity(new Intent(HomeActivity.this, LoginActivity.class));
-            return true;
+        switch (id)
+        {
+            case R.id.action_logout:
+                Prefs.clear();
+                finish();
+                startActivity(new Intent(HomeActivity.this, LoginActivity.class));
+                break;
+            case R.id.action_change_password:
+                finish();
+                startActivity(new Intent(HomeActivity.this, ChangePassCodeActivity.class));
+                break;
+
+
         }
 
         return super.onOptionsItemSelected(item);

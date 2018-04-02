@@ -66,13 +66,15 @@ public class ChangePassCodeActivity extends AppCompatActivity implements View.On
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.fab) {
-progressbar.setVisibility(View.VISIBLE);
+            progressbar.setVisibility(View.VISIBLE);
+            fab.setVisibility(View.GONE);
             boolean isTrue = validateUser();
             if (isTrue) {
                 if (pinEntryColors.getText().toString().equals(pinEntryConfirm.getText().toString())) {
                     changePasscodeToServer();
                 } else {
                     progressbar.setVisibility(View.GONE);
+                    fab.setVisibility(View.VISIBLE);
 
                     Toast.makeText(this, getString(R.string.pass_not_match), Toast.LENGTH_SHORT).show();
                 }
@@ -89,6 +91,7 @@ progressbar.setVisibility(View.VISIBLE);
                     @Override
                     public void onSuccess(Object message) {
                         progressbar.setVisibility(View.GONE);
+                        fab.setVisibility(View.VISIBLE);
 
                         finish();
                         startActivity(new Intent(ChangePassCodeActivity.this, HomeActivity.class));

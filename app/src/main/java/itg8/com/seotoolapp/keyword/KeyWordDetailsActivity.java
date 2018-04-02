@@ -8,7 +8,9 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TableLayout;
@@ -70,6 +72,12 @@ public class KeyWordDetailsActivity extends AppCompatActivity implements View.On
     LinearLayout llTbl;
     @BindView(R.id.tbl_row_second)
     TableRow tblRowSecond;
+    @BindView(R.id.rl_data)
+    RelativeLayout rlData;
+    @BindView(R.id.img_no)
+    ImageView imgNo;
+    @BindView(R.id.rl_no_item)
+    RelativeLayout rlNoItem;
 
     private String[] months = new String[]{"SELECT MONTH", "JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCt", "NOV", "DEC"};
     private List<KeyWordModel> list;
@@ -101,8 +109,10 @@ public class KeyWordDetailsActivity extends AppCompatActivity implements View.On
             list = getIntent().getParcelableArrayListExtra(CommonMethod.KEYWORD_DETAILS);
 
         }
+
+
         Calendar calendar = Calendar.getInstance();
-     int year = calendar.get(Calendar.YEAR);
+        int year = calendar.get(Calendar.YEAR);
         calendar.set(Calendar.MONTH, 0);
         calendar.set(Calendar.DAY_OF_MONTH, 1);
         String startDate = CommonMethod.getMonthDateToString(calendar);
@@ -136,8 +146,12 @@ public class KeyWordDetailsActivity extends AppCompatActivity implements View.On
 
     @Override
     public void onItemSelect(int selectedMonth, Integer selectedYear) {
+
         String month = months[selectedMonth];
-        lblDate.setText(month + " M " + String.valueOf(selectedYear) + " " + " Y");
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.MONTH, selectedMonth);
+
+        lblDate.setText(CommonMethod.getMonthFirstDateToString(calendar)+ " M " + String.valueOf(selectedYear) + " " + " Y");
         downloadMonthLyKeyWord(selectedMonth, selectedYear);
 
 
@@ -147,7 +161,9 @@ public class KeyWordDetailsActivity extends AppCompatActivity implements View.On
     public void onItemSelect(CommonMethod.WeekList selectWeek, int months, Integer years) {
         Integer first = selectWeek.getDates().get(0);
         Integer last = selectWeek.getDates().get(selectWeek.getDates().size() - 1);
-        lblDate.setText(String.valueOf(first) + "-" + String.valueOf(last) + "W " + months + "M " + years + "Y");
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.MONTH, months);
+        lblDate.setText(String.valueOf(first) + "-" + String.valueOf(last) + "W " +CommonMethod.getMonthFirstDateToString(calendar)  + " M " + years + "Y");
         String FirstWeekDate = selectWeek.getDatesStrings().get(0);
         String lastWeekDate = selectWeek.getDatesStrings().get(selectWeek.getDatesStrings().size() - 1);
         downloadDailyTrafficDataFromServer(FirstWeekDate, lastWeekDate, selectWeek);
@@ -161,6 +177,7 @@ public class KeyWordDetailsActivity extends AppCompatActivity implements View.On
         getCurrentMonthDateDownload(selectedYear);
 
     }
+
     private void downloadDailyTrafficDataFromServer(String fromDate, String toDate, final CommonMethod.WeekList selectWeek) {
         new NetworkUtility.NetworkBuilder().build().getkeyWordList(
                 getString(R.string.url_kewwird),
@@ -243,8 +260,6 @@ public class KeyWordDetailsActivity extends AppCompatActivity implements View.On
     }
 
 
-
-
     private void downloadMonthLyKeyWord(int selectedMonth, Integer selectedYear) {
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.YEAR, selectedYear);
@@ -286,71 +301,77 @@ public class KeyWordDetailsActivity extends AppCompatActivity implements View.On
     }
 
     private void getWeekDataFromMonthData(final List<KeyWordModel> listHashMap) {
-        Observable.create(new ObservableOnSubscribe<List<CommonMethod.TempYearKeyWordHashMap>>() {
-            @Override
-            public void subscribe(ObservableEmitter<List<CommonMethod.TempYearKeyWordHashMap>> e) throws Exception {
-                weeklyData = CommonMethod.createWeeksFromMonth(Calendar.getInstance());
-                List<CommonMethod.TempYearKeyWordHashMap> list = new ArrayList<>();
-                for (CommonMethod.WeekList week : weeklyData) {
-                    List<KeyWordModel> temp = new ArrayList<>();
-                    CommonMethod.TempYearKeyWordHashMap tempYearHashMap = new CommonMethod.TempYearKeyWordHashMap();
-                    tempYearHashMap.setMonth(week.getDates().get(0));
-                    tempYearHashMap.setYear(week.getDates().get(week.getDates().size() - 1));
-                    int value = 0;
+        if(listHashMap.size()>0) {
+            CommonMethod.showHideView(rlData, rlNoItem);
+            Observable.create(new ObservableOnSubscribe<List<CommonMethod.TempYearKeyWordHashMap>>() {
+                @Override
+                public void subscribe(ObservableEmitter<List<CommonMethod.TempYearKeyWordHashMap>> e) throws Exception {
+                    weeklyData = CommonMethod.createWeeksFromMonth(Calendar.getInstance());
+                    List<CommonMethod.TempYearKeyWordHashMap> list = new ArrayList<>();
+                    for (CommonMethod.WeekList week : weeklyData) {
+                        List<KeyWordModel> temp = new ArrayList<>();
+                        CommonMethod.TempYearKeyWordHashMap tempYearHashMap = new CommonMethod.TempYearKeyWordHashMap();
+                        tempYearHashMap.setMonth(week.getDates().get(0));
+                        tempYearHashMap.setYear(week.getDates().get(week.getDates().size() - 1));
+                        int value = 0;
 
-                    for (String weekDate : week.getDatesStrings()) {
-                        for (KeyWordModel model : listHashMap) {
-                            if (weekDate.equalsIgnoreCase(model.getKeywordstatusmaster().getDateof())) {
-                                temp.add(model);
-                                value += Integer.valueOf(model.getKeywordstatusmaster().getRank());
+                        for (String weekDate : week.getDatesStrings()) {
+                            for (KeyWordModel model : listHashMap) {
+                                if (weekDate.equalsIgnoreCase(model.getKeywordstatusmaster().getDateof())) {
+                                    temp.add(model);
+                                    value += Integer.valueOf(model.getKeywordstatusmaster().getRank());
 
-                            }
+                                }
 //                            } else {
 //                                temp.add(null);
 //                            }
+                            }
                         }
-                    }
-                    tempYearHashMap.setValue(value);
-                    tempYearHashMap.setList(temp);
-                    list.add(tempYearHashMap);
+                        tempYearHashMap.setValue(value);
+                        tempYearHashMap.setList(temp);
+                        list.add(tempYearHashMap);
 
-                    listWeekKeyword.add(temp);
+                        listWeekKeyword.add(temp);
+                    }
+
+
+                    e.onNext(list);
+                    e.onComplete();
                 }
 
+            }).subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<List<CommonMethod.TempYearKeyWordHashMap>>() {
+                @Override
+                public void onSubscribe(Disposable d) {
 
-                e.onNext(list);
-                e.onComplete();
-            }
+                }
 
-        }).subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<List<CommonMethod.TempYearKeyWordHashMap>>() {
-            @Override
-            public void onSubscribe(Disposable d) {
-
-            }
-
-            @Override
-            public void onNext(List<CommonMethod.TempYearKeyWordHashMap> lists) {
-                addTableRow(lists);
+                @Override
+                public void onNext(List<CommonMethod.TempYearKeyWordHashMap> lists) {
+                    addTableRow(lists);
 
 //
 
-            }
+                }
 
-            @Override
-            public void onError(Throwable e) {
-                e.printStackTrace();
-            }
+                @Override
+                public void onError(Throwable e) {
+                    e.printStackTrace();
+                }
 
-            @Override
-            public void onComplete() {
+                @Override
+                public void onComplete() {
 
-            }
-        });
+                }
+            });
+
+        }else
+        {
+            CommonMethod.showHideView(rlNoItem, rlData);
+        }
 
 
     }
-
 
 
     private void getCurrentMonthDateDownload(Integer selectedYear) {
@@ -378,6 +399,7 @@ public class KeyWordDetailsActivity extends AppCompatActivity implements View.On
                     @Override
                     public void onSuccess(Object message) {
 //                        getMonthDataFromYearData((List) message, selectedYear);
+
                         getMonthDateFromYearData((List) message, selectedYear);
 
 
@@ -400,82 +422,81 @@ public class KeyWordDetailsActivity extends AppCompatActivity implements View.On
     private void getMonthDateFromYearData(List message, final Integer selectedYear) {
         if (message instanceof ArrayList) {
             final List<KeyWordModel> lists = (List<KeyWordModel>) message;
+            if (lists.size() > 0) {
+                CommonMethod.showHideView( rlData,rlNoItem);
 
-            Observable.create(new ObservableOnSubscribe<List<CommonMethod.TempYearKeyWordHashMap>>() {
-                @Override
-                public void subscribe(ObservableEmitter<List<CommonMethod.TempYearKeyWordHashMap>> e) throws Exception {
-                    HashMap<Integer, List<KeyWordModel>> tempHashmap = CommonMethod.getMonthHashMapForKeyWord();
-                    Calendar calendar = Calendar.getInstance();
-                    for (KeyWordModel model : lists
-                            ) {
-                        long milies = CommonMethod.convertStringToDate(model.getKeywordstatusmaster().getDateof());
-                        if (milies > 0) {
-                            calendar.setTimeInMillis(milies);
 
-                            tempHashmap.get(calendar.get(Calendar.MONTH)).add(model);
+
+                Observable.create(new ObservableOnSubscribe<List<CommonMethod.TempYearKeyWordHashMap>>() {
+                    @Override
+                    public void subscribe(ObservableEmitter<List<CommonMethod.TempYearKeyWordHashMap>> e) throws Exception {
+                        HashMap<Integer, List<KeyWordModel>> tempHashmap = CommonMethod.getMonthHashMapForKeyWord();
+                        Calendar calendar = Calendar.getInstance();
+                        for (KeyWordModel model : lists
+                                ) {
+                            long milies = CommonMethod.convertStringToDate(model.getKeywordstatusmaster().getDateof());
+                            if (milies > 0) {
+                                calendar.setTimeInMillis(milies);
+
+                                tempHashmap.get(calendar.get(Calendar.MONTH)).add(model);
+                            }
                         }
+
+                        List<CommonMethod.TempYearKeyWordHashMap> listTemp = new ArrayList<>();
+                        for (Map.Entry<Integer, List<KeyWordModel>> model : tempHashmap.entrySet()
+                                ) {
+                            CommonMethod.TempYearKeyWordHashMap tempYearHashMap = new CommonMethod.TempYearKeyWordHashMap();
+                            tempYearHashMap.setYear(selectedYear);
+                            tempYearHashMap.setMonth(model.getKey() + 1);
+                            int value = 0;
+                            for (KeyWordModel mo :
+                                    model.getValue()) {
+
+                                value += Integer.parseInt(mo.getKeywordstatusmaster().getRank());
+                            }
+                            tempYearHashMap.setValue(value);
+                            tempYearHashMap.setList(model.getValue());
+                            listTemp.add(tempYearHashMap);
+                        }
+
+
+                        e.onNext(listTemp);
+                        e.onComplete();
                     }
 
-                    List<CommonMethod.TempYearKeyWordHashMap> listTemp = new ArrayList<>();
-                    for (Map.Entry<Integer, List<KeyWordModel>> model : tempHashmap.entrySet()
-                            ) {
-                        CommonMethod.TempYearKeyWordHashMap tempYearHashMap = new CommonMethod.TempYearKeyWordHashMap();
-                        tempYearHashMap.setYear(selectedYear);
-                        tempYearHashMap.setMonth(model.getKey() + 1);
-                        int value = 0;
-                        for (KeyWordModel mo :
-                                model.getValue()) {
+                }).subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<List<CommonMethod.TempYearKeyWordHashMap>>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
 
-                            value += Integer.parseInt(mo.getKeywordstatusmaster().getRank());
-                        }
-                        tempYearHashMap.setValue(value);
-                        tempYearHashMap.setList(model.getValue());
-                        listTemp.add(tempYearHashMap);
                     }
 
+                    @Override
+                    public void onNext(List<CommonMethod.TempYearKeyWordHashMap> tempYearKeyWordHashMaps) {
+                        addTableRow(tempYearKeyWordHashMaps);
+                    }
 
-                    e.onNext(listTemp);
-                    e.onComplete();
-                }
+                    @Override
+                    public void onError(Throwable e) {
 
-            }).subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<List<CommonMethod.TempYearKeyWordHashMap>>() {
-                @Override
-                public void onSubscribe(Disposable d) {
+                    }
 
-                }
+                    @Override
+                    public void onComplete() {
 
-                @Override
-                public void onNext(List<CommonMethod.TempYearKeyWordHashMap> tempYearKeyWordHashMaps) {
-                    addTableRow(tempYearKeyWordHashMaps);
-                }
-
-                @Override
-                public void onError(Throwable e) {
-
-                }
-
-                @Override
-                public void onComplete() {
-
-                }
-            });
+                    }
+                });
+            }
+        }else
+        {
+            CommonMethod.showHideView(rlNoItem,rlData);
         }
 
     }
 
     private void addTableRow(List<CommonMethod.TempYearKeyWordHashMap> list) {
 
-//        View view = (View) rlTop.getParent();
-//        if (view.getParent() != null) {
-//            for (int i = 0; i < tableLayout.getChildCount(); i++) {
-//                tableLayout.addView(lblLoc);
-//                tableLayout.addView(lblTblDate);
-//                tableLayout.addView(lblKeyword);
-//                tableLayout.addView(lblPage);
-//                tableLayout.addView(lblRanked);
-//            }
-//        }
+
         cleanTable(tableLayout);
         tableLayout.addView(tblRowFirst);
         tableLayout.addView(llTbl);
@@ -483,8 +504,6 @@ public class KeyWordDetailsActivity extends AppCompatActivity implements View.On
 
         tableLayout.addView(tblRowSecond);
 
-
-//
         for (CommonMethod.TempYearKeyWordHashMap model : list
                 ) {
 
@@ -544,9 +563,16 @@ public class KeyWordDetailsActivity extends AppCompatActivity implements View.On
 
         // Remove all rows except the first one
         if (childCount > 1) {
-            table.removeViews(0, childCount );
+            table.removeViews(0, childCount);
         }
     }
 
-
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId()== android.R.id.home)
+        {
+            onBackPressed();
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }

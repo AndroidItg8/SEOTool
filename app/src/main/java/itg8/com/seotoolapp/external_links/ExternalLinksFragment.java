@@ -11,10 +11,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.AxisBase;
@@ -81,6 +81,12 @@ public class ExternalLinksFragment extends Fragment implements HomeController.Ex
     TextView lblHistory;
     @BindView(R.id.tableLayout)
     TableLayout tableLayout;
+    @BindView(R.id.rl_data)
+    RelativeLayout rlData;
+    @BindView(R.id.img_no)
+    ImageView imgNo;
+    @BindView(R.id.rl_no_item)
+    RelativeLayout rlNoItem;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -90,6 +96,7 @@ public class ExternalLinksFragment extends Fragment implements HomeController.Ex
     private HashMap<String, List<ExternalLinksModel>> listExternalLinks;
     private boolean isDestroyed = false;
     private boolean isExternalView = true;
+    private boolean isViewCreated = false;
 
 
     public ExternalLinksFragment() {
@@ -130,6 +137,7 @@ public class ExternalLinksFragment extends Fragment implements HomeController.Ex
         View view = inflater.inflate(R.layout.fragment_external_links, container, false);
         unbinder = ButterKnife.bind(this, view);
         isDestroyed = false;
+        isViewCreated = true;
         init();
 
         return view;
@@ -139,7 +147,10 @@ public class ExternalLinksFragment extends Fragment implements HomeController.Ex
         lblHistory.setOnClickListener(this);
         lblDate.setText(CommonMethod.getCurrentDateString());
         if (listExternalLinks != null && listExternalLinks.size() > 0) {
+            CommonMethod.showHideView(rlData, rlNoItem);
             SortExternalLinksFor(listExternalLinks, this.type);
+        } else {
+            CommonMethod.showHideView(rlNoItem, rlData);
         }
 
 
@@ -157,21 +168,16 @@ public class ExternalLinksFragment extends Fragment implements HomeController.Ex
         this.type = type;
         listExternalLinks = hashMapList;
 
-        if (hashMapList != null && hashMapList.size() > 0)
-            SortExternalLinksFor(hashMapList, type);
-        else
-            Toast.makeText(getActivity(), "", Toast.LENGTH_SHORT).show();
-
-//        initDailyTrafficData(lists, selectWeek);
-//        List<Object> list = new ArrayList<>();
-//        list.addAll(lists);
-//        setBarchart(hashMapList,getActivity().getActionBar().getTitle());
+            if (hashMapList != null && hashMapList.size() > 0) {
+                SortExternalLinksFor(hashMapList, type);
 
 
+
+        }
     }
 
     private void SortExternalLinksFor(HashMap<String, List<ExternalLinksModel>> hashMapList, int type) {
-        if (!isDestroyed) {
+        if (!isDestroyed || isViewCreated) {
             this.type = type;
             setBarchart();
             ArrayList<BarEntry> yVals1 = new ArrayList<BarEntry>();
@@ -185,7 +191,6 @@ public class ExternalLinksFragment extends Fragment implements HomeController.Ex
                         ) {
                     models = model;
                     for (Liveurlmaster master : model.getLiveurlmaster()) {
-
                         value += Integer.parseInt(master.getSession());
                     }
 
@@ -215,42 +220,49 @@ public class ExternalLinksFragment extends Fragment implements HomeController.Ex
 
             setChartData(yVals1, "Submission");
             mChart.setOnChartValueSelectedListener(this);
-            mChart.getData().notifyDataChanged();
-            mChart.notifyDataSetChanged();
+            if(yVals1.size()>0) {
+                mChart.getData().notifyDataChanged();
+                mChart.notifyDataSetChanged();
+            }
 
 
         }
     }
 
     private void setChartData(ArrayList<BarEntry> yVals1, CharSequence title) {
+        if(yVals1.size()>0) {
+            CommonMethod.showHideView(rlData, rlNoItem);
 
-        BarDataSet set1;
+            BarDataSet set1;
 
-        if (mChart.getData() != null &&
-                mChart.getData().getDataSetCount() > 0) {
-            set1 = (BarDataSet) mChart.getData().getDataSetByIndex(0);
-            set1.setValues(yVals1);
-            mChart.getData().notifyDataChanged();
-            mChart.notifyDataSetChanged();
-        } else {
-            set1 = new BarDataSet(yVals1, title.toString());
+            if (mChart.getData() != null &&
+                    mChart.getData().getDataSetCount() > 0) {
+                set1 = (BarDataSet) mChart.getData().getDataSetByIndex(0);
+                set1.setValues(yVals1);
+                mChart.getData().notifyDataChanged();
+                mChart.notifyDataSetChanged();
+            } else {
+                set1 = new BarDataSet(yVals1, title.toString());
 
-            set1.setDrawIcons(false);
-            set1.setDrawValues(false);
+                set1.setDrawIcons(false);
+                set1.setDrawValues(false);
 
-            set1.setColor(Color.parseColor("#D4A280"));
+                set1.setColor(Color.parseColor("#D4A280"));
 
-            ArrayList<IBarDataSet> dataSets = new ArrayList<IBarDataSet>();
-            dataSets.add(set1);
+                ArrayList<IBarDataSet> dataSets = new ArrayList<IBarDataSet>();
+                dataSets.add(set1);
 
-            BarData data = new BarData(dataSets);
-            data.setValueTextSize(10f);
+                BarData data = new BarData(dataSets);
+                data.setValueTextSize(10f);
 //            data.setValueTypeface(mTfLight);
-            data.setBarWidth(0.11f);
+                data.setBarWidth(0.11f);
 
 
-            mChart.setData(data);
-        }
+                mChart.setData(data);
+            }
+
+        }else
+            CommonMethod.showHideView(rlNoItem, rlData);
     }
 
 
@@ -363,6 +375,7 @@ public class ExternalLinksFragment extends Fragment implements HomeController.Ex
         super.onDestroyView();
         unbinder.unbind();
         isDestroyed = true;
+        isViewCreated = false;
     }
 
     @Override
@@ -392,17 +405,20 @@ public class ExternalLinksFragment extends Fragment implements HomeController.Ex
 
     @Override
     public void onClick(View view) {
-        switch (view.getId())
-        {
+        switch (view.getId()) {
             case R.id.lbl_history:
-               startDetailActivity();
+                startDetailActivity();
                 break;
+
+            case R.id.lbl_date:
+
+                break;
+
         }
     }
 
     private void startDetailActivity() {
-
-        Intent intent = new Intent(getActivity(),ExternalLinksDetailsActivity.class);
+        Intent intent = new Intent(getActivity(), ExternalLinksDetailsActivity.class);
 //        intent.putParcelableArrayListExtra(CommonMethod.EXTERNAL_LINKS, listExternalLinks);
         intent.putExtra(CommonMethod.EXTERNAL_LINKS_TYPE, type);
         startActivity(intent);

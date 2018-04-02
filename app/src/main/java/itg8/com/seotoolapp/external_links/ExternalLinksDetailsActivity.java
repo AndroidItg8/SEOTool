@@ -9,6 +9,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -118,16 +119,11 @@ public class ExternalLinksDetailsActivity extends AppCompatActivity implements V
         if (getIntent().hasExtra(CommonMethod.EXTERNAL_LINKS_TYPE)) {
             type = getIntent().getIntExtra(CommonMethod.EXTERNAL_LINKS_TYPE, 0);
         }
-
-
-
-
-    }
+ }
 
     private void createClickedListner() {
         llData.setOnClickListener(this);
-
-    }
+}
 
     @Override
     public void onClick(View view) {
@@ -148,7 +144,9 @@ public class ExternalLinksDetailsActivity extends AppCompatActivity implements V
     @Override
     public void onItemSelect(int selectedMonth, Integer selectedYear) {
         String month = months[selectedMonth];
-        lblDate.setText(month + " M " + String.valueOf(selectedYear) + " " + " Y");
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.MONTH, selectedMonth);
+        lblDate.setText(CommonMethod.getMonthFirstDateToString(calendar) + " M " + String.valueOf(selectedYear) + " " + " Y");
         downloadWeeklyExternalLinks(selectedMonth, selectedYear);
 
 
@@ -273,6 +271,7 @@ public class ExternalLinksDetailsActivity extends AppCompatActivity implements V
         tableLayout.addView(tblRowSecond);
 
 
+
         for (CommonMethod.TempYearExternalHashMap tempModel : lists) {
             tr = (TableRow) getLayoutInflater().inflate(R.layout.item_rv_urlstatus, null);
 
@@ -311,6 +310,7 @@ public class ExternalLinksDetailsActivity extends AppCompatActivity implements V
             tableLayout.addView(tv);
             registerForContextMenu(tr);
             isShowBackground = !isShowBackground;
+
         }
     }
 
@@ -318,13 +318,13 @@ public class ExternalLinksDetailsActivity extends AppCompatActivity implements V
     public void onItemSelect(CommonMethod.WeekList selectWeek, int months, Integer years) {
         Integer first = selectWeek.getDates().get(0);
         Integer last = selectWeek.getDates().get(selectWeek.getDates().size() - 1);
-        lblDate.setText(String.valueOf(first) + "-" + String.valueOf(last) + "W " + months + "M " + years + "Y");
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.MONTH, months);
+        lblDate.setText(String.valueOf(first) + "-" + String.valueOf(last) + "W " + CommonMethod.getMonthFirstDateToString(calendar) + " M " + years + "Y");
         String FirstWeekDate = selectWeek.getDatesStrings().get(0);
         String lastWeekDate = selectWeek.getDatesStrings().get(selectWeek.getDatesStrings().size() - 1);
         downloadDailyExternalLinks(FirstWeekDate, lastWeekDate, selectWeek);
-
-
-    }
+ }
 
     private void downloadDailyExternalLinks(String firstWeekDate, String lastWeekDate, final CommonMethod.WeekList selectWeek) {
         new NetworkUtility.NetworkBuilder().build().getExternalLinksData(
@@ -617,6 +617,14 @@ public class ExternalLinksDetailsActivity extends AppCompatActivity implements V
         if (childCount > 1) {
             table.removeViews(0, childCount);
         }
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId()== android.R.id.home)
+        {
+            onBackPressed();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 }

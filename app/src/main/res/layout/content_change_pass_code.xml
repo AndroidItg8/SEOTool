@@ -9,43 +9,64 @@
     tools:showIn="@layout/activity_change_pass_code">
 
     <TextView
+        android:id="@+id/lbl_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/pin_entry_colors"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="32dp"
         android:gravity="center"
         android:text="CHANGE PASSCODE?"
-        android:textColor="@color/colorPrimary"/>
+        android:textColor="@color/colorPrimary" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/lbl_title"
+        android:layout_margin="16dp"
+        android:fontFamily="@font/roboto"
+        android:gravity="center"
+        android:text="We have provided you a system generated pass code , please make your own pass code for future reference."
+        android:textColor="@color/colorGray"
+        android:textSize="@dimen/txt_size_12"
+        android:textAllCaps="true"
+        android:textStyle="normal" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_centerHorizontal="true"
+        android:orientation="vertical">
+
+
+
+
     <me.philio.pinentry.PinEntryView
         android:id="@+id/pin_entry_colors"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:accentType="all"
-        android:layout_centerInParent="true"
+        android:layout_gravity="center"
         app:digitBackground="@color/colorPrimary"
         app:digitTextColor="@android:color/white"
-        app:pinAccentColor="@color/colorPrimary" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:pinAccentColor="@color/colorAccent" />
+
     <me.philio.pinentry.PinEntryView
         android:id="@+id/pin_entry_confirm"
-        android:layout_below="@+id/pin_entry_colors"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:accentType="all"
-        android:layout_centerHorizontal="true"
+        android:layout_gravity="center"
         android:layout_marginTop="20dp"
+        app:accentType="all"
         app:digitBackground="@color/colorPrimary"
         app:digitTextColor="@android:color/white"
-        app:pinAccentColor="@color/colorPrimary" />
-
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:pinAccentColor="@color/colorAccent" />
+    </LinearLayout>
 
 </RelativeLayout>

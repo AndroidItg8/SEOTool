@@ -16,6 +16,7 @@
     <color name="colorGreen">#033b07</color>
     <color name="colorRed">#68111b</color>
     <color name="colorBlack">#000</color>
+    <color name="transparentBlackList">#32000000</color>
     <color name="colorGray">#6b6969</color>
     <color name="colorGrayLight">#afb6b4b4</color>
     <color name="colorGrayLights">#afedecec</color>

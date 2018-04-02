@@ -6,11 +6,16 @@
     android:fillViewport="true"
     android:scrollbars="horizontal|vertical"
     tools:context="itg8.com.seotoolapp.external_links.ExternalLinksFragment">
+<FrameLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:id="@+id/rl_data">
 
         <TextView
             android:id="@+id/lbl_date"
@@ -244,6 +249,49 @@ http://www.articles.gappoo.com/2015-Article-Directory/it-always-better-estimate-
 
             app:fixtable_title_color="#C5CDEF" />
     </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_no_item"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="visible">
+
+        <ImageView
+            android:id="@+id/img_no"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_centerInParent="true"
+            app:srcCompat="@drawable/ic_analysis" />
+        <TextView
+            android:id="@+id/lbl_no_data"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/img_no"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:textSize="20sp"
+            android:fontFamily="@font/roboto"
+            android:text="Oops No Data "
+            android:textColor="#FF8C29" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/lbl_no_data"
+            android:layout_gravity="center"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="5dp"
+            android:gravity="center"
+            android:textSize="14sp"
+            android:textAllCaps="true"
+            android:fontFamily="@font/roboto"
+            android:text="for analysis"
+            android:textColor="#F0353D" />
+    </RelativeLayout>
+</FrameLayout>
+
 
 
 </ScrollView>

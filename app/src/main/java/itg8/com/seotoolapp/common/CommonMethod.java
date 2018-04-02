@@ -7,6 +7,8 @@ import android.os.Build;
 import android.telephony.TelephonyManager;
 import android.text.format.DateFormat;
 import android.util.TypedValue;
+import android.view.View;
+import android.widget.RelativeLayout;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -37,6 +39,7 @@ public class CommonMethod {
     public static final String TRAFFIC_DETAILS = "TRAFFIC_DETAILS";
     private static final java.lang.String DATE_FORMAT = "MM-yyyy";
     private static final java.lang.String DATE_FORMATS = "dd/MM";
+    private static final java.lang.String DATE_FORMATS_MONTH = "MMM";
     private static final java.lang.String DATE_FORMAT_CURRENT = "yyyy-MM-dd";
     public static final int EXTERNAL_LINKS = 2;
     public static final int SOCIAL_MEDIA = 1;
@@ -46,6 +49,7 @@ public class CommonMethod {
     public static final String EXTERNAL_LINKS_TYPE = "EXTERNAL_LINKS_TYPE";
     public static SimpleDateFormat dateFormat = new SimpleDateFormat(CommonMethod.DATE_FORMAT, Locale.getDefault());
     public static SimpleDateFormat dateFormats = new SimpleDateFormat(CommonMethod.DATE_FORMATS, Locale.getDefault());
+    public static SimpleDateFormat dateFormatsMonths = new SimpleDateFormat(CommonMethod.DATE_FORMATS_MONTH, Locale.getDefault());
     public static SimpleDateFormat dateFormatCurrent = new SimpleDateFormat(CommonMethod.DATE_FORMAT_CURRENT, Locale.getDefault());
 
 
@@ -143,6 +147,26 @@ public class CommonMethod {
         String newDate = "";
         try {
             newDate = dateFormatCurrent.format(calendar.getTime());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return newDate;
+
+    }    public static String getDateToString(Calendar calendar) {
+        String newDate = "";
+        try {
+            newDate = dateFormatCurrent.format(calendar.getTime());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return newDate;
+
+    }
+
+    public static String getMonthFirstDateToString(Calendar calendar) {
+        String newDate = "";
+        try {
+            newDate = dateFormatsMonths.format(calendar.getTime());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -273,6 +297,11 @@ public class CommonMethod {
             e.printStackTrace();
         }
         return 0;
+    }
+
+    public static void showHideView(View show, View hide) {
+        show.setVisibility(View.VISIBLE);
+        hide.setVisibility(View.GONE);
     }
 
     public static class WeekList {

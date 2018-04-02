@@ -123,6 +123,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
 
     private void showSnackbar(String msg) {
+        UtilSnackbar.showSnakbarRedColor(inputPhoneNumber,msg);
 
     }
 
@@ -148,29 +149,29 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
     @Override
     public void onSuccess() {
-        try {
-            SecretKey key = SecretGenerator.generateKey(getString(R.string.app_name));
-            Prefs.putString(CommonMethod.SECRET_KEY, key.toString());
-            byte[] value = SecretGenerator.encryptMsg(getPassword(), key);
-            Prefs.putString(CommonMethod.P_KEY, new String(value, "UTF-8"));
-
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        } catch (InvalidKeySpecException e) {
-            e.printStackTrace();
-        } catch (InvalidKeyException e) {
-            e.printStackTrace();
-        } catch (NoSuchPaddingException e) {
-            e.printStackTrace();
-        } catch (BadPaddingException e) {
-            e.printStackTrace();
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (InvalidParameterSpecException e) {
-            e.printStackTrace();
-        } catch (IllegalBlockSizeException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            SecretKey key = SecretGenerator.generateKey(getString(R.string.app_name));
+//            Prefs.putString(CommonMethod.SECRET_KEY, key.toString());
+//            byte[] value = SecretGenerator.encryptMsg(getPassword(), key);
+//            Prefs.putString(CommonMethod.P_KEY, new String(value, "UTF-8"));
+//
+//        } catch (NoSuchAlgorithmException e) {
+//            e.printStackTrace();
+//        } catch (InvalidKeySpecException e) {
+//            e.printStackTrace();
+//        } catch (InvalidKeyException e) {
+//            e.printStackTrace();
+//        } catch (NoSuchPaddingException e) {
+//            e.printStackTrace();
+//        } catch (BadPaddingException e) {
+//            e.printStackTrace();
+//        } catch (UnsupportedEncodingException e) {
+//            e.printStackTrace();
+//        } catch (InvalidParameterSpecException e) {
+//            e.printStackTrace();
+//        } catch (IllegalBlockSizeException e) {
+//            e.printStackTrace();
+//        }
 
         finish();
         startActivity(new Intent(LoginActivity.this, HomeActivity.class));
@@ -179,12 +180,12 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
     @Override
     public void onFail(String message) {
-
+        UtilSnackbar.showSnakbarRedColor(inputPhoneNumber,message);
     }
 
     @Override
     public void onError(Object t) {
-
+        UtilSnackbar.showSnakbarRedColor(inputPhoneNumber, t.toString());
     }
 
     @Override
@@ -194,12 +195,13 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
     @Override
     public void onPasswordInvalid(String err) {
-        UtilSnackbar.showSnakbarRedColor(inputPhoneNumber, err);
+        UtilSnackbar.showSnakbarRedColor(inputPhoneNumber,err);
     }
 
     @Override
     public void showProgress() {
         progressbar.setVisibility(View.VISIBLE);
+        fab.setVisibility(View.GONE);
 
     }
 
@@ -213,6 +215,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     @Override
     public void hideProgress() {
         progressbar.setVisibility(View.GONE);
+        fab.setVisibility(View.VISIBLE);
 
     }
 }

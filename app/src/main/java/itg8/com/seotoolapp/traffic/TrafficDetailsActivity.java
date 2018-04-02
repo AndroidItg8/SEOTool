@@ -59,8 +59,6 @@ public class TrafficDetailsActivity extends AppCompatActivity implements View.On
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         init();
-
-
     }
 
     private void init() {
@@ -127,7 +125,6 @@ public class TrafficDetailsActivity extends AppCompatActivity implements View.On
 
             @Override
             public void onNext(List<TempYearHashMap> lists) {
-
                 listener.onTrafficModelList(lists, getSupportActionBar().getTitle());
 
             }
@@ -326,10 +323,20 @@ public class TrafficDetailsActivity extends AppCompatActivity implements View.On
     public void onItemSelect(CommonMethod.WeekList selectWeek, int months, Integer years) {
         Integer first = selectWeek.getDates().get(0);
         Integer last = selectWeek.getDates().get(selectWeek.getDates().size() - 1);
-        lblDate.setText(String.valueOf(first) + "-" + String.valueOf(last) + "W "+ months +"M "+ years+"Y");
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.MONTH, months);
+        calendar.set(Calendar.YEAR,years);
+
+        lblDate.setText(String.valueOf(first) + "-" + String.valueOf(last) + "W "+ CommonMethod.getMonthFirstDateToString(calendar) +" M "+ years+"Y");
         String FirstWeekDate = selectWeek.getDatesStrings().get(0);
+        calendar.set(Calendar.DAY_OF_MONTH,selectWeek.getDates().get(0));
+        String firstDay = CommonMethod.getDateToString(calendar);
         String lastWeekDate = selectWeek.getDatesStrings().get(selectWeek.getDatesStrings().size() - 1);
-        downloadDailyTrafficDataFromServer(FirstWeekDate, lastWeekDate, selectWeek);
+        calendar.set(Calendar.DAY_OF_MONTH,selectWeek.getDates().size()-1);
+        String lastDay =  CommonMethod.getDateToString(calendar);
+
+        downloadDailyTrafficDataFromServer(firstDay, lastDay, selectWeek);
 
 
     }
@@ -363,7 +370,10 @@ public class TrafficDetailsActivity extends AppCompatActivity implements View.On
     @Override
     public void onItemSelect(int selectedMonth, Integer selectedYear) {
         String month = months[selectedMonth];
-        lblDate.setText(month + " M " + String.valueOf(selectedYear) + " " + " Y");
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.MONTH, selectedMonth);
+
+        lblDate.setText(CommonMethod.getMonthFirstDateToString(calendar)+ " M " + String.valueOf(selectedYear) + " " + " Y");
 //        listener.onItemSelected(selectedMonth, selectedYear);
         Map.Entry<Trafficcategorymaster, List<TrafficModel>> entry = listHashMap.entrySet().iterator().next();
         Trafficcategorymaster trafficcategorymaster = entry.getKey();
@@ -452,4 +462,7 @@ public class TrafficDetailsActivity extends AppCompatActivity implements View.On
 
         void onTrafficData(List<TempYearHashMap> lists, CharSequence title);
     }
+
+
+
 }

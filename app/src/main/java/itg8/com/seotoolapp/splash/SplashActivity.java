@@ -8,26 +8,16 @@ import android.support.constraint.ConstraintLayout;
 import android.support.constraint.ConstraintSet;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.text.format.DateFormat;
 import android.transition.TransitionManager;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
-
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import itg8.com.seotoolapp.R;
-import itg8.com.seotoolapp.common.CommonMethod;
-import itg8.com.seotoolapp.common.Prefs;
 import itg8.com.seotoolapp.home.HomeActivity;
 import itg8.com.seotoolapp.login.LoginActivity;
 
@@ -46,7 +36,7 @@ public class SplashActivity extends AppCompatActivity {
     ImageView smallImage;
     @BindView(R.id.txtSeoAnalysis)
     TextView txtSeoAnalysis;
-    private boolean isStopped=false;
+    private boolean isStopped = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -124,26 +114,18 @@ public class SplashActivity extends AppCompatActivity {
             constraintSet1.applyTo(container);
         } else {
             txtSeoAnalysis.setVisibility(View.VISIBLE);
-
-
         }
 
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                if (!isStopped){
-                    String userId = Prefs.getString(CommonMethod.USER_ID,null);
-                    if(userId==null)
-                    {
-                        Log.d(TAG, "run:userId  LoginActivity"+ userId );
-                        startLoginActivity();
-                        finish();
-                    }else
-
-                    Log.d(TAG, "run:userId  HomeActivity"+ userId );
+                if (!isStopped) {
                     startActivity(new Intent(SplashActivity.this, HomeActivity.class));
                     finish();
+
                 }
+
+
             }
         }, 1000);
     }
@@ -155,7 +137,7 @@ public class SplashActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        isStopped=true;
+        isStopped = true;
 
     }
 

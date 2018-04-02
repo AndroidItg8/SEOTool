@@ -11,6 +11,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.Legend;
@@ -65,6 +67,12 @@ public class TrafficDetailsFragment extends Fragment implements TrafficDetailsAc
     BarChart mChart;
     @BindView(R.id.cardView)
     CardView cardView;
+    @BindView(R.id.img_no)
+    ImageView imgNo;
+    @BindView(R.id.rl_no_item)
+    RelativeLayout rlNoItem;
+    @BindView(R.id.rl_data)
+    RelativeLayout rlData;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -73,6 +81,7 @@ public class TrafficDetailsFragment extends Fragment implements TrafficDetailsAc
     private Integer year;
     private WeekList listWeek;
     private HashMap<Trafficcategorymaster, List<TrafficModel>> listHashMap;
+    private boolean isViewCreated=false;
 
     public TrafficDetailsFragment() {
         // Required empty public constructor
@@ -111,6 +120,7 @@ public class TrafficDetailsFragment extends Fragment implements TrafficDetailsAc
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_traffic_details, container, false);
         unbinder = ButterKnife.bind(this, view);
+        isViewCreated=true;
         return view;
     }
 
@@ -287,6 +297,7 @@ public class TrafficDetailsFragment extends Fragment implements TrafficDetailsAc
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+        isViewCreated=false;
     }
 
     @Override
@@ -362,13 +373,18 @@ public class TrafficDetailsFragment extends Fragment implements TrafficDetailsAc
 
     @Override
     public void onTrafficModelList(List<CommonMethod.TempYearHashMap> lists, CharSequence title) {
-
-        data.clear();
-        data.addAll(lists);
-        List<Object> list = new ArrayList<>();
-        list.addAll(lists);
-        setTableAdapter(new String[]{null, String.valueOf(title)});
-        setBarchart(list, title.toString());
+        if(isViewCreated) {
+        if(lists.size()>0 ) {
+            CommonMethod.showHideView(rlData, rlNoItem);
+            data.clear();
+            data.addAll(lists);
+            List<Object> list = new ArrayList<>();
+            list.addAll(lists);
+            setTableAdapter(new String[]{null, String.valueOf(title)});
+            setBarchart(list, title.toString());
+        }else
+            CommonMethod.showHideView( rlNoItem,rlData);
+        }
 
 
     }
@@ -381,7 +397,6 @@ public class TrafficDetailsFragment extends Fragment implements TrafficDetailsAc
 //        setBarchart(list,getActivity().getActionBar().getTitle());
 
 
-
     }
 
     @Override
@@ -391,23 +406,40 @@ public class TrafficDetailsFragment extends Fragment implements TrafficDetailsAc
     }
 
     private void initDailyTrafficData(List<TrafficModel> lists, WeekList selectWeek, String title) {
-        createTableDaysHeader(lists);
-        setTableHeaderData(lists);
-        List<Object> list = new ArrayList<>();
-        list.addAll(lists);
-        setBarchart(list, title);
+        if(isViewCreated) {
+        if(lists.size()>0 ) {
+            CommonMethod.showHideView(rlData, rlNoItem);
+            createTableDaysHeader(lists);
+            setTableHeaderData(lists);
+            List<Object> list = new ArrayList<>();
+            list.addAll(lists);
+            setBarchart(list, title);
+        }
+        else
+            CommonMethod.showHideView( rlNoItem,rlData);
+
+        }
 
 
     }
 
     @Override
     public void onTrafficYearData(List<CommonMethod.TempYearHashMap> lists, CharSequence title) {
-        data.clear();
-        data.addAll(lists);
-        setTableAdapter(new String[]{null, String.valueOf(title)});
-        List<Object> list = new ArrayList<>();
-        list.addAll(lists);
-        setBarchart(list, title);
+        if(isViewCreated) {
+            if (lists != null && lists.size() > 0) {
+                CommonMethod.showHideView(rlData, rlNoItem);
+                data.clear();
+                data.addAll(lists);
+                setTableAdapter(new String[]{null, String.valueOf(title)});
+                List<Object> list = new ArrayList<>();
+                list.clear();
+                list.addAll(lists);
+                setBarchart(list, title);
+                lists.clear();
+            } else
+                CommonMethod.showHideView(rlNoItem, rlData);
+
+        }
 
 
     }
