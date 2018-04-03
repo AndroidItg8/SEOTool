@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -105,7 +106,7 @@ public class KeyWordFragment extends Fragment implements HomeController.KeyWordF
     @BindView(R.id.lbl_loc)
     TextView lblLoc;
     @BindView(R.id.lbl_history)
-    TextView lblHistory;
+    Button lblHistory;
     @BindView(R.id.tbl_row_first)
     TableRow tblRowFirst;
     @BindView(R.id.ll_table)
@@ -272,8 +273,6 @@ public class KeyWordFragment extends Fragment implements HomeController.KeyWordF
 
             tv.setBackgroundColor(Color.parseColor("#80808080"));
             tableLayout.addView(tv);
-
-
             registerForContextMenu(tr);
             isShowBackground = !isShowBackground;
         }
@@ -290,18 +289,16 @@ public class KeyWordFragment extends Fragment implements HomeController.KeyWordF
 
     private void init() {
         lblHistory.setOnClickListener(this);
-        lblCurrentDate.setText("Current Date : " + CommonMethod.getCurrentDateString());
+        lblCurrentDate.setText("Current Month : " + CommonMethod.getCurrentDateString());
         lblTblDate.setText(CommonMethod.getCurrentDateString());
+
         if (listKeyWord != null && listKeyWord.size() > 0)
         {
             CommonMethod.showHideView(rlData,rlNoItem);
             sortKeyWordData(listKeyWord);
-
         }
         else
             CommonMethod.showHideView(rlNoItem, rlData);
-
-
 
     }
 

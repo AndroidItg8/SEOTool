@@ -135,7 +135,7 @@ public class SocialMediaFragment extends Fragment implements HomeController.Soci
     }
 
     private void init() {
-        lblDate.setText(CommonMethod.getCurrentDateString());
+        lblDate.setText( "Current Month "+CommonMethod.getCurrentDateString());
         onClickedListner();
 
 
@@ -546,6 +546,7 @@ public class SocialMediaFragment extends Fragment implements HomeController.Soci
             lblDates.setText(model.getExlinkmaster().getDateof());
             txtTitle.setText(model.getExlinkmaster().getTitle());
             txtUrl.setText(model.getExlinkmaster().getPostedurl());
+
         }
 
     }

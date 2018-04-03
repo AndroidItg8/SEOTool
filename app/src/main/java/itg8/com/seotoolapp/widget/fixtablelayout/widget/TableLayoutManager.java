@@ -62,17 +62,17 @@ public class TableLayoutManager extends RecyclerView.LayoutManager {
     private int fill(RecyclerView.Recycler recycler, RecyclerView.State state, int dy) {
         int offsetTop = 0;
 
-        //回收越界子View
-        if (getChildCount() > 0) {//滑动时进来的
+
+        if (getChildCount() > 0) {
             for (int i = getChildCount() - 1; i >= 0; i--) {
                 View child = getChildAt(i);
 
-                if (dy > 0) {//需要回收当前屏幕，上越界的View
+                if (dy > 0) {
                     if (getDecoratedBottom(child) < 0) {
                         removeAndRecycleView(child, recycler);
                         firstVisPos++;
                     }
-                } else if (dy < 0) {//回收当前屏幕，下越界的View
+                } else if (dy < 0) {
                     if (getDecoratedTop(child) > getHeight() - getPaddingBottom()) {
                         removeAndRecycleView(child, recycler);
                         lastVisPos--;

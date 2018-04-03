@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -36,18 +37,22 @@ import itg8.com.seotoolapp.traffic.model.Trafficmaster;
 
 public class TrafficDetailsActivity extends AppCompatActivity implements View.OnClickListener, DatePickerFragment.OnItemClickedListener {
 
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
-    @BindView(R.id.lbl_date)
-    TextView lblDate;
-    @BindView(R.id.frameLayout)
-    FrameLayout frameLayout;
+
     OnItemDateListener listener;
     HashMap<Trafficcategorymaster, List<TrafficModel>> listHashMap;
     List<CommonMethod.WeekList> weeklyData = new ArrayList<>();
     List<List<TrafficModel>> listWeekTraffic = new ArrayList<>();
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+    @BindView(R.id.lbl_date)
+    TextView lblDate;
+    @BindView(R.id.img_setting)
+    ImageView imgSetting;
     @BindView(R.id.ll_data)
-    RelativeLayout rlData;
+    RelativeLayout llData;
+    @BindView(R.id.frameLayout)
+    FrameLayout frameLayout;
+
     private String[] months = new String[]{"SELECT MONTH", "JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCt", "NOV", "DEC"};
 
     @Override
@@ -64,6 +69,8 @@ public class TrafficDetailsActivity extends AppCompatActivity implements View.On
     private void init() {
         callFragment();
         setOnClickListener();
+        lblDate.setVisibility(View.VISIBLE);
+        imgSetting.setVisibility(View.VISIBLE);
 
 
     }
@@ -74,19 +81,22 @@ public class TrafficDetailsActivity extends AppCompatActivity implements View.On
             Map.Entry<Trafficcategorymaster, List<TrafficModel>> entry = listHashMap.entrySet().iterator().next();
             Trafficcategorymaster trafficcategorymaster = entry.getKey();
             getSupportActionBar().setTitle(trafficcategorymaster.getTraffic() + " Details");
-            lblDate.setText(CommonMethod.getCurrentDateString());
-            getWeekDataFromMonthData(listHashMap.get(trafficcategorymaster));
+            lblDate.setText("Current Month: "+CommonMethod.getCurrentDateString());
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(Calendar.MONTH,1);
+            getWeekDataFromMonthData(listHashMap.get(trafficcategorymaster),calendar);
 
 
         }
 
     }
 
-    private void getWeekDataFromMonthData(final List<TrafficModel> listHashMap) {
+    private void getWeekDataFromMonthData(final List<TrafficModel> listHashMap, final Calendar calendar) {
         Observable.create(new ObservableOnSubscribe<List<TempYearHashMap>>() {
             @Override
             public void subscribe(ObservableEmitter<List<TempYearHashMap>> e) throws Exception {
-                weeklyData = CommonMethod.createWeeksFromMonth(Calendar.getInstance());
+
+                weeklyData = CommonMethod.createWeeksFromMonth(calendar);
                 List<TempYearHashMap> list = new ArrayList<>();
                 for (CommonMethod.WeekList week : weeklyData) {
                     List<TrafficModel> temp = new ArrayList<>();
@@ -149,17 +159,14 @@ public class TrafficDetailsActivity extends AppCompatActivity implements View.On
             public void subscribe(ObservableEmitter<List<TempYearHashMap>> e) throws Exception {
                 HashMap<Integer, List<TrafficModel>> tempHashmap = CommonMethod.getMonthHashMapForTraffic();
                 Calendar calendar = Calendar.getInstance();
-                for (TrafficModel model : list
-                        ) {
+                for (TrafficModel model : list) {
                     long milies = CommonMethod.convertStringToDate(model.getTrafficmaster().getDateof());
                     if (milies > 0) {
                         calendar.setTimeInMillis(milies);
 
                         tempHashmap.get(calendar.get(Calendar.MONTH)).add(model);
                     }
-
                 }
-
                 List<TempYearHashMap> listTemp = new ArrayList<>();
                 for (Map.Entry<Integer, List<TrafficModel>> model : tempHashmap.entrySet()
                         ) {
@@ -260,7 +267,7 @@ public class TrafficDetailsActivity extends AppCompatActivity implements View.On
 
             @Override
             public void onNext(List<TrafficModel> lists) {
-                listener.onTrafficDailyData(lists, selectWeek, getSupportActionBar().getTitle());
+                listener.onTrafficDailyData(lists, getSupportActionBar().getTitle());
 
             }
 
@@ -281,7 +288,8 @@ public class TrafficDetailsActivity extends AppCompatActivity implements View.On
 
     private void setOnClickListener() {
         lblDate.setOnClickListener(this);
-        rlData.setOnClickListener(this);
+        llData.setOnClickListener(this);
+        imgSetting.setOnClickListener(this);
 
 
     }
@@ -303,9 +311,18 @@ public class TrafficDetailsActivity extends AppCompatActivity implements View.On
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+
+            case R.id.ll_data:
+                openDialogueSelectDateFragment();
+                break;
             case R.id.lbl_date:
                 openDialogueSelectDateFragment();
                 break;
+            case R.id.img_setting:
+                openDialogueSelectDateFragment();
+                break;
+
+
 
         }
     }
@@ -313,9 +330,9 @@ public class TrafficDetailsActivity extends AppCompatActivity implements View.On
     private void openDialogueSelectDateFragment() {
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
-
         DatePickerFragment pf = new DatePickerFragment();
         pf.show(ft, DatePickerFragment.class.getSimpleName());
+
     }
 
 
@@ -323,19 +340,17 @@ public class TrafficDetailsActivity extends AppCompatActivity implements View.On
     public void onItemSelect(CommonMethod.WeekList selectWeek, int months, Integer years) {
         Integer first = selectWeek.getDates().get(0);
         Integer last = selectWeek.getDates().get(selectWeek.getDates().size() - 1);
-
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.MONTH, months);
-        calendar.set(Calendar.YEAR,years);
+        calendar.set(Calendar.YEAR, years);
+        lblDate.setText(String.valueOf(first) + " - " + String.valueOf(last) +" "+CommonMethod.getMonthFirstDateToString(calendar)  + " "+years );
 
-        lblDate.setText(String.valueOf(first) + "-" + String.valueOf(last) + "W "+ CommonMethod.getMonthFirstDateToString(calendar) +" M "+ years+"Y");
-        String FirstWeekDate = selectWeek.getDatesStrings().get(0);
-        calendar.set(Calendar.DAY_OF_MONTH,selectWeek.getDates().get(0));
+        calendar.set(Calendar.DAY_OF_MONTH, first);
         String firstDay = CommonMethod.getDateToString(calendar);
-        String lastWeekDate = selectWeek.getDatesStrings().get(selectWeek.getDatesStrings().size() - 1);
-        calendar.set(Calendar.DAY_OF_MONTH,selectWeek.getDates().size()-1);
-        String lastDay =  CommonMethod.getDateToString(calendar);
-
+        calendar.set(Calendar.MONTH, months);
+        calendar.set(Calendar.YEAR, years);
+        calendar.set(Calendar.DAY_OF_MONTH, last);
+        String lastDay = CommonMethod.getDateToString(calendar);
         downloadDailyTrafficDataFromServer(firstDay, lastDay, selectWeek);
 
 
@@ -370,14 +385,66 @@ public class TrafficDetailsActivity extends AppCompatActivity implements View.On
     @Override
     public void onItemSelect(int selectedMonth, Integer selectedYear) {
         String month = months[selectedMonth];
+
+
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.MONTH, selectedMonth);
+        calendar.set(Calendar.YEAR, selectedYear);
 
-        lblDate.setText(CommonMethod.getMonthFirstDateToString(calendar)+ " M " + String.valueOf(selectedYear) + " " + " Y");
-//        listener.onItemSelected(selectedMonth, selectedYear);
-        Map.Entry<Trafficcategorymaster, List<TrafficModel>> entry = listHashMap.entrySet().iterator().next();
-        Trafficcategorymaster trafficcategorymaster = entry.getKey();
-        getWeekDataFromMonthData(listHashMap.get(trafficcategorymaster));
+        String firstDate = CommonMethod.getMonthDateToString(CommonMethod.getMonthFirstDateToStringFullDate(calendar));
+        String lastDate = CommonMethod.getMonthDateToString(CommonMethod.getThisMonthLastFullDate(calendar));
+
+
+        lblDate.setText("Date: "+CommonMethod.getMonthFirstDateToString(calendar) +" "+ String.valueOf(selectedYear));
+        downloadDailyTrafficDataFromServer(firstDate, lastDate, selectedMonth);
+
+
+    }
+
+    private void downloadDailyTrafficDataFromServer(String fromDate, String toDate, final int selectedMonth) {
+        new NetworkUtility.NetworkBuilder().build().getTrafficCategory(
+                getString(R.string.url_traffic_category),
+                fromDate,
+                toDate,
+                "2",
+                new NetworkUtility.ResponseListener() {
+                    @Override
+                    public void onSuccess(Object message) {
+                        getDailyDataFromWeekData((List<TrafficModel>) message, selectedMonth);
+
+
+                    }
+
+                    @Override
+                    public void onFailure(Object err) {
+                    }
+
+                    @Override
+                    public void onSomethingWrong(Object e) {
+
+                    }
+                });
+    }
+
+    private void getDailyDataFromWeekData(List<TrafficModel> message, int selectedMonth) {
+
+//        Map.Entry<Trafficcategorymaster, List<TrafficModel>> entry = listHashMap.entrySet().iterator().next();
+//        Trafficcategorymaster trafficcategorymaster = entry.getKey();
+
+        if (message instanceof ArrayList) {
+            List<TrafficModel> list = (List<TrafficModel>) message;
+            if (list.size() > 0) {
+                Calendar calendar = Calendar.getInstance();
+                calendar.set(Calendar.MONTH,selectedMonth);
+                getWeekDataFromMonthData(list, calendar);
+                lblDate.setVisibility(View.VISIBLE);
+                imgSetting.setVisibility(View.VISIBLE);
+            } else {
+                listener.onNoItemInList();
+                lblDate.setVisibility(View.GONE);
+                imgSetting.setVisibility(View.GONE);
+            }
+        }
 
 
     }
@@ -456,13 +523,15 @@ public class TrafficDetailsActivity extends AppCompatActivity implements View.On
 
         void onTrafficModelList(List<TempYearHashMap> lists, CharSequence title);
 
-        void onTrafficDailyData(List<TrafficModel> lists, CommonMethod.WeekList selectWeek, CharSequence title);
+        void onTrafficDailyData(List<TrafficModel> lists, CharSequence title);
 
         void onTrafficYearData(List<TempYearHashMap> lists, CharSequence title);
 
         void onTrafficData(List<TempYearHashMap> lists, CharSequence title);
-    }
 
+        void onNoItemInList();
+
+    }
 
 
 }

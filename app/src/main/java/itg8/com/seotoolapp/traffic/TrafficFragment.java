@@ -54,6 +54,7 @@ public class TrafficFragment extends Fragment implements TrafficAdapter.OnItemCl
     private String mParam2;
     private List<TrafficModel> listTraffic;
     private boolean isViewCreated=false;
+    private Context mContext;
 
 
     public TrafficFragment() {
@@ -106,6 +107,13 @@ public class TrafficFragment extends Fragment implements TrafficAdapter.OnItemCl
                 generateCategoryList(listTraffic);
             } else
                 CommonMethod.showHideView(rlNoItem, recyclerView);
+            UtilSnackbar.showSnakbarTypeThree(recyclerView, new UtilSnackbar.OnSnackbarActionClickListener() {
+                @Override
+                public void onRetryClicked() {
+                    ((HomeActivity) mContext).setTrafficFragmentDownloadListener();
+
+                }
+            });
 
         }
     }
@@ -114,7 +122,8 @@ public class TrafficFragment extends Fragment implements TrafficAdapter.OnItemCl
     public void onAttach(Context context) {
         super.onAttach(context);
         Log.d(TAG, "onAttach: ");
-        ((HomeActivity) context).setTrafficFragmentListener(this);
+        mContext = context;
+        ((HomeActivity) mContext).setTrafficFragmentListener(this);
 
 
     }
@@ -149,30 +158,39 @@ public class TrafficFragment extends Fragment implements TrafficAdapter.OnItemCl
     }
 
     private void generateCategoryList(List<TrafficModel> list) {
-        List<Trafficcategorymaster> trafficcategorymasterList = new ArrayList<>();
-        for (TrafficModel model : list) {
+        if (isViewCreated) {
+            if (list.size() > 0) {
+                CommonMethod.showHideView(recyclerView, rlNoItem);
 
-            if (!hashMapCategory.containsKey(model.getTrafficcategorymaster())) {
-                List<TrafficModel> trafficModelList = new ArrayList<>();
-                trafficModelList.add(model);
+                List<Trafficcategorymaster> trafficcategorymasterList = new ArrayList<>();
+                for (TrafficModel model : list) {
 
-                trafficcategorymasterList.add(model.getTrafficcategorymaster());
-                hashMapCategory.put(model.getTrafficcategorymaster(), trafficModelList);
+                    if (!hashMapCategory.containsKey(model.getTrafficcategorymaster())) {
+                        List<TrafficModel> trafficModelList = new ArrayList<>();
+                        trafficModelList.add(model);
+
+                        trafficcategorymasterList.add(model.getTrafficcategorymaster());
+                        hashMapCategory.put(model.getTrafficcategorymaster(), trafficModelList);
+                    } else {
+                        hashMapCategory.get(model.getTrafficcategorymaster()).add(model);
+                    }
+
+
+                    Log.d(TAG, "generateCategoryList: " + hashMapCategory.toString());
+
+                }
+
+                init(hashMapCategory, trafficcategorymasterList);
+
             } else {
-                hashMapCategory.get(model.getTrafficcategorymaster()).add(model);
+                CommonMethod.showHideView(recyclerView, rlNoItem);
             }
-
-
-            Log.d(TAG, "generateCategoryList: " + hashMapCategory.toString());
-
         }
-
-        init(hashMapCategory, trafficcategorymasterList);
     }
 
     @Override
     public void onListDownloadFail() {
-        UtilSnackbar.showSnakbarRedColor(rlNoItem,getString(R.string.error));
+        UtilSnackbar.showSnakbarTypeTwo(rlNoItem,getString(R.string.error));
 
 
     }

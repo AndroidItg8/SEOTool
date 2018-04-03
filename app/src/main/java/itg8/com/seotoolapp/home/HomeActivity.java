@@ -346,4 +346,9 @@ public class HomeActivity extends AppCompatActivity {
         intent.putExtra(CommonMethod.TRAFFIC_DETAILS, list);
         startActivity(intent);
     }
+
+    public void setTrafficFragmentDownloadListener() {
+        downloadDashBoardRelatedData();
+
+    }
 }

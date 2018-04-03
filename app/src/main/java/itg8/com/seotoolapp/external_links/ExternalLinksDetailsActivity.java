@@ -320,7 +320,7 @@ public class ExternalLinksDetailsActivity extends AppCompatActivity implements V
         Integer last = selectWeek.getDates().get(selectWeek.getDates().size() - 1);
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.MONTH, months);
-        lblDate.setText(String.valueOf(first) + "-" + String.valueOf(last) + "W " + CommonMethod.getMonthFirstDateToString(calendar) + " M " + years + "Y");
+        lblDate.setText(String.valueOf(first) + "-" + String.valueOf(last)+ CommonMethod.getMonthFirstDateToString(calendar)+years );
         String FirstWeekDate = selectWeek.getDatesStrings().get(0);
         String lastWeekDate = selectWeek.getDatesStrings().get(selectWeek.getDatesStrings().size() - 1);
         downloadDailyExternalLinks(FirstWeekDate, lastWeekDate, selectWeek);
@@ -373,7 +373,7 @@ public class ExternalLinksDetailsActivity extends AppCompatActivity implements V
                         TextView tv = (TextView) tr.findViewById(R.id.lbl_keyword);
                         TableRow.LayoutParams params = (TableRow.LayoutParams) tv.getLayoutParams();
 
-                        params.column = 1;
+                         params.column = 1;
 
                         tv.setText(mo.getExlinkmaster().getTitle());
                         tv.setPadding(4, 4, 4, 4);

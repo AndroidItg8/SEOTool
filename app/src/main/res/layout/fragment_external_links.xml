@@ -6,292 +6,314 @@
     android:fillViewport="true"
     android:scrollbars="horizontal|vertical"
     tools:context="itg8.com.seotoolapp.external_links.ExternalLinksFragment">
-<FrameLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        android:id="@+id/rl_data">
-
-        <TextView
-            android:id="@+id/lbl_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/margin_16"
-            android:layout_marginEnd="@dimen/margin_16"
-            android:layout_marginLeft="@dimen/margin_8"
-            android:layout_marginStart="@dimen/margin_16"
-            android:layout_marginTop="@dimen/margin_16"
-            android:background="@color/colorBlueTransparent"
-            android:drawableLeft="@drawable/ic_date_range_black_24dp"
-            android:drawablePadding="@dimen/margin_4"
-            android:drawableStart="@drawable/ic_date_range_black_24dp"
-            android:fontFamily="@font/roboto_medium"
-            android:gravity="center_vertical"
-            android:text="JAN 17"
-            android:textColor="@color/colorBlack"
-            android:textSize="@dimen/textSize_16" />
-
-        <TextView
-            android:id="@+id/lbl_history"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/lbl_date"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginEnd="@dimen/margin_16"
-            android:layout_marginRight="@dimen/margin_16"
-            android:layout_marginTop="@dimen/margin_16"
-            android:background="@color/colorBlueTransparent"
-            android:fontFamily="@font/roboto"
-            android:padding="@dimen/margin_8"
-            android:text=" History "
-            android:textAllCaps="true"
-            android:textColor="@color/colorBlack"
-            android:textSize="@dimen/textSize_14"
-            android:textStyle="normal" />
-
-        <android.support.v7.widget.CardView
-            android:id="@+id/cardView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/lbl_date"
-            android:layout_margin="@dimen/margin_4"
-            app:cardBackgroundColor="@color/colorBlueTransparent"
-            app:cardCornerRadius="@dimen/margin_4"
-            app:cardPreventCornerOverlap="true"
-            app:cardUseCompatPadding="true">
-
-
-            <com.github.mikephil.charting.charts.BarChart
-                android:id="@+id/barchart"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                android:scaleType="fitXY" />
-        </android.support.v7.widget.CardView>
+        android:layout_height="wrap_content">
 
         <RelativeLayout
-            android:id="@+id/rl_text"
+            android:id="@+id/rl_calender"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/cardView"
-            android:layout_marginBottom="@dimen/margin_16">
+            android:visibility="visible">
+
+            <TextView
+                android:id="@+id/lbl_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_16"
+                android:layout_marginEnd="@dimen/margin_16"
+                android:layout_marginLeft="@dimen/margin_8"
+                android:layout_marginStart="@dimen/margin_16"
+                android:layout_marginTop="@dimen/margin_16"
+                android:layout_alignBaseline="@+id/lbl_history"
+                android:drawableLeft="@drawable/ic_date_range_black_24dp"
+                android:drawablePadding="@dimen/margin_4"
+                android:drawableStart="@drawable/ic_date_range_black_24dp"
+                android:fontFamily="@font/roboto"
+                android:gravity="center_vertical"
+                android:text="JAN 2018"
+                android:textColor="@color/colorBlack"
+                android:textStyle="normal"
+                android:textSize="@dimen/textSize_16" />
 
 
-            <TableLayout
-                android:id="@+id/tableLayout"
+            <Button
+                android:id="@+id/lbl_history"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_marginRight="@dimen/margin_16"
+                android:layout_marginEnd="@dimen/margin_16"
+                android:fontFamily="@font/roboto"
+                android:text="History"
+                android:drawableLeft="@drawable/ic_history_black_24dp"
+                android:drawablePadding="10dp"
+                android:background="@drawable/bg_btn"
+                android:paddingStart="4dp"
+                android:paddingEnd="4dp"
+                android:paddingRight="4dp"
+                android:paddingLeft="4dp"
+                android:layout_alignParentEnd="true"
+                android:textColor="@color/white"
+                android:textSize="12sp"
+                android:textStyle="normal"
+                android:textAllCaps="false"
+                android:layout_marginTop="@dimen/margin_16"
+                android:layout_alignParentRight="true" />
+        </RelativeLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/rl_calender">
+
+            <RelativeLayout
+                android:id="@+id/rl_data"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <TableRow>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="top"
-                        android:background="@color/colorGrayLight"
-                        android:paddingBottom="@dimen/margin_4"
-                        android:paddingEnd="4dp"
-                        android:paddingLeft="4dp"
-                        android:paddingStart="4dp"
-                        android:paddingTop="@dimen/margin_4"
-                        android:text="KeyWord"
-                        android:textColor="@color/colorBlack"
-                        android:textSize="@dimen/textSize_14"
-                        android:textStyle="normal" />
-
-                    <TextView
-                        android:id="@+id/txt_title"
-
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/margin_4"
-                        android:layout_marginRight="@dimen/margin_4"
-                        android:layout_weight="1"
-                        android:fontFamily="@font/roboto"
-                        android:padding="@dimen/margin_8"
-                        android:text=" Tilte "
-                        android:textAllCaps="true"
-                        android:textColor="@color/colorBlack"
-
-                        android:textSize="@dimen/textSize_14"
-                        android:textStyle="bold" />
-
-
-                </TableRow>
-
-                <LinearLayout
+                <android.support.v7.widget.CardView
+                    android:id="@+id/cardView"
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:orientation="vertical">
+                    android:layout_height="wrap_content"
 
-                    <View
+                    android:layout_margin="@dimen/margin_4"
+                    app:cardBackgroundColor="@color/colorBlueTransparent"
+                    app:cardCornerRadius="@dimen/margin_4"
+                    app:cardPreventCornerOverlap="true"
+                    app:cardUseCompatPadding="true">
+
+
+                    <com.github.mikephil.charting.charts.BarChart
+                        android:id="@+id/barchart"
                         android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="@color/colorBlack" />
-                </LinearLayout>
+                        android:layout_height="200dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="10dp"
+                        android:scaleType="fitXY" />
+                </android.support.v7.widget.CardView>
 
-                <TableRow
+                <RelativeLayout
+                    android:id="@+id/rl_text"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/cardView"
+                    android:layout_marginBottom="@dimen/margin_16">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="top"
-                        android:background="@color/colorGrayLight"
-                        android:paddingBottom="@dimen/margin_4"
-                        android:paddingEnd="4dp"
-                        android:paddingLeft="4dp"
-                        android:paddingStart="4dp"
-                        android:paddingTop="@dimen/margin_4"
-                        android:text="URL"
-                        android:textColor="@color/colorBlack"
-                        android:textSize="@dimen/textSize_14"
-                        android:textStyle="normal" />
 
-                    <TextView
-                        android:id="@+id/txt_url"
+                    <TableLayout
+                        android:id="@+id/tableLayout"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/margin_16"
-                        android:layout_marginRight="@dimen/margin_16"
-                        android:layout_weight="1"
-                        android:autoLink="web"
-                        android:fontFamily="@font/roboto"
-                        android:padding="@dimen/margin_8"
-                        android:singleLine="true"
-                        android:text=" http://www.articles.gappoo.com/2015-Article-Directory/it-always-better-estimate-cost-choosing-hospital-partial-knee-replacement
+                        android:layout_height="wrap_content">
+
+                        <TableRow>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="top"
+                                android:background="@color/colorGrayLight"
+                                android:paddingBottom="@dimen/margin_4"
+                                android:paddingEnd="4dp"
+                                android:paddingLeft="4dp"
+                                android:paddingStart="4dp"
+                                android:paddingTop="@dimen/margin_4"
+                                android:text="KeyWord"
+                                android:textColor="@color/colorBlack"
+                                android:textSize="@dimen/textSize_14"
+                                android:textStyle="normal" />
+
+                            <TextView
+                                android:id="@+id/txt_title"
+
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="@dimen/margin_4"
+                                android:layout_marginRight="@dimen/margin_4"
+                                android:layout_weight="1"
+                                android:fontFamily="@font/roboto"
+                                android:padding="@dimen/margin_8"
+                                android:text=" Tilte "
+                                android:textAllCaps="true"
+                                android:textColor="@color/colorBlack"
+
+                                android:textSize="@dimen/textSize_14"
+                                android:textStyle="bold" />
+
+
+                        </TableRow>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:orientation="vertical">
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:background="@color/colorBlack" />
+                        </LinearLayout>
+
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="top"
+                                android:background="@color/colorGrayLight"
+                                android:paddingBottom="@dimen/margin_4"
+                                android:paddingEnd="4dp"
+                                android:paddingLeft="4dp"
+                                android:paddingStart="4dp"
+                                android:paddingTop="@dimen/margin_4"
+                                android:text="URL"
+                                android:textColor="@color/colorBlack"
+                                android:textSize="@dimen/textSize_14"
+                                android:textStyle="normal" />
+
+                            <TextView
+                                android:id="@+id/txt_url"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="@dimen/margin_16"
+                                android:layout_marginRight="@dimen/margin_16"
+                                android:layout_weight="1"
+                                android:autoLink="web"
+                                android:fontFamily="@font/roboto"
+                                android:padding="@dimen/margin_8"
+                                android:singleLine="true"
+                                android:text=" http://www.articles.gappoo.com/2015-Article-Directory/it-always-better-estimate-cost-choosing-hospital-partial-knee-replacement
 http://www.articles.gappoo.com/2015-Article-Directory/it-always-better-estimate-cost-choosing-hospital-partial-knee-replacement
  "
-                        android:textAllCaps="true"
-                        android:textColor="@color/colorBlack"
-                        android:textSize="@dimen/txt_size_12"
-                        android:textStyle="normal"
+                                android:textAllCaps="true"
+                                android:textColor="@color/colorBlack"
+                                android:textSize="@dimen/txt_size_12"
+                                android:textStyle="normal"
 
-                        />
-                </TableRow>
+                                />
+                        </TableRow>
 
-                <LinearLayout
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:orientation="vertical">
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:background="@color/colorBlack" />
+                        </LinearLayout>
+
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="top"
+                                android:background="@color/colorGrayLight"
+                                android:paddingBottom="@dimen/margin_4"
+                                android:paddingEnd="4dp"
+                                android:paddingLeft="4dp"
+                                android:paddingStart="4dp"
+                                android:paddingTop="@dimen/margin_4"
+                                android:text="Date"
+                                android:textColor="@color/colorBlack"
+                                android:textSize="@dimen/textSize_14"
+                                android:textStyle="normal" />
+
+                            <TextView
+                                android:id="@+id/lbl_dates"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="@dimen/margin_16"
+                                android:layout_marginRight="@dimen/margin_16"
+                                android:layout_weight="1"
+                                android:fontFamily="@font/roboto"
+                                android:padding="@dimen/margin_8"
+                                android:text="28-03-2018 "
+                                android:textAllCaps="true"
+                                android:textColor="@color/colorBlack"
+                                android:textSize="@dimen/textSize_14"
+                                android:textStyle="bold" />
+                        </TableRow>
+                    </TableLayout>
+
+
+                </RelativeLayout>
+
+
+                <itg8.com.seotoolapp.widget.fixtablelayout.FixTableLayout
+                    android:id="@+id/fixTableLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:orientation="vertical">
+                    android:layout_height="200dp"
+                    android:layout_below="@+id/rl_text"
+                    android:layout_margin="@dimen/margin_8"
+                    app:fixtable_column_1_color="@color/colorGrayLight"
+                    app:fixtable_column_2_color="@color/white"
+                    app:fixtable_divider_color="@color/colorGrayLight"
+                    app:fixtable_divider_height="1dp"
+                    app:fixtable_item_gravity="CENTER"
+                    app:fixtable_item_top_bottom_padding="8dp"
+                    app:fixtable_item_width="100dp"
+                    app:fixtable_show_item_divider="true"
+                    app:fixtable_show_left_view_shadow="true"
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="@color/colorBlack" />
-                </LinearLayout>
+                    app:fixtable_title_color="#C5CDEF" />
 
-                <TableRow
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_no_item"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <ImageView
+                    android:id="@+id/img_no"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_centerInParent="true"
+                    app:srcCompat="@drawable/ic_analysis" />
+
+                <TextView
+                    android:id="@+id/lbl_no_data"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/img_no"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/roboto"
+                    android:gravity="center"
+                    android:text="Oops No Data "
+                    android:textColor="#FF8C29"
+                    android:textSize="20sp" />
 
-                    <TextView
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/lbl_no_data"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="5dp"
+                    android:fontFamily="@font/roboto"
+                    android:gravity="center"
+                    android:text="for analysis"
+                    android:textAllCaps="true"
+                    android:textColor="#F0353D"
+                    android:textSize="14sp" />
+            </RelativeLayout>
+        </FrameLayout>
 
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="top"
-                        android:background="@color/colorGrayLight"
-                        android:paddingBottom="@dimen/margin_4"
-                        android:paddingEnd="4dp"
-                        android:paddingLeft="4dp"
-                        android:paddingStart="4dp"
-                        android:paddingTop="@dimen/margin_4"
-                        android:text="Date"
-                        android:textColor="@color/colorBlack"
-                        android:textSize="@dimen/textSize_14"
-                        android:textStyle="normal" />
-
-                    <TextView
-                        android:id="@+id/lbl_dates"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/margin_16"
-                        android:layout_marginRight="@dimen/margin_16"
-                        android:layout_weight="1"
-                        android:fontFamily="@font/roboto"
-                        android:padding="@dimen/margin_8"
-                        android:text="28-03-2018 "
-                        android:textAllCaps="true"
-                        android:textColor="@color/colorBlack"
-                        android:textSize="@dimen/textSize_14"
-                        android:textStyle="bold" />
-                </TableRow>
-            </TableLayout>
-
-
-        </RelativeLayout>
-
-
-        <itg8.com.seotoolapp.widget.fixtablelayout.FixTableLayout
-            android:id="@+id/fixTableLayout"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:layout_below="@+id/rl_text"
-            android:layout_margin="@dimen/margin_8"
-            app:fixtable_column_1_color="@color/colorGrayLight"
-            app:fixtable_column_2_color="@color/white"
-            app:fixtable_divider_color="@color/colorGrayLight"
-            app:fixtable_divider_height="1dp"
-            app:fixtable_item_gravity="CENTER"
-            app:fixtable_item_top_bottom_padding="8dp"
-            app:fixtable_item_width="100dp"
-            app:fixtable_show_item_divider="true"
-            app:fixtable_show_left_view_shadow="true"
-
-            app:fixtable_title_color="#C5CDEF" />
     </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/rl_no_item"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:visibility="visible">
-
-        <ImageView
-            android:id="@+id/img_no"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_centerInParent="true"
-            app:srcCompat="@drawable/ic_analysis" />
-        <TextView
-            android:id="@+id/lbl_no_data"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/img_no"
-            android:layout_gravity="center"
-            android:layout_marginTop="10dp"
-            android:gravity="center"
-            android:textSize="20sp"
-            android:fontFamily="@font/roboto"
-            android:text="Oops No Data "
-            android:textColor="#FF8C29" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/lbl_no_data"
-            android:layout_gravity="center"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="5dp"
-            android:gravity="center"
-            android:textSize="14sp"
-            android:textAllCaps="true"
-            android:fontFamily="@font/roboto"
-            android:text="for analysis"
-            android:textColor="#F0353D" />
-    </RelativeLayout>
-</FrameLayout>
-
 
 
 </ScrollView>

@@ -40,6 +40,7 @@ public class CommonMethod {
     private static final java.lang.String DATE_FORMAT = "MM-yyyy";
     private static final java.lang.String DATE_FORMATS = "dd/MM";
     private static final java.lang.String DATE_FORMATS_MONTH = "MMM";
+    private static final java.lang.String DATE_FORMATS_MONTHS = "MMM-yyyy";
     private static final java.lang.String DATE_FORMAT_CURRENT = "yyyy-MM-dd";
     public static final int EXTERNAL_LINKS = 2;
     public static final int SOCIAL_MEDIA = 1;
@@ -51,6 +52,7 @@ public class CommonMethod {
     public static SimpleDateFormat dateFormats = new SimpleDateFormat(CommonMethod.DATE_FORMATS, Locale.getDefault());
     public static SimpleDateFormat dateFormatsMonths = new SimpleDateFormat(CommonMethod.DATE_FORMATS_MONTH, Locale.getDefault());
     public static SimpleDateFormat dateFormatCurrent = new SimpleDateFormat(CommonMethod.DATE_FORMAT_CURRENT, Locale.getDefault());
+    public static SimpleDateFormat dateFormatsMonthes = new SimpleDateFormat(CommonMethod.DATE_FORMATS_MONTHS, Locale.getDefault());
 
 
     @SuppressLint("MissingPermission")
@@ -122,7 +124,7 @@ public class CommonMethod {
     public static String getCurrentDateString() {
         String newDate = "";
         try {
-            newDate = dateFormat.format(Calendar.getInstance().getTime());
+            newDate = dateFormatsMonthes.format(Calendar.getInstance().getTime());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -173,8 +175,21 @@ public class CommonMethod {
         return newDate;
 
     }
+    public static Calendar getMonthFirstDateToStringFullDate(Calendar calendar) {
+
+        calendar.set(Calendar.DAY_OF_MONTH, 1);
+
+        return calendar;
+
+    }
 
     public static Calendar getThisMonth() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.DAY_OF_MONTH, 1);
+
+        return calendar;
+    }
+    public static Calendar getMonth(String month,String year) {
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.DAY_OF_MONTH, 1);
 
@@ -183,6 +198,11 @@ public class CommonMethod {
 
     public static Calendar getThisMonthLast() {
         Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
+
+        return calendar;
+    } public static Calendar getThisMonthLastFullDate(Calendar calendar) {
+
         calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
 
         return calendar;

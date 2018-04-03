@@ -372,26 +372,30 @@ public class TrafficDetailsFragment extends Fragment implements TrafficDetailsAc
     }
 
     @Override
+    public void onNoItemInList() {
+        CommonMethod.showHideView( rlNoItem,rlData);
+    }
+
+    @Override
     public void onTrafficModelList(List<CommonMethod.TempYearHashMap> lists, CharSequence title) {
         if(isViewCreated) {
-        if(lists.size()>0 ) {
-            CommonMethod.showHideView(rlData, rlNoItem);
-            data.clear();
-            data.addAll(lists);
-            List<Object> list = new ArrayList<>();
-            list.addAll(lists);
-            setTableAdapter(new String[]{null, String.valueOf(title)});
-            setBarchart(list, title.toString());
-        }else
-            CommonMethod.showHideView( rlNoItem,rlData);
+            if (lists.size() > 0) {
+                CommonMethod.showHideView(rlData, rlNoItem);
+                data.clear();
+                data.addAll(lists);
+                List<Object> list = new ArrayList<>();
+                list.addAll(lists);
+                setTableAdapter(new String[]{null, String.valueOf(title)});
+                setBarchart(list, title.toString());
+            }
         }
 
 
     }
 
     @Override
-    public void onTrafficDailyData(List<TrafficModel> lists, WeekList selectWeek, CharSequence title) {
-        initDailyTrafficData(lists, selectWeek, title.toString());
+    public void onTrafficDailyData(List<TrafficModel> lists,  CharSequence title) {
+        initDailyTrafficData(lists, title.toString());
 //        List<Object> list = new ArrayList<>();
 //        list.addAll(lists);
 //        setBarchart(list,getActivity().getActionBar().getTitle());
@@ -405,7 +409,7 @@ public class TrafficDetailsFragment extends Fragment implements TrafficDetailsAc
 
     }
 
-    private void initDailyTrafficData(List<TrafficModel> lists, WeekList selectWeek, String title) {
+    private void initDailyTrafficData(List<TrafficModel> lists, String title) {
         if(isViewCreated) {
         if(lists.size()>0 ) {
             CommonMethod.showHideView(rlData, rlNoItem);
@@ -438,7 +442,6 @@ public class TrafficDetailsFragment extends Fragment implements TrafficDetailsAc
                 lists.clear();
             } else
                 CommonMethod.showHideView(rlNoItem, rlData);
-
         }
 
 

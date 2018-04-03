@@ -62,8 +62,7 @@ public class KeyWordDetailsActivity extends AppCompatActivity implements View.On
     TextView lblRanked;
     @BindView(R.id.tableLayout)
     TableLayout tableLayout;
-    @BindView(R.id.rl_top)
-    RelativeLayout rlTop;
+
     @BindView(R.id.lbl_dates)
     TextView lblDates;
     @BindView(R.id.tbl_row_first)
@@ -151,7 +150,7 @@ public class KeyWordDetailsActivity extends AppCompatActivity implements View.On
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.MONTH, selectedMonth);
 
-        lblDate.setText(CommonMethod.getMonthFirstDateToString(calendar)+ " M " + String.valueOf(selectedYear) + " " + " Y");
+        lblDate.setText(CommonMethod.getMonthFirstDateToString(calendar)+ String.valueOf(selectedYear) );
         downloadMonthLyKeyWord(selectedMonth, selectedYear);
 
 
@@ -163,7 +162,7 @@ public class KeyWordDetailsActivity extends AppCompatActivity implements View.On
         Integer last = selectWeek.getDates().get(selectWeek.getDates().size() - 1);
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.MONTH, months);
-        lblDate.setText(String.valueOf(first) + "-" + String.valueOf(last) + "W " +CommonMethod.getMonthFirstDateToString(calendar)  + " M " + years + "Y");
+        lblDate.setText(String.valueOf(first) + "-" + String.valueOf(last)+CommonMethod.getMonthFirstDateToString(calendar)   + years );
         String FirstWeekDate = selectWeek.getDatesStrings().get(0);
         String lastWeekDate = selectWeek.getDatesStrings().get(selectWeek.getDatesStrings().size() - 1);
         downloadDailyTrafficDataFromServer(FirstWeekDate, lastWeekDate, selectWeek);
@@ -173,7 +172,7 @@ public class KeyWordDetailsActivity extends AppCompatActivity implements View.On
 
     @Override
     public void onItemSelect(Integer selectedYear) {
-        lblDate.setText(String.valueOf(selectedYear) + " " + " Year");
+        lblDate.setText(String.valueOf(selectedYear) );
         getCurrentMonthDateDownload(selectedYear);
 
     }
@@ -188,13 +187,14 @@ public class KeyWordDetailsActivity extends AppCompatActivity implements View.On
                     @Override
                     public void onSuccess(Object message) {
                         getDailyDataFromWeekData((List<KeyWordModel>) message, selectWeek);
-
-
                     }
 
                     @Override
                     public void onFailure(Object err) {
                     }
+
+
+
 
                     @Override
                     public void onSomethingWrong(Object e) {
@@ -399,7 +399,6 @@ public class KeyWordDetailsActivity extends AppCompatActivity implements View.On
                     @Override
                     public void onSuccess(Object message) {
 //                        getMonthDataFromYearData((List) message, selectedYear);
-
                         getMonthDateFromYearData((List) message, selectedYear);
 
 
@@ -424,12 +423,9 @@ public class KeyWordDetailsActivity extends AppCompatActivity implements View.On
             final List<KeyWordModel> lists = (List<KeyWordModel>) message;
             if (lists.size() > 0) {
                 CommonMethod.showHideView( rlData,rlNoItem);
-
-
-
-                Observable.create(new ObservableOnSubscribe<List<CommonMethod.TempYearKeyWordHashMap>>() {
+                Observable.create(new ObservableOnSubscribe< List<CommonMethod.TempYearKeyWordHashMap>>() {
                     @Override
-                    public void subscribe(ObservableEmitter<List<CommonMethod.TempYearKeyWordHashMap>> e) throws Exception {
+                    public void subscribe(ObservableEmitter< List<CommonMethod.TempYearKeyWordHashMap>> e) throws Exception {
                         HashMap<Integer, List<KeyWordModel>> tempHashmap = CommonMethod.getMonthHashMapForKeyWord();
                         Calendar calendar = Calendar.getInstance();
                         for (KeyWordModel model : lists
@@ -442,7 +438,9 @@ public class KeyWordDetailsActivity extends AppCompatActivity implements View.On
                             }
                         }
 
-                        List<CommonMethod.TempYearKeyWordHashMap> listTemp = new ArrayList<>();
+
+
+                       List<CommonMethod.TempYearKeyWordHashMap> listTempList =new ArrayList<>();
                         for (Map.Entry<Integer, List<KeyWordModel>> model : tempHashmap.entrySet()
                                 ) {
                             CommonMethod.TempYearKeyWordHashMap tempYearHashMap = new CommonMethod.TempYearKeyWordHashMap();
@@ -451,28 +449,27 @@ public class KeyWordDetailsActivity extends AppCompatActivity implements View.On
                             int value = 0;
                             for (KeyWordModel mo :
                                     model.getValue()) {
-
                                 value += Integer.parseInt(mo.getKeywordstatusmaster().getRank());
                             }
                             tempYearHashMap.setValue(value);
                             tempYearHashMap.setList(model.getValue());
-                            listTemp.add(tempYearHashMap);
+                            listTempList.add(tempYearHashMap);
+//                            listTemp.put(mo,listTempList);
                         }
 
-
-                        e.onNext(listTemp);
+                        e.onNext(listTempList);
                         e.onComplete();
                     }
 
                 }).subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<List<CommonMethod.TempYearKeyWordHashMap>>() {
+                        .observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer< List<CommonMethod.TempYearKeyWordHashMap>>() {
                     @Override
                     public void onSubscribe(Disposable d) {
 
                     }
 
                     @Override
-                    public void onNext(List<CommonMethod.TempYearKeyWordHashMap> tempYearKeyWordHashMaps) {
+                    public void onNext( List<CommonMethod.TempYearKeyWordHashMap> tempYearKeyWordHashMaps) {
                         addTableRow(tempYearKeyWordHashMaps);
                     }
 
@@ -496,7 +493,6 @@ public class KeyWordDetailsActivity extends AppCompatActivity implements View.On
 
     private void addTableRow(List<CommonMethod.TempYearKeyWordHashMap> list) {
 
-
         cleanTable(tableLayout);
         tableLayout.addView(tblRowFirst);
         tableLayout.addView(llTbl);
@@ -507,7 +503,6 @@ public class KeyWordDetailsActivity extends AppCompatActivity implements View.On
         for (CommonMethod.TempYearKeyWordHashMap model : list
                 ) {
 
-
             tr = (TableRow) getLayoutInflater().inflate(R.layout.item_rv_key_detail_status, null);
 
             // Fill out our cells
@@ -515,7 +510,9 @@ public class KeyWordDetailsActivity extends AppCompatActivity implements View.On
             tv = (TextView) tr.findViewById(R.id.lbl_date);
             tv.setPadding(4, 0, 4, 0);
             tv.setText(model.getMonth() + "/" + model.getYear());
+
             if (model.getList() != null && model.getList().size() > 0) {
+
 
                 for (KeyWordModel mo : model.getList()
                         ) {

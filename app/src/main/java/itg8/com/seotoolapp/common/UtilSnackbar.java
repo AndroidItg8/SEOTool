@@ -30,7 +30,7 @@ public class UtilSnackbar {
     public static void showSnakbarTypeThree(View rootView, final OnSnackbarActionClickListener listener) {
 
         Snackbar
-                .make(rootView, "NoInternetConnectivity", Snackbar.LENGTH_INDEFINITE)
+                .make(rootView, "No data found", Snackbar.LENGTH_LONG)
                 .setAction("Try Again", new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {

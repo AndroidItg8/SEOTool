@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TableLayout;
@@ -78,7 +79,7 @@ public class ExternalLinksFragment extends Fragment implements HomeController.Ex
     @BindView(R.id.rl_text)
     RelativeLayout rlText;
     @BindView(R.id.lbl_history)
-    TextView lblHistory;
+    Button lblHistory;
     @BindView(R.id.tableLayout)
     TableLayout tableLayout;
     @BindView(R.id.rl_data)
@@ -145,7 +146,8 @@ public class ExternalLinksFragment extends Fragment implements HomeController.Ex
 
     private void init() {
         lblHistory.setOnClickListener(this);
-        lblDate.setText(CommonMethod.getCurrentDateString());
+        lblDate.setText( "Current Month "+CommonMethod.getCurrentDateString());
+
         if (listExternalLinks != null && listExternalLinks.size() > 0) {
             CommonMethod.showHideView(rlData, rlNoItem);
             SortExternalLinksFor(listExternalLinks, this.type);
@@ -183,8 +185,7 @@ public class ExternalLinksFragment extends Fragment implements HomeController.Ex
             ArrayList<BarEntry> yVals1 = new ArrayList<BarEntry>();
             final List<String> list = new ArrayList<>();
             float f = 0;
-            for (Map.Entry<String, List<ExternalLinksModel>> entry : hashMapList.entrySet()
-                    ) {
+            for (Map.Entry<String, List<ExternalLinksModel>> entry : hashMapList.entrySet()) {
                 int value = 0;
                 ExternalLinksModel models = null;
                 for (ExternalLinksModel model : entry.getValue()
@@ -198,7 +199,6 @@ public class ExternalLinksFragment extends Fragment implements HomeController.Ex
                     list.add(String.valueOf(CommonMethod.convertStringDateToDDMM(entry.getKey())));
                     yVals1.add(new BarEntry(f, value, models));
 //                mChart.notifyDataSetChanged();
-
                     f++;
                 }
 

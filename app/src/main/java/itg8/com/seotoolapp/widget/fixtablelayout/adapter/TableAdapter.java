@@ -92,7 +92,7 @@ public class TableAdapter extends RecyclerView.Adapter<TableAdapter.TableViewHol
             bindViews.add(textView);
         }
 
-        //给奇数列设置背景
+
         setBackgrandForItem(position, ll_content);
 
         dataAdapter.convertData(position, bindViews);
