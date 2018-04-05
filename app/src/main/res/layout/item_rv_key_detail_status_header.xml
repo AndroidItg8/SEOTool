@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <TableRow android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/rowFirsts">
+        <TextView
+            android:id="@+id/lbl_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="top"
+            android:padding="@dimen/margin_4"
+            android:text="Date"
+            android:gravity="center"
+            android:textColor="@color/colorBlack"
+            android:textSize="@dimen/textSize_14"
+            android:textStyle="normal" />
+
+    </TableRow>
+
+    <View android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorGrayLight"/>
+
+    <TableRow android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/rowSeconds">
+
+
+        <TextView
+            android:id="@+id/lbl_size"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="top"
+            android:padding="@dimen/margin_4"
+            android:text="key Count"
+            android:gravity="center"
+            android:textColor="@color/colorBlack"
+            android:textSize="@dimen/textSize_14"
+            android:textStyle="normal" />
+
+        <!--<TextView-->
+            <!--android:id="@+id/lbl_ranked"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_gravity="top"-->
+            <!--android:layout_weight="1"-->
+            <!--android:padding="@dimen/margin_4"-->
+            <!--android:text="Ranked"-->
+            <!--android:gravity="center"-->
+            <!--android:textColor="@color/colorBlack"-->
+            <!--android:textSize="@dimen/textSize_14"-->
+            <!--android:textStyle="normal" />-->
+
+    </TableRow>
+
+
+
+
+
+</TableLayout>

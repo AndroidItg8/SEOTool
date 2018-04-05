@@ -8,243 +8,141 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="itg8.com.seotoolapp.keyword.KeyWordDetailsActivity"
     tools:showIn="@layout/activity_key_word_details">
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/ll_data"
-        android:orientation="horizontal">
-        <TextView
-            android:id="@+id/lbl_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/margin_16"
-            android:layout_marginStart="@dimen/margin_16"
-            android:layout_marginTop="@dimen/margin_16"
-            android:fontFamily="@font/roboto_medium"
-            android:text="JAN 17"
-            android:textColor="@color/colorBlack"
-            android:textSize="@dimen/textSize_16"
-            android:layout_marginEnd="@dimen/margin_16"
-            android:gravity="center_vertical"
-            android:drawableLeft="@drawable/ic_date_range_black_24dp"
-            android:drawablePadding="@dimen/margin_4"
-            android:layout_marginLeft="@dimen/margin_8"
-            android:drawableStart="@drawable/ic_date_range_black_24dp" />
 
-        <ImageView
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginBottom="@dimen/margin_16"
-            android:layout_marginEnd="@dimen/margin_16"
-            android:layout_marginTop="@dimen/margin_16"
-            android:layout_marginRight="@dimen/margin_16"
-            app:srcCompat="@drawable/ic_settings_black_24dp"/>
-    </RelativeLayout>
-    <FrameLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_below="@+id/ll_data"
         android:layout_height="wrap_content">
 
         <RelativeLayout
-            android:id="@+id/rl_data"
-            android:visibility="gone"
-            android:layout_marginEnd="@dimen/margin_16"
-            android:layout_marginLeft="@dimen/margin_16"
-            android:layout_marginStart="@dimen/margin_16"
+            android:id="@+id/ll_data"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
+            <TextView
+                android:id="@+id/lbl_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_16"
+                android:layout_marginEnd="@dimen/margin_16"
+                android:layout_marginLeft="@dimen/margin_8"
+                android:layout_marginStart="@dimen/margin_16"
+                android:layout_marginTop="@dimen/margin_16"
+                android:drawableLeft="@drawable/ic_date_range_black_24dp"
+                android:drawablePadding="@dimen/margin_4"
+                android:drawableStart="@drawable/ic_date_range_black_24dp"
+                android:fontFamily="@font/roboto_medium"
+                android:gravity="center_vertical"
+                android:text="JAN 17"
+                android:textColor="@color/colorBlack"
+                android:textSize="@dimen/textSize_16" />
 
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginBottom="@dimen/margin_16"
+                android:layout_marginEnd="@dimen/margin_16"
+                android:layout_marginRight="@dimen/margin_16"
+                android:layout_marginTop="@dimen/margin_16"
+                app:srcCompat="@drawable/ic_settings_black_24dp" />
+        </RelativeLayout>
 
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ll_data">
+
+            <RelativeLayout
+                android:id="@+id/rl_data"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="@dimen/margin_16"
+                android:layout_marginLeft="@dimen/margin_16"
+                android:layout_marginStart="@dimen/margin_16"
+                android:visibility="visible">
+                <HorizontalScrollView
+                    android:id="@+id/horizontalView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scrollbars="horizontal">
 
 
                 <TableLayout
                     android:id="@+id/tableLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="visible">
 
-                    <TableRow
-                        android:id="@+id/tbl_row_first"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <TextView
-                            android:id="@+id/lbl_loc"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="top"
-                            android:background="@color/colorGrayLight"
-                            android:paddingBottom="@dimen/margin_4"
-                            android:paddingStart="2dp"
-                            android:paddingTop="@dimen/margin_4"
-                            android:text="Loc: India"
-                            android:textColor="@color/colorBlack"
-                            android:textSize="@dimen/textSize_14"
-
-                            android:textStyle="bold"
-                            android:paddingLeft="2dp" />
-
-                        <TextView
-                            android:id="@+id/lbl_tbl_date"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_span="2"
-                            android:paddingStart="2dp"
-                            android:layout_weight="1"
-                            android:background="@color/colorGrayLight"
-                            android:gravity="center"
-                            android:padding="@dimen/margin_4"
-                            android:text="Months 2018"
-                            android:textColor="@color/colorBlack"
-                            android:textSize="@dimen/textSize_14"
-                            android:textStyle="bold"
-                            android:paddingLeft="2dp" />
-                    </TableRow>
-
-                    <LinearLayout
-                        android:id="@+id/ll_tbl"
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:orientation="vertical">
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:background="@color/colorBlack" />
-                    </LinearLayout>
-
-                    <TableRow
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/tbl_row_second">
-
-                        <TextView
-                            android:id="@+id/lbl_keyword"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="top"
-                            android:paddingStart="2dp"
-                            android:paddingEnd="2dp"
-
-                            android:layout_weight="1"
-                            android:background="@color/colorGrayLight"
-
-                            android:paddingBottom="@dimen/margin_4"
-                            android:paddingTop="@dimen/margin_4"
-                            android:text="Targeted Keywords"
-                            android:textColor="@color/colorBlack"
-                            android:textSize="@dimen/textSize_14"
-
-                            android:textStyle="normal"
-                            android:paddingLeft="2dp" />
-
-                        <TextView
-                            android:id="@+id/lbl_dates"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="top"
-                            android:layout_weight="1"
-                            android:paddingStart="2dp"
-                            android:paddingEnd="2dp"
-                            android:background="@color/colorGrayLight"
-                            android:gravity="center"
-                            android:padding="@dimen/margin_4"
-                            android:text="Date"
-                            android:textColor="@color/colorBlack"
-                            android:textSize="@dimen/textSize_14"
-                            android:textStyle="normal"
-                            android:paddingLeft="2dp" />
-
-                        <TextView
-                            android:id="@+id/lbl_page"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="top"
-                            android:layout_weight="1"
-                            android:paddingStart="2dp"
-                            android:paddingEnd="2dp"
-                            android:background="@color/colorGrayLight"
-                            android:gravity="center"
-                            android:padding="@dimen/margin_4"
-                            android:text="Page"
-                            android:textColor="@color/colorBlack"
-                            android:textSize="@dimen/textSize_14"
-                            android:textStyle="normal"
-                            android:paddingLeft="2dp" />
-
-                        <TextView
-                            android:id="@+id/lbl_ranked"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="top"
-                            android:layout_weight="1"
-                            android:background="@color/colorGrayLight"
-                            android:gravity="center"
-                            android:padding="@dimen/margin_4"
-                            android:text="Ranked"
-                            android:paddingStart="2dp"
-
-                            android:textColor="@color/colorBlack"
-                            android:textSize="@dimen/textSize_14"
-                            android:textStyle="normal"
-                            android:paddingLeft="2dp" />
-                    </TableRow>
 
 
                 </TableLayout>
+                </HorizontalScrollView>
+                <HorizontalScrollView
+                    android:id="@+id/horizontalViews"
+                    android:layout_width="match_parent"
+                    android:layout_below="@+id/horizontalView"
+                    android:layout_height="wrap_content"
+                    android:scrollbars="horizontal">
+                <TableLayout
+                    android:id="@+id/tableLayoutDetails"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
 
 
+                    android:layout_marginBottom="@dimen/margin_16"
+                    android:layout_marginTop="@dimen/margin_16"
+                    android:visibility="visible">
+
+                </TableLayout>
+                </HorizontalScrollView>
 
 
+            </RelativeLayout>
 
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/rl_no_item"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:visibility="gone">
-
-            <ImageView
-                android:id="@+id/img_no"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_centerInParent="true"
-                app:srcCompat="@drawable/ic_analysis" />
-            <TextView
-                android:id="@+id/lbl_no_data"
+            <RelativeLayout
+                android:id="@+id/rl_no_item"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/img_no"
-                android:layout_gravity="center"
-                android:layout_marginTop="10dp"
-                android:gravity="center"
-                android:textSize="20sp"
-                android:fontFamily="@font/roboto"
-                android:text="Oops No Data"
-                android:textColor="#333333" />
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:visibility="gone">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/lbl_no_data"
-                android:layout_gravity="center"
-                android:layout_margin="10dp"
-                android:gravity="center"
-                android:textSize="14sp"
-                android:fontFamily="@font/roboto"
-                android:text="No data found for analysis"
-                android:textColor="@color/colorBlack" />
-        </RelativeLayout>
+                <ImageView
+                    android:id="@+id/img_no"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_centerInParent="true"
+                    app:srcCompat="@drawable/ic_analysis" />
+
+                <TextView
+                    android:id="@+id/lbl_no_data"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/img_no"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/roboto"
+                    android:gravity="center"
+                    android:text="Oops No Data"
+                    android:textColor="#333333"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/lbl_no_data"
+                    android:layout_gravity="center"
+                    android:layout_margin="10dp"
+                    android:fontFamily="@font/roboto"
+                    android:gravity="center"
+                    android:text="No data found for analysis"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="14sp" />
+            </RelativeLayout>
 
 
-    </FrameLayout>
+        </FrameLayout>
 
     </RelativeLayout>
 </ScrollView>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+        <item name="group_1_10" type="id"/>
+        <item name="group_11_20" type="id"/>
+        <item name="group_21_30" type="id"/>
+        <item name="group_31_40" type="id"/>
+        <item name="group_41_50" type="id"/>
+        <item name="group_50_plus" type="id"/>
+
+
+</resources>

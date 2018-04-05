@@ -63,12 +63,7 @@ import itg8.com.seotoolapp.traffic.controller.HomeController;
  * create an instance of this fragment.
  */
 public class KeyWordFragment extends Fragment implements HomeController.KeyWordFragmentListener<KeyWordModel>, OnChartValueSelectedListener, View.OnClickListener {
-    public static final String GRUOP_1_10 = "1-10";
-    public static final String GROUP_11_20 = "11-20";
-    public static final String GROUP_21_30 = "21-30";
-    public static final String GROUP_31_40 = "31-40";
-    public static final String GROUP_41_50 = "41-50";
-    public static final String GROUP_50_P = "50+";
+
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -381,7 +376,7 @@ public class KeyWordFragment extends Fragment implements HomeController.KeyWordF
 
         // NOTE: The order of the entries when being added to the entries array determines their position around the center of
         // the chart.
-        String[] mParties = {GRUOP_1_10, GROUP_11_20, GROUP_21_30, GROUP_31_40, GROUP_41_50, GROUP_50_P};
+        String[] mParties = {CommonMethod.GRUOP_1_10, CommonMethod.GROUP_11_20,CommonMethod. GROUP_21_30, CommonMethod.GROUP_31_40, CommonMethod.GROUP_41_50, CommonMethod.GROUP_50_P};
         for (int i = 0; i < mParties.length; i++) {
             if (getSize(mParties[i]).size() != 0) {
                 entries.add(new PieEntry(getSize(mParties[i]).size(),
@@ -416,17 +411,17 @@ public class KeyWordFragment extends Fragment implements HomeController.KeyWordF
 
     public List<Keywordstatusmaster> getSize(String i) {
 
-        if (i.equalsIgnoreCase(GRUOP_1_10))
+        if (i.equalsIgnoreCase(CommonMethod.GRUOP_1_10))
             return listGroup1_10;
-        else if (i.equalsIgnoreCase(GROUP_11_20))
+        else if (i.equalsIgnoreCase(CommonMethod.GROUP_11_20))
             return listGroup11_20;
-        else if (i.equalsIgnoreCase(GROUP_21_30))
+        else if (i.equalsIgnoreCase(CommonMethod.GROUP_21_30))
             return listGroup21_30;
-        else if (i.equalsIgnoreCase(GROUP_31_40))
+        else if (i.equalsIgnoreCase(CommonMethod.GROUP_31_40))
             return listGroup31_40;
-        else if (i.equalsIgnoreCase(GROUP_41_50))
+        else if (i.equalsIgnoreCase(CommonMethod.GROUP_41_50))
             return listGroup41_50;
-        else if (i.equalsIgnoreCase(GROUP_50_P))
+        else if (i.equalsIgnoreCase(CommonMethod.GROUP_50_P))
             return listGroup50;
 
 

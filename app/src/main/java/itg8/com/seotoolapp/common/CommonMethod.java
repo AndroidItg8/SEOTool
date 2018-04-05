@@ -8,18 +8,19 @@ import android.telephony.TelephonyManager;
 import android.text.format.DateFormat;
 import android.util.TypedValue;
 import android.view.View;
-import android.widget.RelativeLayout;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
 import itg8.com.seotoolapp.external_links.model.ExternalLinksModel;
 import itg8.com.seotoolapp.keyword.model.KeyWordModel;
+import itg8.com.seotoolapp.keyword.model.Keywordstatusmaster;
 import itg8.com.seotoolapp.traffic.model.TrafficModel;
 
 /**
@@ -42,6 +43,16 @@ public class CommonMethod {
     private static final java.lang.String DATE_FORMATS_MONTH = "MMM";
     private static final java.lang.String DATE_FORMATS_MONTHS = "MMM-yyyy";
     private static final java.lang.String DATE_FORMAT_CURRENT = "yyyy-MM-dd";
+
+
+    public static final String GRUOP_1_10 = "1-10";
+    public static final String GROUP_11_20 = "11-20";
+    public static final String GROUP_21_30 = "21-30";
+    public static final String GROUP_31_40 = "31-40";
+    public static final String GROUP_41_50 = "41-50";
+    public static final String GROUP_50_P = "50+";
+
+
     public static final int EXTERNAL_LINKS = 2;
     public static final int SOCIAL_MEDIA = 1;
     public static final String USER_ID = "USER_ID";
@@ -175,6 +186,17 @@ public class CommonMethod {
         return newDate;
 
     }
+    public static Calendar getCalenderFromString(String month) {
+        Calendar date = Calendar.getInstance();
+        try {
+            Date newDate = dateFormatsMonths.parse(month);
+            date.setTime(newDate);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return date;
+
+    }
     public static Calendar getMonthFirstDateToStringFullDate(Calendar calendar) {
 
         calendar.set(Calendar.DAY_OF_MONTH, 1);
@@ -258,20 +280,20 @@ public class CommonMethod {
         return hashMap;
     }
 
-    public static HashMap<Integer, List<KeyWordModel>> getMonthHashMapForKeyWord() {
-        HashMap<Integer, List<KeyWordModel>> hashMap = new HashMap<>();
-        hashMap.put(Calendar.JANUARY, new ArrayList<KeyWordModel>());
-        hashMap.put(Calendar.FEBRUARY, new ArrayList<KeyWordModel>());
-        hashMap.put(Calendar.MARCH, new ArrayList<KeyWordModel>());
-        hashMap.put(Calendar.APRIL, new ArrayList<KeyWordModel>());
-        hashMap.put(Calendar.MAY, new ArrayList<KeyWordModel>());
-        hashMap.put(Calendar.JUNE, new ArrayList<KeyWordModel>());
-        hashMap.put(Calendar.JULY, new ArrayList<KeyWordModel>());
-        hashMap.put(Calendar.AUGUST, new ArrayList<KeyWordModel>());
-        hashMap.put(Calendar.SEPTEMBER, new ArrayList<KeyWordModel>());
-        hashMap.put(Calendar.OCTOBER, new ArrayList<KeyWordModel>());
-        hashMap.put(Calendar.NOVEMBER, new ArrayList<KeyWordModel>());
-        hashMap.put(Calendar.DECEMBER, new ArrayList<KeyWordModel>());
+    public static HashMap<Integer, HashMap<String, List<Keywordstatusmaster>>> getMonthHashMapForKeyWord() {
+        HashMap<Integer, HashMap<String, List<Keywordstatusmaster>>> hashMap = new HashMap<>();
+        hashMap.put(Calendar.JANUARY, new HashMap<String, List<Keywordstatusmaster>>());
+        hashMap.put(Calendar.FEBRUARY, new HashMap<String, List<Keywordstatusmaster>>());
+        hashMap.put(Calendar.MARCH, new HashMap<String, List<Keywordstatusmaster>>());
+        hashMap.put(Calendar.APRIL, new HashMap<String, List<Keywordstatusmaster>>());
+        hashMap.put(Calendar.MAY,new HashMap<String, List<Keywordstatusmaster>>());
+        hashMap.put(Calendar.JUNE, new HashMap<String, List<Keywordstatusmaster>>());
+        hashMap.put(Calendar.JULY, new HashMap<String, List<Keywordstatusmaster>>());
+        hashMap.put(Calendar.AUGUST,new HashMap<String, List<Keywordstatusmaster>>());
+        hashMap.put(Calendar.SEPTEMBER, new HashMap<String, List<Keywordstatusmaster>>());
+        hashMap.put(Calendar.OCTOBER, new HashMap<String, List<Keywordstatusmaster>>());
+        hashMap.put(Calendar.NOVEMBER,new HashMap<String, List<Keywordstatusmaster>>());
+        hashMap.put(Calendar.DECEMBER,new HashMap<String, List<Keywordstatusmaster>>());
         return hashMap;
     }
 
