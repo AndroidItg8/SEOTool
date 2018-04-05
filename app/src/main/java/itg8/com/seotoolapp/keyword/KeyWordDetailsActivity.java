@@ -45,8 +45,7 @@ public class KeyWordDetailsActivity extends AppCompatActivity implements View.On
 
     private static final String TAG = "KeyWordDetailsActivity";
     public List<Object> data = new ArrayList<>();
-
-
+    public HashMap<Integer, HashMap<String, List<Keywordstatusmaster>>> tempYearKeyWordHashMapes;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.lbl_date)
@@ -76,11 +75,6 @@ public class KeyWordDetailsActivity extends AppCompatActivity implements View.On
     private TableRow tr;
     private TextView tv;
     private boolean isFirstTimeHeader = true;
-
-
-
-    public HashMap<Integer, HashMap<String, List<Keywordstatusmaster>>> tempYearKeyWordHashMapes;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -180,7 +174,6 @@ public class KeyWordDetailsActivity extends AppCompatActivity implements View.On
         String month = months[selectedMonth];
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.MONTH, selectedMonth);
-
         lblDate.setText(CommonMethod.getMonthFirstDateToString(calendar) + String.valueOf(selectedYear));
         downloadMonthLyKeyWord(selectedMonth, selectedYear);
 
@@ -544,7 +537,7 @@ public class KeyWordDetailsActivity extends AppCompatActivity implements View.On
         tvDate.setPadding(8, 8, 8, 8);
         tvSize.setPadding(4, 4, 4, 4);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            tvDate.setBackground(ContextCompat.getDrawable(KeyWordDetailsActivity.this,R.drawable.bg_btn_elevation));
+            tvDate.setBackground(ContextCompat.getDrawable(KeyWordDetailsActivity.this, R.drawable.bg_btn_elevation));
         }
 
         TextView textViewValue = new TextView(KeyWordDetailsActivity.this);
@@ -559,7 +552,7 @@ public class KeyWordDetailsActivity extends AppCompatActivity implements View.On
         textView.setGravity(Gravity.CENTER);
 
         // Draw separator
-        TableRow.LayoutParams params = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT,TableRow.LayoutParams.WRAP_CONTENT);
+        TableRow.LayoutParams params = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT);
 
         if (isShowBackground)
             tbleRowFinal.setBackgroundColor(ContextCompat.getColor(KeyWordDetailsActivity.this, R.color.colorOrangeTransparent));
@@ -573,10 +566,10 @@ public class KeyWordDetailsActivity extends AppCompatActivity implements View.On
         textView.setText(CommonMethod.GRUOP_1_10);
         textView.setPadding(4, 16, 4, 16);
         textView.setTextColor(Color.BLACK);
-        params.setMargins(16,8,16,8);
+        params.setMargins(16, 8, 16, 8);
         textView.setLayoutParams(params);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            textView.setBackground(ContextCompat.getDrawable(KeyWordDetailsActivity.this,R.drawable.bg_btn_elevation_yellow));
+            textView.setBackground(ContextCompat.getDrawable(KeyWordDetailsActivity.this, R.drawable.bg_btn_elevation_yellow));
         }
         textView.setTextSize(15.0f);
         textView.setGravity(Gravity.CENTER);
@@ -590,17 +583,16 @@ public class KeyWordDetailsActivity extends AppCompatActivity implements View.On
         textView.setText(CommonMethod.GROUP_11_20);
         textView.setPadding(8, 16, 8, 16);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            textView.setBackground(ContextCompat.getDrawable(KeyWordDetailsActivity.this,R.drawable.bg_btn_elevation));
+            textView.setBackground(ContextCompat.getDrawable(KeyWordDetailsActivity.this, R.drawable.bg_btn_elevation));
         }
 
         textView.setTextColor(Color.BLACK);
-        params.setMargins(16,8,16,8);
+        params.setMargins(16, 8, 16, 8);
         textView.setLayoutParams(params);
         textView.setTextSize(15.0f);
         textView.setGravity(Gravity.CENTER);
         tableRowGroup_11_20.setBackgroundColor(ContextCompat.getColor(KeyWordDetailsActivity.this, R.color.colorBlueTransparent));
         tableRowGroup_11_20.addView(textView);
-
 
 
         TableRow tableRowGroup_21_30 = new TableRow(KeyWordDetailsActivity.this);
@@ -612,13 +604,13 @@ public class KeyWordDetailsActivity extends AppCompatActivity implements View.On
         textView.setTextSize(15f);
         textView.setGravity(Gravity.CENTER);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            textView.setBackground(ContextCompat.getDrawable(KeyWordDetailsActivity.this,R.drawable.bg_btn_elevation_yellow));
+            textView.setBackground(ContextCompat.getDrawable(KeyWordDetailsActivity.this, R.drawable.bg_btn_elevation_yellow));
         }
 
         tableRowGroup_21_30.setBackgroundColor(ContextCompat.getColor(KeyWordDetailsActivity.this, R.color.colorGroup11_20));
         textView.setPadding(15, 8, 15, 8);
 
-        params.setMargins(16,8,16,8);
+        params.setMargins(16, 8, 16, 8);
         textView.setLayoutParams(params);
         tableRowGroup_21_30.addView(textView);
 
@@ -631,11 +623,11 @@ public class KeyWordDetailsActivity extends AppCompatActivity implements View.On
         textView.setTextColor(Color.BLACK);
         textView.setTextSize(15.0f);
 
-        params.setMargins(16,8,16,8);
+        params.setMargins(16, 8, 16, 8);
         textView.setLayoutParams(params);
         textView.setGravity(Gravity.CENTER);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            textView.setBackground(ContextCompat.getDrawable(KeyWordDetailsActivity.this,R.drawable.bg_btn_elevation));
+            textView.setBackground(ContextCompat.getDrawable(KeyWordDetailsActivity.this, R.drawable.bg_btn_elevation));
         }
 
         tableRowGroup_31_40.setBackgroundColor(ContextCompat.getColor(KeyWordDetailsActivity.this, R.color.colorBlueTransparent));
@@ -649,11 +641,11 @@ public class KeyWordDetailsActivity extends AppCompatActivity implements View.On
         textView.setPadding(8, 16, 8, 16);
         textView.setTextColor(Color.BLACK);
         textView.setTextSize(15.0f);
-        params.setMargins(16,8,16,8);
+        params.setMargins(16, 8, 16, 8);
         textView.setLayoutParams(params);
         textView.setGravity(Gravity.CENTER);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            textView.setBackground(ContextCompat.getDrawable(KeyWordDetailsActivity.this,R.drawable.bg_btn_elevation_yellow));
+            textView.setBackground(ContextCompat.getDrawable(KeyWordDetailsActivity.this, R.drawable.bg_btn_elevation_yellow));
         }
 
         tableRowGroup_41_50.setBackgroundColor(ContextCompat.getColor(KeyWordDetailsActivity.this, R.color.colorGroup11_20));
@@ -664,14 +656,14 @@ public class KeyWordDetailsActivity extends AppCompatActivity implements View.On
         tableRowGroup_50_Plus.setId(R.id.group_50_plus);
         textView = new TextView(KeyWordDetailsActivity.this);
         textView.setText(CommonMethod.GROUP_50_P);
-        params.setMargins(16,8,16,8);
+        params.setMargins(16, 8, 16, 8);
         textView.setLayoutParams(params);
         textView.setPadding(8, 16, 8, 16);
         textView.setTextColor(Color.BLACK);
         textView.setTextSize(15.0f);
         textView.setGravity(Gravity.CENTER);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            textView.setBackground(ContextCompat.getDrawable(KeyWordDetailsActivity.this,R.drawable.bg_btn_elevation));
+            textView.setBackground(ContextCompat.getDrawable(KeyWordDetailsActivity.this, R.drawable.bg_btn_elevation));
         }
 
         tableRowGroup_50_Plus.setBackgroundColor(ContextCompat.getColor(KeyWordDetailsActivity.this, R.color.colorBlueTransparent));
@@ -687,8 +679,6 @@ public class KeyWordDetailsActivity extends AppCompatActivity implements View.On
         tableLayout.addView(tableRowGroup_50_Plus);
 
 
-
-
         for (Map.Entry<Integer, HashMap<String, List<Keywordstatusmaster>>> entry : tempYearKeyWordHashMaps.entrySet()) {
             HashMap<String, List<Keywordstatusmaster>> childMap = entry.getValue();
             tvDate = new TextView(KeyWordDetailsActivity.this);
@@ -696,15 +686,15 @@ public class KeyWordDetailsActivity extends AppCompatActivity implements View.On
             Calendar calendar = Calendar.getInstance();
             calendar.set(Calendar.MONTH, date);
             tvDate.setPadding(15, 8, 15, 8);
-            TableRow.LayoutParams paramss = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT,TableRow.LayoutParams.WRAP_CONTENT);
-            paramss.setMargins(16,8,16,8);
+            TableRow.LayoutParams paramss = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT);
+            paramss.setMargins(16, 8, 16, 8);
             tvDate.setLayoutParams(paramss);
 
             tvDate.setTextColor(Color.BLACK);
             tvDate.setTextSize(15.0f);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
 
-                tvDate.setBackground(ContextCompat.getDrawable(KeyWordDetailsActivity.this,R.drawable.bg_btn_elevation));
+                tvDate.setBackground(ContextCompat.getDrawable(KeyWordDetailsActivity.this, R.drawable.bg_btn_elevation));
             }
 
             tvDate.setGravity(Gravity.CENTER);
@@ -715,7 +705,7 @@ public class KeyWordDetailsActivity extends AppCompatActivity implements View.On
                 @Override
                 public void onClick(View view) {
                     TextView tvDate = (TextView) view;
-                    Calendar calendar =CommonMethod.getCalenderFromString(tvDate.getText().toString());
+                    Calendar calendar = CommonMethod.getCalenderFromString(tvDate.getText().toString());
 
                     downloadMonthLyKeyWord(calendar.get(Calendar.MONTH), calendar.get(Calendar.YEAR));
 
@@ -763,6 +753,7 @@ public class KeyWordDetailsActivity extends AppCompatActivity implements View.On
                 else
                     tbleRowFinal.setBackgroundColor(ContextCompat.getColor(KeyWordDetailsActivity.this, R.color.colorBlueTransparent));
 
+
                 TextView tvs = new TextView(KeyWordDetailsActivity.this);
                 tvs.setHeight(CommonMethod.dpTopx(2, KeyWordDetailsActivity.this));
                 tvs.setBackgroundColor(Color.parseColor("#80808080"));
@@ -782,11 +773,7 @@ public class KeyWordDetailsActivity extends AppCompatActivity implements View.On
                 tbleRowFinal.setBackgroundColor(ContextCompat.getColor(KeyWordDetailsActivity.this, R.color.colorBlueTransparent));
 
             isShowBackground = !isShowBackground;
-
-
-
         }
-
 
 
     }
@@ -839,7 +826,7 @@ public class KeyWordDetailsActivity extends AppCompatActivity implements View.On
         tbleRowFinal.setBackgroundColor(ContextCompat.getColor(KeyWordDetailsActivity.this, R.color.colorBlueTransparent));
         tableLayoutDetails.addView(tbleRowFinal);
 
- for (Map.Entry<Integer, HashMap<String, List<Keywordstatusmaster>>> entry : tempYearKeyWordHashMapes.entrySet()) {
+        for (Map.Entry<Integer, HashMap<String, List<Keywordstatusmaster>>> entry : tempYearKeyWordHashMapes.entrySet()) {
             HashMap<String, List<Keywordstatusmaster>> childMap = entry.getValue();
             tvDate = new TextView(KeyWordDetailsActivity.this);
             Integer date = entry.getKey();
@@ -847,21 +834,24 @@ public class KeyWordDetailsActivity extends AppCompatActivity implements View.On
             calendar.set(Calendar.MONTH, date);
             tvDate.setPadding(8, 8, 8, 8);
             tvDate.setTextColor(Color.BLACK);
-            tvDate.setTextSize(12.0f);
+            tvDate.setTextSize(15.0f);
             tvDate.setGravity(Gravity.CENTER);
+            TableRow.LayoutParams params = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT);
+            params.setMargins(16, 8, 16, 8);
+            textView.setLayoutParams(params);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                tvDate.setBackground(ContextCompat.getDrawable(KeyWordDetailsActivity.this,R.drawable.bg_btn));
+                tvDate.setBackground(ContextCompat.getDrawable(KeyWordDetailsActivity.this, R.drawable.bg_btn_elevation));
             }
 
             tvDate.setText(CommonMethod.getMonthFirstDateToString(calendar));
 //            tableLayouts.addView(tvDate);
             tbleRowFinal.addView(tvDate);
             textViewValue.setGravity(View.TEXT_ALIGNMENT_CENTER);
-            textViewValue.setTextSize(12.0f);
+            textViewValue.setTextSize(15.0f);
             textViewValue.setPadding(8, 8, 8, 8);
             textViewValue.setTextColor(Color.BLACK);
             textViewKeyWord.setGravity(View.TEXT_ALIGNMENT_CENTER);
-            textViewKeyWord.setTextSize(12.0f);
+            textViewKeyWord.setTextSize(15.0f);
             textViewKeyWord.setPadding(8, 8, 8, 8);
             textViewKeyWord.setTextColor(Color.BLACK);
             textViewKeyWord.setGravity(Gravity.CENTER);
@@ -878,12 +868,9 @@ public class KeyWordDetailsActivity extends AppCompatActivity implements View.On
                     tbleRowItem.addView(textViewKeyWord);
                     tbleRowItem.addView(textViewValue);
 
-
-
                     if (isShowBackground) {
                         tbleRowItem.setBackgroundColor(ContextCompat.getColor(KeyWordDetailsActivity.this, R.color.colorGroup11_20));
-                    }
-                    else{
+                    } else {
                         tbleRowItem.setBackgroundColor(ContextCompat.getColor(KeyWordDetailsActivity.this, R.color.colorGray));
                     }
                     isShowBackground = !isShowBackground;
@@ -891,11 +878,8 @@ public class KeyWordDetailsActivity extends AppCompatActivity implements View.On
             }
         }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            tbleRowItem.setElevation(4.0f);
-        }
-        tableLayoutDetails.addView(tbleRowItem);
 
+        tableLayoutDetails.addView(tbleRowItem);
 
 
     }
